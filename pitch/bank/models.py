@@ -85,40 +85,6 @@ class Branch(models.Model):
         return super().save(force_insert=force_insert, force_update=force_update, using=using, update_fields=update_fields)
 
 
-class Subsidiary(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    bank = models.ForeignKey(Bank, on_delete=models.CASCADE)
-    subsidiary_name = models.CharField(max_length=255)
-    # Address
-    subsidiary_address = models.CharField(
-        max_length=255, help_text='Read Only field')  # Automatic
-    subsidiary_district_name = models.CharField(max_length=100)
-    subsidiary_city_name = models.CharField(
-        max_length=100, blank=True, null=True)
-    subsidiary_postal_code = models.IntegerField(blank=True, null=True)
-    subsidiary_street_name = models.CharField(
-        max_length=100, blank=True, null=True)
-    subsidiary_building_number = models.CharField(
-        max_length=100, blank=True, null=True)
-
-    subsidiary_contact_number = ArrayField(
-        models.CharField(max_length=10, unique=True))
-    tags = ArrayField(models.CharField(
-        max_length=50, blank=True, null=True), blank=True)
-
-    def __str__(self):
-        return self.subsidiary_name
-
-    class Meta:
-        verbose_name = 'Subsidiary'
-        verbose_name_plural = 'Subsidiaries'
-        db_table = 'subsidiary'
-
-    def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
-        self.subsidiary_address = f'{self.subsidiary_street_name}, {self.subsidiary_city_name}, {self.subsidiary_district_name}'
-        return super().save(force_insert=force_insert, force_update=force_update, using=using, update_fields=update_fields)
-
-
 class ATM(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     bank = models.ForeignKey(Bank, on_delete=models.CASCADE)
@@ -132,6 +98,8 @@ class ATM(models.Model):
     atm_street_name = models.CharField(max_length=100, blank=True, null=True)
     atm_building_number = models.CharField(
         max_length=100, blank=True, null=True)
+    # ATM DIRECTION HELP TEXT
+    atm_help_text = models.TextField(blank=True, null=True)
 
     def __str__(self):
         return f'{self.bank}, {self.branch}, {self.atm_address}'

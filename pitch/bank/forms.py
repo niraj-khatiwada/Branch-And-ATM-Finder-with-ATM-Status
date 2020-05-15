@@ -14,12 +14,6 @@ class BranchForm(forms.ModelForm):
         fields = '__all__'
 
 
-class SubsidiaryForm(forms.ModelForm):
-    class Meta:
-        model = models.Subsidiary
-        fields = '__all__'
-
-
 class ATMForm(forms.ModelForm):
 
     class Meta:

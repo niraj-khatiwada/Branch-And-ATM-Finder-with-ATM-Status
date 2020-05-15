@@ -15,12 +15,6 @@ class BranchAdmin(admin.ModelAdmin):
     readonly_fields = ('branch_address',)
 
 
-class SubsidiaryAdmin(admin.ModelAdmin):
-    list_display = ('subsidiary_name', 'subsidiary_address',)
-    form = forms.SubsidiaryForm
-    readonly_fields = ('subsidiary_address',)
-
-
 class ATMAdmin(admin.ModelAdmin):
     list_display = ('bank', 'atm_address',)
     form = forms.ATMForm
@@ -29,5 +23,4 @@ class ATMAdmin(admin.ModelAdmin):
 
 admin.site.register(models.Bank, BankAdmin)
 admin.site.register(models.Branch, BranchAdmin)
-admin.site.register(models.Subsidiary, SubsidiaryAdmin)
 admin.site.register(models.ATM, ATMAdmin)
