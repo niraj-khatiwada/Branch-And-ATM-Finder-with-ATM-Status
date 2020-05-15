@@ -2,6 +2,7 @@ from django.db import models
 import uuid
 from django.contrib.postgres.fields import ArrayField
 from smart_selects.db_fields import ChainedManyToManyField
+from django.db.models import F
 
 
 bank_type_choices = (('Public', 'Public'), ('Private', 'Private'))
