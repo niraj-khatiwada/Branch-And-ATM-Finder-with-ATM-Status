@@ -8,6 +8,8 @@ class BankAPIView(mixins.CreateModelMixin, generics.ListAPIView):
     permisiion_classes = []
     serializer_class = serializers.BankSerializer
     queryset = models.Bank.objects.all()
+    search_fields = ('bank_name', 'bank_central_hq_address', 'bank_city_name',)
+    ordering_fields = ('bank_name',)
 
     def post(self, request, *args, **kwargs):
         return super().create(request, *args, **kwargs)
