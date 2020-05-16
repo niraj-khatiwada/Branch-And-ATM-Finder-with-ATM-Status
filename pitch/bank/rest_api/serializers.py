@@ -1,15 +1,27 @@
 from rest_framework import serializers
 from rest_framework.reverse import reverse
+from rest_framework.fields import ListField
 from .. import models
+
+
+class BankContactNumberArrayField(ListField):
+    def to_representation(self, data):
+        obj = super().to_representation(data)
+        return ','.join([str(item) for item in obj])
+
+    def to_internal_value(self, data):
+        data = data.split(',')
+        return super().to_internal_value(data)
 
 
 class BankSerializer(serializers.ModelSerializer):
     detail_url = serializers.SerializerMethodField(read_only=True)
+    bank_contact_number = BankContactNumberArrayField()
 
     class Meta:
         model = models.Bank
         fields = '__all__'
-        extra_fields = ('detail_url',)
+        extra_fields = ('detail_url', 'bank_contact_number')
         read_only_fields = ('bank_central_hq_address',)
 
     def get_detail_url(self, instance):

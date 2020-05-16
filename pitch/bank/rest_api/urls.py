@@ -1,10 +1,15 @@
-from django.urls import path
+from django.urls import path, include
 from . import views
+from rest_framework.routers import DefaultRouter
 
+router = DefaultRouter()
+router.register('bank', views.BankViewset, basename='bank-viewset')
 
 urlpatterns = [
+    # Root
+    path('', include(router.urls)),
     # Bank
-    path('bank/', views.BankAPIView.as_view(), name='bank-list'),
+    path('', include(router.urls)),
     path('bank/<slug:pk>/', views.BankAPIDetailView.as_view(), name='bank-detail'),
     # Branch
     path('branch/', views.BranchAPIView.as_view(), name='branch-list'),
@@ -15,7 +20,5 @@ urlpatterns = [
     # Annon ATM
     path('annon-atm/', views.AnnonAtmAPIView.as_view(), name='annon-atm-list'),
     path('annon-atm/<slug:pk>/',
-         views.AnnonAtmAPIDetailView.as_view(), name='annon-atm-detail'),
-
-
+         views.AnnonAtmAPIDetailView.as_view(), name='annon-atm-detail')
 ]

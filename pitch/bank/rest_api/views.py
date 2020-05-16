@@ -1,18 +1,22 @@
-from rest_framework import generics, mixins
+from rest_framework import generics, mixins, viewsets, response
+from rest_framework.views import APIView, View
 
 from . import serializers
 from .. import models
 
 
-class BankAPIView(mixins.CreateModelMixin, generics.ListAPIView):
+class BankViewset(viewsets.ModelViewSet):
     permisiion_classes = []
     serializer_class = serializers.BankSerializer
     queryset = models.Bank.objects.all()
     search_fields = ('bank_name', 'bank_central_hq_address', 'bank_city_name',)
     ordering_fields = ('bank_name',)
 
-    def post(self, request, *args, **kwargs):
+    def create(self, request, *args, **kwargs):
         return super().create(request, *args, **kwargs)
+
+    def list(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs)
 
     def get_serializer_context(self):
         return {'request': self.request}
