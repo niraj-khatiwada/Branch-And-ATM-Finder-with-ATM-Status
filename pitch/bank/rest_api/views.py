@@ -18,51 +18,40 @@ class BankViewset(viewsets.ModelViewSet):
     def list(self, request, *args, **kwargs):
         return super().list(request, *args, **kwargs)
 
-    def get_serializer_context(self):
-        return {'request': self.request}
-
-
-class BankAPIDetailView(mixins.UpdateModelMixin, mixins.DestroyModelMixin, generics.RetrieveAPIView):
-    permisiion_classes = []
-    serializer_class = serializers.BankSerializer
-    queryset = models.Bank.objects.all()
-    lookup_field = 'pk'
-
-    def put(self, request, *args, **kwargs):
+    def update(self, request, *args, **kwargs):
         return super().update(request, *args, **kwargs)
 
-    def delete(self, request, *args, **kwargs):
+    def destroy(self, request, *args, **kwargs):
         return super().destroy(request, *args, **kwargs)
 
+    def retrieve(self, request, *args, **kwargs):
+        return super().retrieve(request, *args, **kwargs)
 
-class BranchAPIView(mixins.CreateModelMixin, generics.ListAPIView):
+
+class BranchViewset(viewsets.ModelViewSet):
     permisiion_classes = []
     serializer_class = serializers.BranchSerializer
     queryset = models.Branch.objects.all()
     search_fields = ('branch_name', 'branch_address', 'branch_city_name',)
     ordering_fields = ('branch_name',)
 
-    def post(self, request, *args, **kwargs):
+    def list(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs)
+
+    def create(self, request, *args, **kwargs):
         return super().create(request, *args, **kwargs)
 
-    def get_serializer_context(self):
-        return {'request': self.request}
+    def retrieve(self, request, *args, **kwargs):
+        return super().retrieve(request, *args, **kwargs)
 
-
-class BranchAPIDetail(mixins.UpdateModelMixin, mixins.DestroyModelMixin, generics.RetrieveAPIView):
-    permisiion_classes = []
-    serializer_class = serializers.BranchSerializer
-    queryset = models.Branch.objects.all()
-    lookup_field = 'pk'
-
-    def put(self, request, *args, **kwargs):
+    def update(self, request, *args, **kwargs):
         return super().update(request, *args, **kwargs)
 
-    def delete(self, request, *args, **kwargs):
+    def destroy(self, request, *args, **kwargs):
         return super().destroy(request, *args, **kwargs)
 
 
-class AtmAPIView(mixins.CreateModelMixin, generics.ListAPIView):
+class ATMViewset(viewsets.ModelViewSet):
     permisiion_classes = []
     serializer_class = serializers.ATMSerializer
     queryset = models.ATM.objects.all()
@@ -70,29 +59,18 @@ class AtmAPIView(mixins.CreateModelMixin, generics.ListAPIView):
                      'atm_address', 'atm_city_name')
     ordering_fields = ('bank__bank_name',)
 
-    def post(self, request, *args, **kwargs):
+    def list(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs)
+
+    def create(self, request, *args, **kwargs):
         return super().create(request, *args, **kwargs)
 
-    def get_serializer_context(self):
-        return {'request': self.request}
+    def retrieve(self, request, *args, **kwargs):
+        return super().retrieve(request, *args, **kwargs)
 
-
-class AtmAPIDetailView(mixins.UpdateModelMixin, mixins.DestroyModelMixin, generics.RetrieveAPIView):
-    permisiion_classes = []
-    serializer_class = serializers.ATMSerializer
-    queryset = models.ATM.objects.all()
-    lookup_field = 'pk'
-
-    def put(self, request, *args, **kwargs):
-        return super().update(request, *args, **kwargs)
-
-    def delete(self, request, *args, **kwargs):
+    def destroy(self, request, *args, **kwargs):
         return super().destroy(request, *args, **kwargs)
 
 
-class AnnonAtmAPIView(AtmAPIView):
-    serializer_class = serializers.AnnonATMSerializer
-
-
-class AnnonAtmAPIDetailView(AtmAPIDetailView):
+class AnnonViewset(ATMViewset):
     serializer_class = serializers.AnnonATMSerializer

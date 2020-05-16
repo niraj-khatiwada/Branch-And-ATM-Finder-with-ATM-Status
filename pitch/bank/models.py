@@ -62,6 +62,8 @@ class ATM(models.Model):
         max_length=100, blank=True, null=True)
     # ATM DIRECTION HELP TEXT
     atm_help_text = models.TextField(blank=True, null=True)
+    tags = ArrayField(models.CharField(
+        max_length=50, blank=True, null=True), blank=True)
 
     def __str__(self):
         return f'{self.bank}, {self.branch}, {self.atm_address}'

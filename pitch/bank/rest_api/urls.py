@@ -2,23 +2,13 @@ from django.urls import path, include
 from . import views
 from rest_framework.routers import DefaultRouter
 
+app_name = 'bank'
 router = DefaultRouter()
 router.register('bank', views.BankViewset, basename='bank-viewset')
+router.register('branch', views.BranchViewset, basename='branch-viewset')
+router.register('atm', views.ATMViewset, basename='atm-viewset')
+router.register('annon-atm', views.AnnonViewset, basename='annon-atm-viewset')
 
 urlpatterns = [
-    # Root
-    path('', include(router.urls)),
-    # Bank
-    path('', include(router.urls)),
-    path('bank/<slug:pk>/', views.BankAPIDetailView.as_view(), name='bank-detail'),
-    # Branch
-    path('branch/', views.BranchAPIView.as_view(), name='branch-list'),
-    path('branch/<slug:pk>/', views.BranchAPIDetail.as_view(), name='branch-detail'),
-    # ATM
-    path('atm/', views.AtmAPIView.as_view(), name='atm-list'),
-    path('atm/<slug:pk>/', views.AtmAPIDetailView.as_view(), name='atm-detail'),
-    # Annon ATM
-    path('annon-atm/', views.AnnonAtmAPIView.as_view(), name='annon-atm-list'),
-    path('annon-atm/<slug:pk>/',
-         views.AnnonAtmAPIDetailView.as_view(), name='annon-atm-detail')
+    path('', include(router.urls))
 ]
