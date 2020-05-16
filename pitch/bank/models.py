@@ -45,7 +45,8 @@ class Bank(models.Model):
         db_table = 'bank'
 
     def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
-        self.bank_central_hq_address = f'{self.bank_street_name}, {self.bank_city_name}, {self.bank_district_name}'
+        self.bank_central_hq_address = f'{self.bank_street_name or ""}, {self.bank_city_name or ""}, {self.bank_district_name}'.lstrip(
+            ', ')
         return super().save(force_insert=force_insert, force_update=force_update, using=using, update_fields=update_fields)
 
 
@@ -74,7 +75,8 @@ class ATM(models.Model):
         db_table = 'atm'
 
     def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
-        self.atm_address = f'{self.atm_street_name}, {self.atm_city_name}, {self.atm_district_name}'
+        self.atm_address = f'{self.atm_street_name or ""} {self.atm_city_name or ""} {self.atm_district_name}'.lstrip(
+            ', ')
         return super().save(force_insert=force_insert, force_update=force_update, using=using, update_fields=update_fields)
 
 
@@ -115,7 +117,8 @@ class Branch(models.Model):
         db_table = 'branch'
 
     def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
-        self.branch_address = f'{self.branch_street_name}, {self.branch_city_name}, {self.branch_district_name}'
+        self.branch_address = f'{self.branch_street_name or ""} {self.branch_city_name or ""} {self.branch_district_name}'.lstrip(
+            ', ')
         return super().save(force_insert=force_insert, force_update=force_update, using=using, update_fields=update_fields)
 
 

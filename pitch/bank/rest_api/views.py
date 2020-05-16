@@ -1,5 +1,4 @@
-from rest_framework import generics, mixins, viewsets, response
-from rest_framework.views import APIView, View
+from rest_framework import generics, viewsets
 
 from . import serializers
 from .. import models
