@@ -19,3 +19,9 @@ class ATMForm(forms.ModelForm):
     class Meta:
         model = models.ATM
         fields = '__all__'
+
+
+class AnnonATMForm(forms.ModelForm):
+    class Meta:
+        model = models.AnonATM
+        fields = '__all__'

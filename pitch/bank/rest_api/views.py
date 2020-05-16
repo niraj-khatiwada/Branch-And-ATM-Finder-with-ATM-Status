@@ -31,7 +31,7 @@ class BankAPIDetailView(mixins.UpdateModelMixin, mixins.DestroyModelMixin, gener
         return super().destroy(request, *args, **kwargs)
 
 
-class BranchAPView(mixins.CreateModelMixin, generics.ListAPIView):
+class BranchAPIView(mixins.CreateModelMixin, generics.ListAPIView):
     permisiion_classes = []
     serializer_class = serializers.BranchSerializer
     queryset = models.Branch.objects.all()
@@ -58,7 +58,7 @@ class BranchAPIDetail(mixins.UpdateModelMixin, mixins.DestroyModelMixin, generic
         return super().destroy(request, *args, **kwargs)
 
 
-class ATMAPIView(mixins.CreateModelMixin, generics.ListAPIView):
+class AtmAPIView(mixins.CreateModelMixin, generics.ListAPIView):
     permisiion_classes = []
     serializer_class = serializers.ATMSerializer
     queryset = models.ATM.objects.all()
@@ -73,7 +73,7 @@ class ATMAPIView(mixins.CreateModelMixin, generics.ListAPIView):
         return {'request': self.request}
 
 
-class BranchAPIDetail(mixins.UpdateModelMixin, mixins.DestroyModelMixin, generics.RetrieveAPIView):
+class AtmAPIDetailView(mixins.UpdateModelMixin, mixins.DestroyModelMixin, generics.RetrieveAPIView):
     permisiion_classes = []
     serializer_class = serializers.ATMSerializer
     queryset = models.ATM.objects.all()
@@ -84,3 +84,11 @@ class BranchAPIDetail(mixins.UpdateModelMixin, mixins.DestroyModelMixin, generic
 
     def delete(self, request, *args, **kwargs):
         return super().destroy(request, *args, **kwargs)
+
+
+class AnnonAtmAPIView(AtmAPIView):
+    serializer_class = serializers.AnnonATMSerializer
+
+
+class AnnonAtmAPIDetailView(AtmAPIDetailView):
+    serializer_class = serializers.AnnonATMSerializer

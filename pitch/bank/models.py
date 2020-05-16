@@ -28,6 +28,7 @@ class Bank(models.Model):
     bank_street_name = models.CharField(max_length=100, blank=True, null=True)
     bank_building_number = models.CharField(
         max_length=100, blank=True, null=True)
+    bank_help_text = models.TextField(blank=True, null=True)
 
     bank_contact_number = ArrayField(models.CharField(
         max_length=10, unique=True))
@@ -48,48 +49,9 @@ class Bank(models.Model):
         return super().save(force_insert=force_insert, force_update=force_update, using=using, update_fields=update_fields)
 
 
-class Branch(models.Model):
-    id = models.UUIDField(
-        primary_key=True, default=uuid.uuid4, editable=False)
-    bank = models.ForeignKey(Bank, on_delete=models.CASCADE)
-    branch_name = models.CharField(max_length=255)
-    # Address
-    branch_address = models.CharField(
-        max_length=255, help_text='Read Only field')  # Automatic
-    branch_district_name = models.CharField(
-        max_length=100)
-    branch_city_name = models.CharField(max_length=100, blank=True, null=True)
-    branch_postal_code = models.IntegerField(blank=True, null=True)
-    branch_street_name = models.CharField(
-        max_length=100, blank=True, null=True)
-    branch_building_number = models.CharField(
-        max_length=100, blank=True, null=True)
-
-    branch_contact_number = ArrayField(
-        models.CharField(max_length=10))
-    branch_atm_address = ArrayField(models.CharField(
-        max_length=255, blank=True, null=True), blank=True)
-    tags = ArrayField(models.CharField(
-        max_length=50, blank=True, null=True), blank=True)
-
-    def __str__(self):
-        return self.branch_name
-
-    class Meta:
-        verbose_name = 'Branch'
-        verbose_name_plural = 'Branches'
-        db_table = 'branch'
-
-    def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
-        self.branch_address = f'{self.branch_street_name}, {self.branch_city_name}, {self.branch_district_name}'
-        return super().save(force_insert=force_insert, force_update=force_update, using=using, update_fields=update_fields)
-
-
 class ATM(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     bank = models.ForeignKey(Bank, on_delete=models.CASCADE)
-    branch = models.ManyToManyField(
-        Branch)
     # Address
     atm_address = models.CharField(max_length=100, help_text='Read Only field')
     atm_district_name = models.CharField(max_length=100)
@@ -112,3 +74,51 @@ class ATM(models.Model):
     def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
         self.atm_address = f'{self.atm_street_name}, {self.atm_city_name}, {self.atm_district_name}'
         return super().save(force_insert=force_insert, force_update=force_update, using=using, update_fields=update_fields)
+
+
+class Branch(models.Model):
+    id = models.UUIDField(
+        primary_key=True, default=uuid.uuid4, editable=False)
+    bank = models.ForeignKey(Bank, on_delete=models.CASCADE)
+    branch_name = models.CharField(max_length=255)
+    branch_description = models.TextField(null=True, blank=True)
+
+    # Address
+    branch_address = models.CharField(
+        max_length=255, help_text='Read Only field')  # Automatic
+    branch_district_name = models.CharField(
+        max_length=100)
+    branch_city_name = models.CharField(max_length=100, blank=True, null=True)
+    branch_postal_code = models.IntegerField(blank=True, null=True)
+    branch_street_name = models.CharField(
+        max_length=100, blank=True, null=True)
+    branch_building_number = models.CharField(
+        max_length=100, blank=True, null=True)
+    branch_help_text = models.TextField(blank=True, null=True)
+    # ATM
+    branch_atm = models.ManyToManyField(
+        ATM, blank=True, verbose_name='branch atm(s)')
+
+    branch_contact_number = ArrayField(
+        models.CharField(max_length=10))
+    tags = ArrayField(models.CharField(
+        max_length=50, blank=True, null=True), blank=True)
+
+    def __str__(self):
+        return self.branch_name
+
+    class Meta:
+        verbose_name = 'Branch'
+        verbose_name_plural = 'Branches'
+        db_table = 'branch'
+
+    def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
+        self.branch_address = f'{self.branch_street_name}, {self.branch_city_name}, {self.branch_district_name}'
+        return super().save(force_insert=force_insert, force_update=force_update, using=using, update_fields=update_fields)
+
+
+class AnonATM(ATM):
+    class Meta:
+        verbose_name = 'Annon ATM'
+        verbose_name_plural = "Annon ATM's"
+        db_table = 'annon_atm'

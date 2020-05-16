@@ -21,6 +21,11 @@ class ATMAdmin(admin.ModelAdmin):
     readonly_fields = ('atm_address',)
 
 
+class AnnonAtmAdmin(ATMAdmin):
+    form = forms.AnnonATMForm
+
+
 admin.site.register(models.Bank, BankAdmin)
 admin.site.register(models.Branch, BranchAdmin)
 admin.site.register(models.ATM, ATMAdmin)
+admin.site.register(models.AnonATM, AnnonAtmAdmin)
