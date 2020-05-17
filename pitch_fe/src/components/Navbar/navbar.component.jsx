@@ -17,9 +17,6 @@ function Navbar({ fetchSearch }) {
   const [searchDropdownState, setsearchDropdownState] = React.useState(false)
   const handleChange = (evt) => {
     setInputState(evt.target.value)
-    evt.target.value.length !== 0
-      ? setsearchDropdownState(true)
-      : setsearchDropdownState(false)
   }
   const handleSearchSubmit = (evt) => {
     evt.preventDefault()
@@ -51,9 +48,18 @@ function Navbar({ fetchSearch }) {
                 }}
                 value={inputState}
                 onChange={handleChange}
+                onFocus={() => setsearchDropdownState(true)}
+                onBlur={() => {
+                  setTimeout(() => setsearchDropdownState(false), 100)
+                }}
+                tabIndex={0}
               />
             </form>
-            {searchDropdownState ? <SearchDropdown /> : null}
+            {searchDropdownState ? (
+              <SearchDropdown
+                handleBlur={() => setsearchDropdownState(false)}
+              />
+            ) : null}
           </SearchWrapper>
           <div>
             <h1>Notif</h1>
