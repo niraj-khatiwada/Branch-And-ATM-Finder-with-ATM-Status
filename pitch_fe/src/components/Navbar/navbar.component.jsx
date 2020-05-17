@@ -10,11 +10,16 @@ import MenuIcon from '@material-ui/icons/Menu'
 
 import { SearchWrapper } from './navbar.styles'
 import { searchFetchAsync } from '../../redux/reducers/search.action'
+import SearchDropdown from '../Search  Dropdown/searchDropdown.component'
 
 function Navbar({ fetchSearch }) {
   const [inputState, setInputState] = React.useState('')
+  const [searchDropdownState, setsearchDropdownState] = React.useState(false)
   const handleChange = (evt) => {
     setInputState(evt.target.value)
+    evt.target.value.length !== 0
+      ? setsearchDropdownState(true)
+      : setsearchDropdownState(false)
   }
   const handleSearchSubmit = (evt) => {
     evt.preventDefault()
@@ -48,6 +53,7 @@ function Navbar({ fetchSearch }) {
                 onChange={handleChange}
               />
             </form>
+            {searchDropdownState ? <SearchDropdown /> : null}
           </SearchWrapper>
           <div>
             <h1>Notif</h1>
