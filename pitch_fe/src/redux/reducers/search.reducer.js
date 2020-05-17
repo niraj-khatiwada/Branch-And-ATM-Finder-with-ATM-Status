@@ -1,12 +1,12 @@
 import { searchStateType } from './reducers.type'
 
-const INITIAL_STATE = {
+const searchReducer_INITIAL_STATE = {
   isSearchFetching: false,
   searchedData: null,
   searcherror: undefined,
 }
 
-export const searchReducer = (state = INITIAL_STATE, action) => {
+export const searchReducer = (state = searchReducer_INITIAL_STATE, action) => {
   switch (action.type) {
     case searchStateType.searchStart:
       return { ...state, isSearchFetching: true }
@@ -15,6 +15,21 @@ export const searchReducer = (state = INITIAL_STATE, action) => {
     case searchStateType.searchFailure:
       return { ...state, searcherror: action.payload }
     default:
-      return { ...state }
+      return state
+  }
+}
+
+const selectedLocationReducer_INITIAL_STATE_ = {
+  selectedLocation: null,
+}
+export const selectedLocationReducer = (
+  state = selectedLocationReducer,
+  action
+) => {
+  switch (action.type) {
+    case 'LOCATION_SELECTED':
+      return { ...state, selectedLocation: action.payload }
+    default:
+      return state
   }
 }

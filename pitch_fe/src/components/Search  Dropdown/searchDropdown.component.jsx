@@ -14,8 +14,8 @@ function SearchDropdown({ searchedDataArray, handleBlur }) {
     <Dropdown>
       {searchedDataArray.map((item) => (
         <List component="nav" aria-label="search results">
-          <ListItem button onClick={(evt) => evt.stopPropagation()}>
-            <ListItemText secondary={item} />
+          <ListItem button onClick={() => console.log(item.id)}>
+            <ListItemText secondary={item.mAddress} />
           </ListItem>
           <Divider />
         </List>

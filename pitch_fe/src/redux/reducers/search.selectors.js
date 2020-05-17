@@ -20,13 +20,16 @@ export const selectFilterDisplayName = createSelector(
           address.neighbourhood || '',
           address.city || '',
         ]
-        return empty
-          .filter((item) => {
-            if (item !== '') {
-              return item
-            }
-          })
-          .join(', ')
+        return {
+          mAddress: empty
+            .filter((item) => {
+              if (item !== '') {
+                return item
+              }
+            })
+            .join(', '),
+          id: item.place_id,
+        }
       })
     } else {
       return ['No matching banks found']
