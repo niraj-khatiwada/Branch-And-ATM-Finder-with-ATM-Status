@@ -28,12 +28,11 @@ export const selectFilterDisplayName = createSelector(
               }
             })
             .join(', '),
-          id: item.place_id,
-          coordinates: [item.lat, item.lon],
+          ...item,
         }
       })
     } else {
-      return ['No matching banks found']
+      return [{ mAddress: 'No matching banks found' }]
     }
   }
 )

@@ -3,7 +3,8 @@ import styled from 'styled-components'
 export const Dropdown = styled.div`
   width: 100%;
   max-height: 90vh;
-  overflow: scroll;
+  overflow-y: scroll;
+  overflow-x: none;
   position: absolute;
   top: 3.5rem;
   left: 0;

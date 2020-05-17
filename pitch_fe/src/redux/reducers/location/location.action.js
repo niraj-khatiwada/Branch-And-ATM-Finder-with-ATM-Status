@@ -1,4 +1,4 @@
-export const selectedLocation = (location) => ({
+export const selectedLocation = (locationDetails) => ({
   type: 'LOCATION_SELECTED',
-  payload: location,
+  payload: locationDetails,
 })

@@ -15,11 +15,20 @@ function SearchDropdown({ searchedDataArray, selectLocation, handleClose }) {
   React.useEffect(() => {
     const dropdown = document.getElementById('searchDropdown')
     const searchInput = document.getElementById('searchInput')
-    document.addEventListener('click', (evt) => {
-      if (!dropdown.contains(evt.target) && !searchInput.contains(evt.target)) {
-        return handleClose()
+    document.addEventListener(
+      'click',
+      (evt) => {
+        if (
+          !dropdown.contains(evt.target) &&
+          !searchInput.contains(evt.target)
+        ) {
+          return handleClose()
+        }
+      },
+      () => {
+        document.removeEventListener('click', handleClose)
       }
-    })
+    )
   })
   return (
     <Dropdown id="searchDropdown">
@@ -27,14 +36,14 @@ function SearchDropdown({ searchedDataArray, selectLocation, handleClose }) {
         <List component="nav" aria-label="search results" key={uuid()}>
           <ListItem
             button
-            onClick={(evt) => {
-              evt.stopPropagation()
-              selectLocation(item.coordinates)
+            onClick={() => {
+              selectLocation(item)
+              handleClose()
             }}
           >
             <ListItemText secondary={item.mAddress} />
           </ListItem>
-          <Divider />
+          {searchedDataArray.length !== 1 ? <Divider /> : null}
         </List>
       ))}
     </Dropdown>
@@ -46,6 +55,7 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  selectLocation: (location) => dispatch(selectedLocation(location)),
+  selectLocation: (locationDetails) =>
+    dispatch(selectedLocation(locationDetails)),
 })
 export default connect(mapStateToProps, mapDispatchToProps)(SearchDropdown)
