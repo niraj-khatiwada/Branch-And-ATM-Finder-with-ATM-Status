@@ -50,36 +50,6 @@ class Bank(models.Model):
         return super().save(force_insert=force_insert, force_update=force_update, using=using, update_fields=update_fields)
 
 
-class ATM(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    bank = models.ForeignKey(Bank, on_delete=models.CASCADE)
-    # Address
-    atm_address = models.CharField(max_length=100, help_text='Read Only field')
-    atm_district_name = models.CharField(max_length=100)
-    atm_city_name = models.CharField(max_length=100, blank=True, null=True)
-    atm_postal_code = models.IntegerField(blank=True, null=True)
-    atm_street_name = models.CharField(max_length=100, blank=True, null=True)
-    atm_building_number = models.CharField(
-        max_length=100, blank=True, null=True)
-    # ATM DIRECTION HELP TEXT
-    atm_help_text = models.TextField(blank=True, null=True)
-    tags = ArrayField(models.CharField(
-        max_length=50, blank=True, null=True), blank=True)
-
-    def __str__(self):
-        return f'{self.bank}, {self.branch}, {self.atm_address}'
-
-    class Meta:
-        verbose_name = 'ATM'
-        verbose_name_plural = "ATM's"
-        db_table = 'atm'
-
-    def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
-        self.atm_address = f'{self.atm_street_name or ""} {self.atm_city_name or ""} {self.atm_district_name}'.lstrip(
-            ', ')
-        return super().save(force_insert=force_insert, force_update=force_update, using=using, update_fields=update_fields)
-
-
 class Branch(models.Model):
     id = models.UUIDField(
         primary_key=True, default=uuid.uuid4, editable=False)
@@ -100,8 +70,6 @@ class Branch(models.Model):
         max_length=100, blank=True, null=True)
     branch_help_text = models.TextField(blank=True, null=True)
     # ATM
-    branch_atm = models.ManyToManyField(
-        ATM, blank=True, verbose_name='branch atm(s)')
 
     branch_contact_number = ArrayField(
         models.CharField(max_length=10))
@@ -122,7 +90,47 @@ class Branch(models.Model):
         return super().save(force_insert=force_insert, force_update=force_update, using=using, update_fields=update_fields)
 
 
-class AnonATM(ATM):
+class ATM(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    branch = models.ForeignKey(Branch, on_delete=models.CASCADE)
+    atm_name = models.CharField(max_length=100)
+    atm_status = models.BooleanField(default=True)
+    # ATM DIRECTION HELP TEXT
+    atm_help_text = models.TextField(blank=True, null=True)
+    tags = ArrayField(models.CharField(
+        max_length=50, blank=True, null=True), blank=True)
+
+    def __str__(self):
+        return f'{self.branch}, {self.branch__bank_name}, {self.branch__branch_address}'
+
+    class Meta:
+        verbose_name = 'ATM'
+        verbose_name_plural = "ATM's"
+        db_table = 'atm'
+
+
+class AnonATM(models.Model):
+    id = models.UUIDField(
+        primary_key=True, default=uuid.uuid4, editable=False)
+    bank = models.ForeignKey(Bank, on_delete=models.CASCADE)
+    # Address
+    atm_address = models.CharField(max_length=100, help_text='Read Only field')
+    atm_district_name = models.CharField(max_length=100)
+    atm_city_name = models.CharField(max_length=100, blank=True, null=True)
+    atm_postal_code = models.IntegerField(blank=True, null=True)
+    atm_street_name = models.CharField(max_length=100, blank=True, null=True)
+    atm_building_number = models.CharField(
+        max_length=100, blank=True, null=True)
+    # ATM DIRECTION HELP TEXT
+    atm_help_text = models.TextField(blank=True, null=True)
+    atm_status = models.BooleanField(default=True)
+
+    tags = ArrayField(models.CharField(
+        max_length=50, blank=True, null=True), blank=True)
+
+    def __str__(self):
+        return f'{self.bank__bank_name}, {self.atm_address}'
+
     class Meta:
         verbose_name = 'Annon ATM'
         verbose_name_plural = "Annon ATM's"

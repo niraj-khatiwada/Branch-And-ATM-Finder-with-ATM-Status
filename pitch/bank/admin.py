@@ -16,12 +16,12 @@ class BranchAdmin(admin.ModelAdmin):
 
 
 class ATMAdmin(admin.ModelAdmin):
-    list_display = ('bank', 'atm_address',)
-    form = forms.ATMForm
-    readonly_fields = ('atm_address',)
+    list_display = ('branch', 'atm_name',)
+    form = forms.ATMForm    
 
 
-class AnnonAtmAdmin(ATMAdmin):
+class AnnonAtmAdmin(admin.ModelAdmin):
+    list_display = ('bank', 'atm_address')
     form = forms.AnnonATMForm
 
 
