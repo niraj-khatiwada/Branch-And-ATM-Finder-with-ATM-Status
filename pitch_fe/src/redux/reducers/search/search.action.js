@@ -1,6 +1,5 @@
-import { openStreetSearch } from '../../components/utils/axios.config'
-import { searchStateType } from './reducers.type'
-
+import { openStreetSearch } from '../../../components/utils/axios.config'
+import { searchStateType } from '../../reducers.type'
 const searchStart = () => ({
   type: searchStateType.searchStart,
 })
@@ -17,7 +16,6 @@ const searchFailure = (error) => ({
 
 export const searchFetchAsync = (searchQuery) => (dispatch) => {
   dispatch(searchStart)
-  console.log(searchQuery)
   openStreetSearch(searchQuery)
     .then((res) => {
       console.log(res.data)

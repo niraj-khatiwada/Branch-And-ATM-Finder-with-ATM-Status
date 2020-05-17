@@ -1,17 +1,23 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import { Map, Marker, Popup, TileLayer } from 'react-leaflet'
 
-export default function MapComponent() {
-  const coord = [27.7098909, 85.3148715]
+function MapComponent({ coordinates }) {
   return (
     <div>
-      <Map center={coord} zoom={50}>
+      <Map center={coordinates} zoom={50}>
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         />
-        <Marker position={coord} />
+        <Marker position={coordinates} />
       </Map>
     </div>
   )
 }
+
+const mapStateToProps = (state) => ({
+  coordinates: state.location.selectedLocation,
+})
+
+export default connect(mapStateToProps)(MapComponent)

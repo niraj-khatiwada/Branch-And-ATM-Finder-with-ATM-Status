@@ -29,6 +29,7 @@ export const selectFilterDisplayName = createSelector(
             })
             .join(', '),
           id: item.place_id,
+          coordinates: [item.lat, item.lon],
         }
       })
     } else {

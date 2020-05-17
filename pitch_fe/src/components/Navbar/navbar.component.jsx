@@ -9,7 +9,7 @@ import InputBase from '@material-ui/core/InputBase'
 import MenuIcon from '@material-ui/icons/Menu'
 
 import { SearchWrapper } from './navbar.styles'
-import { searchFetchAsync } from '../../redux/reducers/search.action'
+import { searchFetchAsync } from '../../redux/reducers/search/search.action'
 import SearchDropdown from '../Search  Dropdown/searchDropdown.component'
 
 function Navbar({ fetchSearch }) {
@@ -17,6 +17,7 @@ function Navbar({ fetchSearch }) {
   const [searchDropdownState, setsearchDropdownState] = React.useState(false)
   const handleChange = (evt) => {
     setInputState(evt.target.value)
+    setsearchDropdownState(true)
   }
   const handleSearchSubmit = (evt) => {
     evt.preventDefault()
@@ -37,6 +38,7 @@ function Navbar({ fetchSearch }) {
           <SearchWrapper>
             <form style={{ width: '100%' }} onSubmit={handleSearchSubmit}>
               <InputBase
+                id="searchInput"
                 placeholder="Search…"
                 inputProps={{ 'aria-label': 'search' }}
                 style={{
@@ -48,16 +50,11 @@ function Navbar({ fetchSearch }) {
                 }}
                 value={inputState}
                 onChange={handleChange}
-                onFocus={() => setsearchDropdownState(true)}
-                onBlur={() => {
-                  setTimeout(() => setsearchDropdownState(false), 100)
-                }}
-                tabIndex={0}
               />
             </form>
             {searchDropdownState ? (
               <SearchDropdown
-                handleBlur={() => setsearchDropdownState(false)}
+                handleClose={() => setsearchDropdownState(false)}
               />
             ) : null}
           </SearchWrapper>
