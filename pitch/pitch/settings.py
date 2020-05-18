@@ -10,6 +10,8 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
+from sentry_sdk.integrations.django import DjangoIntegration
+import sentry_sdk
 import os
 from decouple import config
 
@@ -129,3 +131,14 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# Sentry
+
+sentry_sdk.init(
+    dsn="https://790ac4a27e8d48d29d56c4ee77b45cce@o391878.ingest.sentry.io/5244132",
+    integrations=[DjangoIntegration()],
+
+    # If you wish to associate users to errors (assuming you are using
+    # django.contrib.auth) you may enable sending PII data.
+    send_default_pii=True
+)

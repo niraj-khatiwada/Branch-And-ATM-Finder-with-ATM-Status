@@ -28,7 +28,7 @@ export const locationReducer = (state = INITIAL_STATE, action) => {
     case 'LOCATION_SELECTED':
       return {
         ...state,
-        selectedLocationDetail: action.payload,
+        selectedLocationDetail: [action.payload],
       }
     default:
       return state
