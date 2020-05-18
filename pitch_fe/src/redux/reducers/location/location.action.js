@@ -6,3 +6,7 @@ export const selectedLocation = (locationDetails) => ({
 export const isSingleLocation = () => ({
   type: 'IS_SINGLE_LOCATION',
 })
+
+export const snackBar = () => ({
+  type: 'SNACKBAR_STATE',
+})

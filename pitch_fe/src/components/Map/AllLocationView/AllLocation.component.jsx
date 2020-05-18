@@ -4,6 +4,7 @@ import { Map, Marker, Popup, TileLayer } from 'react-leaflet'
 
 import { selectFilterDisplayName } from '../../../redux/reducers/search/search.selectors'
 import ArrayListSidebar from './AllLocationSidebar.component'
+import { SidebarWrapper } from './AllLocationSlider.styles'
 
 function AllLocation({ allSearchedLocationArray }) {
   const [popup, setPopup] = React.useState({ item: null })
@@ -41,19 +42,9 @@ function AllLocation({ allSearchedLocationArray }) {
           ) : null
         )}
       </Map>
-      <div
-        style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          maxHeight: '100vh',
-          width: '20vw',
-          backgroundColor: 'white',
-          zIndex: 10,
-        }}
-      >
+      <SidebarWrapper>
         <ArrayListSidebar />
-      </div>
+      </SidebarWrapper>
     </>
   )
 }

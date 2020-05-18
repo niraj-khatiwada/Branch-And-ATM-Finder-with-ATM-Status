@@ -7,7 +7,6 @@ import { selectSelectedLocationDetail } from '../../../redux/reducers/location/l
 
 function SingleLocation({ selectedLocationData }) {
   const [popup, setPopup] = React.useState(true)
-
   const coordinates = [
     parseFloat(selectedLocationData.lat),
     parseFloat(selectedLocationData.lon),

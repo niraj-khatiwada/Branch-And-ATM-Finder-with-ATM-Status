@@ -1,14 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import {
-  AppBar,
-  Toolbar,
-  IconButton,
-  Typography,
-  Button,
-} from '@material-ui/core'
-import { Menu as MenuIcon } from '@material-ui/icons'
+import { AppBar, Toolbar, Typography, Button } from '@material-ui/core'
 
 import { SearchWrapper, CustomInputBase } from './navbar.styles'
 import { searchFetchAsync } from '../../redux/reducers/search/search.action'
@@ -37,9 +30,6 @@ function Navbar({
       <AppBar position="static">
         <Toolbar style={{ display: 'flex', justifyContent: 'space-between' }}>
           <div style={{ display: 'flex', alignItems: 'center' }}>
-            <IconButton edge="start" color="inherit" aria-label="open drawer">
-              <MenuIcon />
-            </IconButton>
             <Typography variant="h6" noWrap>
               Pitch
             </Typography>

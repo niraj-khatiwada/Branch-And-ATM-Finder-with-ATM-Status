@@ -1,5 +1,6 @@
 const INITIAL_STATE = {
   isSingleLocation: true,
+  snackBarState: false,
   selectedLocationDetail: {
     place_id: 235452178,
     licence:
@@ -37,6 +38,8 @@ export const locationReducer = (state = INITIAL_STATE, action) => {
         ...state,
         isSingleLocation: !state.isSingleLocation,
       }
+    case 'SNACKBAR_STATE':
+      return { ...state, snackBarState: true }
     default:
       return state
   }

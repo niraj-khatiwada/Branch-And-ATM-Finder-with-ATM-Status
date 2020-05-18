@@ -4,13 +4,19 @@ import { v4 as uuid } from 'uuid'
 
 import { selectFilterDisplayName } from '../../redux/reducers/search/search.selectors'
 import { selectedLocation } from '../../redux/reducers/location/location.action'
+import { snackBar } from '../../redux/reducers/location/location.action'
 
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemText from '@material-ui/core/ListItemText'
 import Divider from '@material-ui/core/Divider'
 
-function ArrayList({ handleClose, searchedArrayData, selectLocation }) {
+function ArrayList({
+  handleClose,
+  searchedArrayData,
+  selectLocation,
+  openSnackBar,
+}) {
   return (
     <>
       <List component="nav" aria-label="search results" key={uuid()}>
@@ -20,6 +26,7 @@ function ArrayList({ handleClose, searchedArrayData, selectLocation }) {
             onClick={() => {
               selectLocation(item)
               handleClose()
+              openSnackBar()
             }}
             key={item.place_id}
           >
@@ -39,5 +46,6 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   selectLocation: (locationDetails) =>
     dispatch(selectedLocation(locationDetails)),
+  openSnackBar: () => dispatch(snackBar()),
 })
 export default connect(mapStateToProps, mapDispatchToProps)(ArrayList)
