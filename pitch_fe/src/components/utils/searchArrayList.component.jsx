@@ -4,6 +4,8 @@ import { v4 as uuid } from 'uuid'
 
 import { selectFilterDisplayName } from '../../redux/reducers/search/search.selectors'
 import { selectedLocation } from '../../redux/reducers/location/location.action'
+import { CustomListItem } from './searchArrayList.styles'
+
 import {
   snackBar,
   isSingleLocation,
@@ -27,7 +29,8 @@ function ArrayList({
       <List component="nav" aria-label="search results" key={uuid()}>
         {searchedArrayData.map((item) => (
           <>
-            <ListItem
+            <CustomListItem
+              issinglestate={isSingleState}
               button
               onClick={() => {
                 selectLocation(item)
@@ -40,7 +43,7 @@ function ArrayList({
               key={item.place_id}
             >
               <ListItemText secondary={item.mAddress} />
-            </ListItem>
+            </CustomListItem>
             {searchedArrayData.length !== 1 ? <Divider /> : null}
           </>
         ))}

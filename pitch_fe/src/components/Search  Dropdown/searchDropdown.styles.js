@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import ListItem from '@material-ui/core/ListItem'
 
 export const Dropdown = styled.div`
   width: 100%;
@@ -13,4 +14,10 @@ export const Dropdown = styled.div`
   -webkit-box-shadow: 0px 7px 24px 0px rgba(0, 0, 0, 0.75);
   -moz-box-shadow: 0px 7px 24px 0px rgba(0, 0, 0, 0.75);
   box-shadow: 0px 7px 24px 0px rgba(0, 0, 0, 0.75);
+`
+
+export const CustomListItem = styled(ListItem)`
+  &:hover {
+    transfrom: scale(1.1);
+  }
 `

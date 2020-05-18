@@ -7,7 +7,7 @@ import { SearchWrapper, CustomInputBase, SidebarWrapper } from './navbar.styles'
 import { searchFetchAsync } from '../../redux/reducers/search/search.action'
 import SearchDropdown from '../Search  Dropdown/searchDropdown.component'
 import { isSingleLocation } from '../../redux/reducers/location/location.action'
-import ArrayListSidebar from '../Map/AllLocationView/AllLocationSidebar.component'
+import ArrayListSidebar from '../utils/searchArrayList.component'
 
 function Navbar({
   fetchSearch,
@@ -73,14 +73,14 @@ function Navbar({
                 variant="contained"
                 fullWidth={true}
               >
-                {isSingleLocationState ? `See all branches` : 'Go Back'}
+                {isSingleLocationState ? `See all ATM's` : 'Go Back'}
               </Button>
             ) : null}
           </div>
         </Toolbar>
         {!isSingleLocationState ? (
           <SidebarWrapper>
-            <ArrayListSidebar />
+            <ArrayListSidebar handleClose={() => ''} />
           </SidebarWrapper>
         ) : null}
       </AppBar>
