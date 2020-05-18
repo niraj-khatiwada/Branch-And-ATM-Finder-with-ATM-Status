@@ -6,7 +6,7 @@ import { Map, Marker, Popup, TileLayer } from 'react-leaflet'
 import { selectSelectedLocationDetail } from '../../../redux/reducers/location/location.selectors'
 
 function SingleLocation({ selectedLocationData }) {
-  const [popup, setPopup] = React.useState(true)
+  const [popup, setPopup] = React.useState(false)
   const coordinates = [
     parseFloat(selectedLocationData.lat),
     parseFloat(selectedLocationData.lon),

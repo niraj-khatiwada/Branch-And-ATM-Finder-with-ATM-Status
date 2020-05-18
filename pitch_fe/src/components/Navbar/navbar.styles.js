@@ -18,3 +18,18 @@ export const CustomInputBase = styled(InputBase)`
     transform: scale(1.02);
   }
 `
+
+export const SidebarWrapper = styled.div`
+  position: absolute;
+  top: 5rem;
+  right: 1rem;
+  max-height: 90vh;
+  overflow-y: scroll;
+  overflow-x: none;
+  max-width: 20vw;
+  background-color: white;
+  border-radius: 1rem;
+  -webkit-box-shadow: 0px 7px 24px 0px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 0px 7px 24px 0px rgba(0, 0, 0, 0.75);
+  box-shadow: 0px 7px 24px 0px rgba(0, 0, 0, 0.75);
+`

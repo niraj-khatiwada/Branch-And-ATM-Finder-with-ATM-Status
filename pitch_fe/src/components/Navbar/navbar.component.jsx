@@ -3,10 +3,11 @@ import { connect } from 'react-redux'
 
 import { AppBar, Toolbar, Typography, Button } from '@material-ui/core'
 
-import { SearchWrapper, CustomInputBase } from './navbar.styles'
+import { SearchWrapper, CustomInputBase, SidebarWrapper } from './navbar.styles'
 import { searchFetchAsync } from '../../redux/reducers/search/search.action'
 import SearchDropdown from '../Search  Dropdown/searchDropdown.component'
 import { isSingleLocation } from '../../redux/reducers/location/location.action'
+import ArrayListSidebar from '../Map/AllLocationView/AllLocationSidebar.component'
 
 function Navbar({
   fetchSearch,
@@ -43,7 +44,12 @@ function Navbar({
                 style={{}}
                 value={inputState}
                 onChange={handleChange}
-                onFocus={() => setsearchDropdownState(true)}
+                onFocus={() => {
+                  setsearchDropdownState(true)
+                  if (!isSingleLocationState) {
+                    isSingleLocation()
+                  }
+                }}
               />
             </form>
             {searchDropdownState ? (
@@ -52,17 +58,31 @@ function Navbar({
               />
             ) : null}
           </SearchWrapper>
-          <div>
+          <div
+            style={{
+              width: '10rem',
+              height: '3rem',
+              display: 'flex',
+              justifyContent: 'center',
+            }}
+          >
             {searchData ? (
-              <Button onClick={() => isSingleLocation()}>
-                See{' '}
-                {isSingleLocationState
-                  ? `all ${selectedLocation.namedetails.name}`
-                  : selectedLocation.display_name}
+              <Button
+                onClick={() => isSingleLocation()}
+                color="primary"
+                variant="contained"
+                fullWidth={true}
+              >
+                {isSingleLocationState ? `See all branches` : 'Go Back'}
               </Button>
             ) : null}
           </div>
         </Toolbar>
+        {!isSingleLocationState ? (
+          <SidebarWrapper>
+            <ArrayListSidebar />
+          </SidebarWrapper>
+        ) : null}
       </AppBar>
     </div>
   )

@@ -3,8 +3,6 @@ import { connect } from 'react-redux'
 import { Map, Marker, Popup, TileLayer } from 'react-leaflet'
 
 import { selectFilterDisplayName } from '../../../redux/reducers/search/search.selectors'
-import ArrayListSidebar from './AllLocationSidebar.component'
-import { SidebarWrapper } from './AllLocationSlider.styles'
 
 function AllLocation({ allSearchedLocationArray }) {
   const [popup, setPopup] = React.useState({ item: null })
@@ -17,7 +15,6 @@ function AllLocation({ allSearchedLocationArray }) {
         animate={true}
         duration={2}
         easeLinearity={0.5}
-        style={{ zIndex: -1 }}
       >
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -42,9 +39,6 @@ function AllLocation({ allSearchedLocationArray }) {
           ) : null
         )}
       </Map>
-      <SidebarWrapper>
-        <ArrayListSidebar />
-      </SidebarWrapper>
     </>
   )
 }

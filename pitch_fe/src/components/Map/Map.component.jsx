@@ -3,27 +3,54 @@ import { connect } from 'react-redux'
 
 import SingleLocation from './singleLocationView/singleLocation.component'
 import AllLocation from './AllLocationView/AllLocation.component'
-import { MapWrapper } from './Map.styles'
+import { MapWrapper, CustomSnackbar } from './Map.styles'
+import { snackBar } from '../../redux/reducers/location/location.action'
 
-import { Snackbar } from '@material-ui/core'
+import { IconButton } from '@material-ui/core'
 import CloseIcon from '@material-ui/icons/Close'
 
-function MapComponent({ singleLocation, snackBarState }) {
+function MapComponent({
+  singleLocation,
+  snackBarState,
+  handleSnackBar,
+  selectedLocation,
+}) {
   return (
-    <MapWrapper>
-      <Snackbar
-        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-        action={<h1>Hello world</h1>}
-        open={snackBarState}
-      />
-      {singleLocation ? <SingleLocation /> : <AllLocation />}
-    </MapWrapper>
+    <>
+      {singleLocation ? (
+        <>
+          <CustomSnackbar
+            anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+            message={
+              selectedLocation ? (
+                <div>
+                  <p>{selectedLocation.mAddress}</p>
+                </div>
+              ) : null
+            }
+            action={
+              <IconButton onClick={() => handleSnackBar()}>
+                <CloseIcon fontSize="small" />
+              </IconButton>
+            }
+            open={snackBarState}
+          />
+          <SingleLocation />{' '}
+        </>
+      ) : (
+        <AllLocation />
+      )}
+    </>
   )
 }
 
 const mapStateToProps = (state) => ({
   singleLocation: state.location.isSingleLocation,
   snackBarState: state.location.snackBarState,
+  selectedLocation: state.location.selectedLocationDetail,
 })
 
-export default connect(mapStateToProps)(MapComponent)
+const mapDispatchToProps = (dispatch) => ({
+  handleSnackBar: () => dispatch(snackBar(false)),
+})
+export default connect(mapStateToProps, mapDispatchToProps)(MapComponent)

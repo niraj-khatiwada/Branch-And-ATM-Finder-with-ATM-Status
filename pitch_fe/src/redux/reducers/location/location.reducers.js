@@ -39,7 +39,7 @@ export const locationReducer = (state = INITIAL_STATE, action) => {
         isSingleLocation: !state.isSingleLocation,
       }
     case 'SNACKBAR_STATE':
-      return { ...state, snackBarState: true }
+      return { ...state, snackBarState: action.payload }
     default:
       return state
   }

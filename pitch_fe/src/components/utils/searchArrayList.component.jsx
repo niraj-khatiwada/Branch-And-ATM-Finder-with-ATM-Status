@@ -4,7 +4,10 @@ import { v4 as uuid } from 'uuid'
 
 import { selectFilterDisplayName } from '../../redux/reducers/search/search.selectors'
 import { selectedLocation } from '../../redux/reducers/location/location.action'
-import { snackBar } from '../../redux/reducers/location/location.action'
+import {
+  snackBar,
+  isSingleLocation,
+} from '../../redux/reducers/location/location.action'
 
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
@@ -16,23 +19,30 @@ function ArrayList({
   searchedArrayData,
   selectLocation,
   openSnackBar,
+  isSingleState,
+  setSingleLocation,
 }) {
   return (
     <>
       <List component="nav" aria-label="search results" key={uuid()}>
         {searchedArrayData.map((item) => (
-          <ListItem
-            button
-            onClick={() => {
-              selectLocation(item)
-              handleClose()
-              openSnackBar()
-            }}
-            key={item.place_id}
-          >
-            <ListItemText secondary={item.mAddress} />
+          <>
+            <ListItem
+              button
+              onClick={() => {
+                selectLocation(item)
+                handleClose()
+                openSnackBar()
+                if (!isSingleState) {
+                  setSingleLocation()
+                }
+              }}
+              key={item.place_id}
+            >
+              <ListItemText secondary={item.mAddress} />
+            </ListItem>
             {searchedArrayData.length !== 1 ? <Divider /> : null}
-          </ListItem>
+          </>
         ))}
       </List>
     </>
@@ -41,11 +51,13 @@ function ArrayList({
 
 const mapStateToProps = (state) => ({
   searchedArrayData: selectFilterDisplayName(state),
+  isSingleState: state.location.isSingleLocation,
 })
 
 const mapDispatchToProps = (dispatch) => ({
   selectLocation: (locationDetails) =>
     dispatch(selectedLocation(locationDetails)),
-  openSnackBar: () => dispatch(snackBar()),
+  openSnackBar: () => dispatch(snackBar(true)),
+  setSingleLocation: () => dispatch(isSingleLocation()),
 })
 export default connect(mapStateToProps, mapDispatchToProps)(ArrayList)
