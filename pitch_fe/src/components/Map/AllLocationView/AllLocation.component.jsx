@@ -4,13 +4,12 @@ import { Map, Marker, Popup, TileLayer } from 'react-leaflet'
 
 import { selectFilterDisplayName } from '../../../redux/reducers/search/search.selectors'
 
-function AllLocation({ allSearchedLocationArray }) {
+function AllLocation({ allSearchedLocationArray, hoverItem }) {
   const [popup, setPopup] = React.useState({ item: null })
-
   return (
     <>
       <Map
-        center={[27.700769, 85.30014]}
+        center={[27.6805555556, 85.3875]}
         zoom={13}
         animate={true}
         duration={2}
@@ -30,10 +29,20 @@ function AllLocation({ allSearchedLocationArray }) {
           </>
         ))}
         {allSearchedLocationArray.map((item) =>
-          popup.item !== null && popup.item.place_id === item.place_id ? (
-            <Popup position={[parseFloat(item.lat), parseFloat(item.lon)]}>
+          hoverItem === null ? (
+            popup.item !== null && popup.item.place_id === item.place_id ? (
+              <Popup position={[parseFloat(item.lat), parseFloat(item.lon)]}>
+                <div>
+                  <h3>{item.mAddress}</h3>
+                </div>
+              </Popup>
+            ) : null
+          ) : hoverItem.place_id === item.place_id ? (
+            <Popup
+              position={[parseFloat(hoverItem.lat), parseFloat(hoverItem.lon)]}
+            >
               <div>
-                <h3>{item.mAddress}</h3>
+                <h3>{hoverItem.mAddress}</h3>
               </div>
             </Popup>
           ) : null
@@ -45,6 +54,7 @@ function AllLocation({ allSearchedLocationArray }) {
 
 const mapStateToProps = (state) => ({
   allSearchedLocationArray: selectFilterDisplayName(state),
+  hoverItem: state.location.hoverItem,
 })
 
 export default connect(mapStateToProps)(AllLocation)

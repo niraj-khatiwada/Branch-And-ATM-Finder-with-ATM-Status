@@ -1,6 +1,7 @@
 const INITIAL_STATE = {
   isSingleLocation: true,
   snackBarState: false,
+  hoverItem: null,
   selectedLocationDetail: {
     place_id: 235452178,
     licence:
@@ -40,6 +41,8 @@ export const locationReducer = (state = INITIAL_STATE, action) => {
       }
     case 'SNACKBAR_STATE':
       return { ...state, snackBarState: action.payload }
+    case 'HOVER_ITEM':
+      return { ...state, hoverItem: action.payload }
     default:
       return state
   }

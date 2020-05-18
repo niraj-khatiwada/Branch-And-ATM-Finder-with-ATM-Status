@@ -3,8 +3,10 @@ import { connect } from 'react-redux'
 import { v4 as uuid } from 'uuid'
 
 import { selectFilterDisplayName } from '../../redux/reducers/search/search.selectors'
-import { selectedLocation } from '../../redux/reducers/location/location.action'
-import { CustomListItem } from './searchArrayList.styles'
+import {
+  selectedLocation,
+  setHoverItem,
+} from '../../redux/reducers/location/location.action'
 
 import {
   snackBar,
@@ -23,13 +25,14 @@ function ArrayList({
   openSnackBar,
   isSingleState,
   setSingleLocation,
+  setHoverItem,
 }) {
   return (
     <>
       <List component="nav" aria-label="search results" key={uuid()}>
         {searchedArrayData.map((item) => (
           <>
-            <CustomListItem
+            <ListItem
               issinglestate={isSingleState}
               button
               onClick={() => {
@@ -41,9 +44,19 @@ function ArrayList({
                 }
               }}
               key={item.place_id}
+              onMouseEnter={() => {
+                if (!isSingleState) {
+                  return setHoverItem(item)
+                }
+              }}
+              onMouseLeave={() => {
+                if (!isSingleState) {
+                  return setHoverItem(null)
+                }
+              }}
             >
               <ListItemText secondary={item.mAddress} />
-            </CustomListItem>
+            </ListItem>
             {searchedArrayData.length !== 1 ? <Divider /> : null}
           </>
         ))}
@@ -62,5 +75,6 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(selectedLocation(locationDetails)),
   openSnackBar: () => dispatch(snackBar(true)),
   setSingleLocation: () => dispatch(isSingleLocation()),
+  setHoverItem: (item) => dispatch(setHoverItem(item)),
 })
 export default connect(mapStateToProps, mapDispatchToProps)(ArrayList)

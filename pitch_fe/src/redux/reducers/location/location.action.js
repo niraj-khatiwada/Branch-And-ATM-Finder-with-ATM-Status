@@ -11,3 +11,8 @@ export const snackBar = (bool) => ({
   type: 'SNACKBAR_STATE',
   payload: bool,
 })
+
+export const setHoverItem = (item) => ({
+  type: 'HOVER_ITEM',
+  payload: item,
+})
