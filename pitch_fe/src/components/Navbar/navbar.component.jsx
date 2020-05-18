@@ -15,7 +15,13 @@ import { searchFetchAsync } from '../../redux/reducers/search/search.action'
 import SearchDropdown from '../Search  Dropdown/searchDropdown.component'
 import { isSingleLocation } from '../../redux/reducers/location/location.action'
 
-function Navbar({ fetchSearch, isSingleLocation }) {
+function Navbar({
+  fetchSearch,
+  isSingleLocation,
+  searchData,
+  selectedLocation,
+  isSingleLocationState,
+}) {
   const [inputState, setInputState] = React.useState('')
   const [searchDropdownState, setsearchDropdownState] = React.useState(false)
   const handleChange = (evt) => {
@@ -57,7 +63,14 @@ function Navbar({ fetchSearch, isSingleLocation }) {
             ) : null}
           </SearchWrapper>
           <div>
-            <Button onClick={() => isSingleLocation()}>See All</Button>
+            {searchData ? (
+              <Button onClick={() => isSingleLocation()}>
+                See{' '}
+                {isSingleLocationState
+                  ? `all ${selectedLocation.namedetails.name}`
+                  : selectedLocation.display_name}
+              </Button>
+            ) : null}
           </div>
         </Toolbar>
       </AppBar>
@@ -65,9 +78,15 @@ function Navbar({ fetchSearch, isSingleLocation }) {
   )
 }
 
+const mapStateToProps = (state) => ({
+  searchData: state.search.searchedData,
+  selectedLocation: state.location.selectedLocationDetail,
+  isSingleLocationState: state.location.isSingleLocation,
+})
+
 const mapDispatchToProps = (dispatch) => ({
   fetchSearch: (searchQuery) => dispatch(searchFetchAsync(searchQuery)),
   isSingleLocation: () => dispatch(isSingleLocation()),
 })
 
-export default connect(null, mapDispatchToProps)(Navbar)
+export default connect(mapStateToProps, mapDispatchToProps)(Navbar)

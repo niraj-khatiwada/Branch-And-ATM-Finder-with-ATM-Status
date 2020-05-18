@@ -5,7 +5,11 @@ import SingleLocation from './singleLocationView/singleLocation.component'
 import AllLocation from './AllLocationView/AllLocation.component'
 
 function MapComponent({ singleLocation }) {
-  return <>{singleLocation ? <SingleLocation /> : <AllLocation />}</>
+  return (
+    <div style={{ position: 'relative', backgroundColor: 'red', zIndex: 10 }}>
+      {singleLocation ? <SingleLocation /> : <AllLocation />}
+    </div>
+  )
 }
 
 const mapStateToProps = (state) => ({

@@ -20,6 +20,9 @@ const INITIAL_STATE = {
       country: 'नेपाल',
       country_code: 'np',
     },
+    namedetails: {
+      name: '',
+    },
   },
 }
 export const locationReducer = (state = INITIAL_STATE, action) => {
