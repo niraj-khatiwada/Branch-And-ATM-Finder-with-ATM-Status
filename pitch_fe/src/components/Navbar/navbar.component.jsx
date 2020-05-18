@@ -1,17 +1,21 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import AppBar from '@material-ui/core/AppBar'
-import Toolbar from '@material-ui/core/Toolbar'
-import IconButton from '@material-ui/core/IconButton'
-import Typography from '@material-ui/core/Typography'
-import MenuIcon from '@material-ui/icons/Menu'
+import {
+  AppBar,
+  Toolbar,
+  IconButton,
+  Typography,
+  Button,
+} from '@material-ui/core'
+import { Menu as MenuIcon } from '@material-ui/icons'
 
 import { SearchWrapper, CustomInputBase } from './navbar.styles'
 import { searchFetchAsync } from '../../redux/reducers/search/search.action'
 import SearchDropdown from '../Search  Dropdown/searchDropdown.component'
+import { isSingleLocation } from '../../redux/reducers/location/location.action'
 
-function Navbar({ fetchSearch }) {
+function Navbar({ fetchSearch, isSingleLocation }) {
   const [inputState, setInputState] = React.useState('')
   const [searchDropdownState, setsearchDropdownState] = React.useState(false)
   const handleChange = (evt) => {
@@ -53,7 +57,7 @@ function Navbar({ fetchSearch }) {
             ) : null}
           </SearchWrapper>
           <div>
-            <h1>Notif</h1>
+            <Button onClick={() => isSingleLocation()}>See All</Button>
           </div>
         </Toolbar>
       </AppBar>
@@ -63,6 +67,7 @@ function Navbar({ fetchSearch }) {
 
 const mapDispatchToProps = (dispatch) => ({
   fetchSearch: (searchQuery) => dispatch(searchFetchAsync(searchQuery)),
+  isSingleLocation: () => dispatch(isSingleLocation()),
 })
 
 export default connect(null, mapDispatchToProps)(Navbar)

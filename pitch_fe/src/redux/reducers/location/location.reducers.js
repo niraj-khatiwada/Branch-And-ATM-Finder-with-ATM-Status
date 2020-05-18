@@ -1,4 +1,5 @@
 const INITIAL_STATE = {
+  isSingleLocation: true,
   selectedLocationDetail: {
     place_id: 235452178,
     licence:
@@ -27,6 +28,11 @@ export const locationReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         selectedLocationDetail: action.payload,
+      }
+    case 'IS_SINGLE_LOCATION':
+      return {
+        ...state,
+        isSingleLocation: !state.isSingleLocation,
       }
     default:
       return state

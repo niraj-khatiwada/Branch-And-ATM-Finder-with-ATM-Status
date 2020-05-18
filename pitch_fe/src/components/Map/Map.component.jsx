@@ -1,11 +1,14 @@
 import React from 'react'
+import { connect } from 'react-redux'
 
 import SingleLocation from './singleLocationView/singleLocation.component'
 import AllLocation from './AllLocationView/AllLocation.component'
 
-function MapComponent() {
-  const [isSingleLocation, setIsLocation] = React.useState(true)
-  return <>{isSingleLocation ? <SingleLocation /> : <AllLocation />}</>
+function MapComponent({ singleLocation }) {
+  return <>{singleLocation ? <SingleLocation /> : <AllLocation />}</>
 }
 
-export default MapComponent
+const mapStateToProps = (state) => ({
+  singleLocation: state.location.isSingleLocation,
+})
+export default connect(mapStateToProps)(MapComponent)
