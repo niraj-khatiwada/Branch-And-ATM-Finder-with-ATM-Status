@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 
 import SingleLocation from './singleLocationView/singleLocation.component'
 import AllLocation from './AllLocationView/AllLocation.component'
-import { MapWrapper, CustomSnackbar } from './Map.styles'
+import { CustomSnackbar } from './Map.styles'
 import { snackBar } from '../../redux/reducers/location/location.action'
 
 import { IconButton } from '@material-ui/core'

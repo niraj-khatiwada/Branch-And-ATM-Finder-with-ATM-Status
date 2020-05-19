@@ -33,7 +33,6 @@ function ArrayList({
         {searchedArrayData.map((item) => (
           <>
             <ListItem
-              issinglestate={isSingleState}
               button
               onClick={() => {
                 selectLocation(item)
