@@ -11,6 +11,7 @@ import {
   CustomTypography,
   CustomForm,
   CustomButton,
+  CustomToolbar,
 } from './navbar.styles'
 
 import {
@@ -43,7 +44,7 @@ function Navbar({
   return (
     <div>
       <AppBar position="static">
-        <Toolbar style={{ display: 'flex', justifyContent: 'space-between' }}>
+        <CustomToolbar>
           <CustomTypography variant="h6" noWrap>
             Pitch
           </CustomTypography>
@@ -74,11 +75,9 @@ function Navbar({
             <CustomButton
               onClick={() => {
                 isSingleLocation()
-                if (!isSingleLocationState) {
-                  history.push('/')
-                } else {
-                  history.push('/all')
-                }
+                !isSingleLocationState
+                  ? history.push('/')
+                  : history.push('/all')
               }}
               color="primary"
               variant="contained"
@@ -87,7 +86,7 @@ function Navbar({
               {isSingleLocationState ? `See all ATM's` : 'Go Back'}
             </CustomButton>
           ) : null}
-        </Toolbar>
+        </CustomToolbar>
         {!isSingleLocationState ? (
           <SidebarWrapper>
             <ArrayListSidebar handleClose={() => ''} />

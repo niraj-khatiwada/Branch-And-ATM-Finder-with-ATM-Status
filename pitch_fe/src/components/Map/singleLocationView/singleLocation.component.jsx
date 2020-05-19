@@ -11,7 +11,10 @@ import Snackbar from '../Snackbar/Snackbar.component'
 
 function SingleLocation({ selectedLocationData, allLocationArray }) {
   const [popup, setPopup] = React.useState(false)
-  const [popupOfArray, setPopupOfArray] = React.useState({ item: null })
+  const [popupOfArray, setPopupOfArray] = React.useState({
+    item: null,
+    isOpen: false,
+  })
   const coordinates = [
     parseFloat(selectedLocationData.lat),
     parseFloat(selectedLocationData.lon),
@@ -46,12 +49,12 @@ function SingleLocation({ selectedLocationData, allLocationArray }) {
                     icon={defaultIcon}
                     position={coord}
                     onClick={() => {
-                      if (popupOfArray.item === null) {
-                        setPopupOfArray({ item })
-                      } else {
-                        setPopupOfArray({ item: null })
-                        setPopupOfArray({ item })
-                      }
+                      popupOfArray.item === null
+                        ? setPopupOfArray({ item, isOpen: true })
+                        : setPopupOfArray({
+                            item,
+                            isOpen: !popupOfArray.isOpen,
+                          })
                     }}
                     key={item.place_id}
                   />
@@ -63,9 +66,10 @@ function SingleLocation({ selectedLocationData, allLocationArray }) {
           if (
             popupOfArray.item !== null &&
             item.place_id === popupOfArray.item.place_id
-          ) {
-            return <PopupComponent item={item} key={item.place_id} />
-          }
+          )
+            return popupOfArray.isOpen ? (
+              <PopupComponent item={item} key={item.place_id} />
+            ) : null
         })}
       </Map>
     </div>

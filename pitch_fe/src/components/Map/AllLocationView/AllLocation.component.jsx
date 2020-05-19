@@ -17,7 +17,7 @@ function AllLocation({
   hoverItem,
   selectedLocation,
 }) {
-  const [popup, setPopup] = React.useState({ item: null })
+  const [popup, setPopup] = React.useState({ item: null, isOpen: false })
   return (
     <>
       <Map
@@ -32,12 +32,9 @@ function AllLocation({
           <Marker
             position={[parseFloat(item.lat), parseFloat(item.lon)]}
             onClick={() => {
-              if (popup.item === null) {
-                setPopup({ item })
-              } else {
-                setPopup({ item: null })
-                setPopup({ item })
-              }
+              popup.item === null
+                ? setPopup({ item, isOpen: true })
+                : setPopup({ item, isOpen: !popup.isOpen })
             }}
             key={item.place_id}
             icon={
@@ -50,7 +47,9 @@ function AllLocation({
         {allSearchedLocationArray.map((item) =>
           hoverItem === null ? (
             popup.item !== null && popup.item.place_id === item.place_id ? (
-              <PopupComponent item={item} key={item.place_id} />
+              popup.isOpen ? (
+                <PopupComponent item={item} key={item.place_id} />
+              ) : null
             ) : null
           ) : hoverItem.place_id === item.place_id ? (
             <PopupComponent item={hoverItem} key={hoverItem.place_id} />

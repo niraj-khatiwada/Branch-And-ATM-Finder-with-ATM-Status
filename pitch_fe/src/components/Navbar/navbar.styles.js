@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { InputBase, Typography, Button } from '@material-ui/core'
+import { InputBase, Typography, Button, Toolbar } from '@material-ui/core'
 
 export const SearchWrapper = styled.div`
   width: 50rem;
@@ -47,4 +47,9 @@ export const CustomButton = styled(Button)`
   height: 3rem;
   display: flex;
   justify-content: center;
+`
+
+export const CustomToolbar = styled(Toolbar)`
+  display: flex;
+  justify-content: space-between;
 `
