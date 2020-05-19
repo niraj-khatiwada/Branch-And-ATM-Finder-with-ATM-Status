@@ -1,7 +1,13 @@
 import React from 'react'
 import { connect } from 'react-redux'
-
+import { createStructuredSelector } from 'reselect'
 import { AppBar, Toolbar, Typography, Button } from '@material-ui/core'
+
+import {
+  selectSingleLocation,
+  selectSelectedLocationDetail,
+} from '../../redux/reducers/location/location.selectors'
+import { selectSearchedData } from '../../redux/reducers/search/search.selectors'
 
 import { SearchWrapper, CustomInputBase, SidebarWrapper } from './navbar.styles'
 import { searchFetchAsync } from '../../redux/reducers/search/search.action'
@@ -88,10 +94,10 @@ function Navbar({
   )
 }
 
-const mapStateToProps = (state) => ({
-  searchData: state.search.searchedData,
-  selectedLocation: state.location.selectedLocationDetail,
-  isSingleLocationState: state.location.isSingleLocation,
+const mapStateToProps = createStructuredSelector({
+  searchData: selectSearchedData,
+  selectedLocation: selectSelectedLocationDetail,
+  isSingleLocationState: selectSingleLocation,
 })
 
 const mapDispatchToProps = (dispatch) => ({

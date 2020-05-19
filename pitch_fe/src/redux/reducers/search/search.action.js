@@ -18,7 +18,6 @@ export const searchFetchAsync = (searchQuery) => (dispatch) => {
   dispatch(searchStart)
   openStreetSearch(searchQuery)
     .then((res) => {
-      console.log(res.data)
       dispatch(searchSuccess(res.data))
     })
     .catch((error) => dispatch(searchFailure(error.response)))

@@ -1,8 +1,10 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { v4 as uuid } from 'uuid'
+import { createStructuredSelector } from 'reselect'
 
 import { selectFilterDisplayName } from '../../redux/reducers/search/search.selectors'
+import { selectSingleLocation } from '../../redux/reducers/location/location.selectors'
 import {
   selectedLocation,
   setHoverItem,
@@ -29,9 +31,9 @@ function ArrayList({
 }) {
   return (
     <>
-      <List component="nav" aria-label="search results" key={uuid()}>
+      <List component="nav" aria-label="search results">
         {searchedArrayData.map((item) => (
-          <>
+          <React.Fragment key={uuid()}>
             <ListItem
               button
               onClick={() => {
@@ -57,16 +59,16 @@ function ArrayList({
               <ListItemText secondary={item.mAddress} />
             </ListItem>
             {searchedArrayData.length !== 1 ? <Divider /> : null}
-          </>
+          </React.Fragment>
         ))}
       </List>
     </>
   )
 }
 
-const mapStateToProps = (state) => ({
-  searchedArrayData: selectFilterDisplayName(state),
-  isSingleState: state.location.isSingleLocation,
+const mapStateToProps = createStructuredSelector({
+  searchedArrayData: selectFilterDisplayName,
+  isSingleState: selectSingleLocation,
 })
 
 const mapDispatchToProps = (dispatch) => ({

@@ -1,10 +1,16 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { createStructuredSelector } from 'reselect'
 
 import SingleLocation from './singleLocationView/singleLocation.component'
 import AllLocation from './AllLocationView/AllLocation.component'
 import { CustomSnackbar } from './Map.styles'
 import { snackBar } from '../../redux/reducers/location/location.action'
+import {
+  selectSingleLocation,
+  selectSnackBarState,
+  selectSelectedLocationDetail,
+} from '../../redux/reducers/location/location.selectors'
 
 import { IconButton } from '@material-ui/core'
 import CloseIcon from '@material-ui/icons/Close'
@@ -44,10 +50,10 @@ function MapComponent({
   )
 }
 
-const mapStateToProps = (state) => ({
-  singleLocation: state.location.isSingleLocation,
-  snackBarState: state.location.snackBarState,
-  selectedLocation: state.location.selectedLocationDetail,
+const mapStateToProps = createStructuredSelector({
+  singleLocation: selectSingleLocation,
+  snackBarState: selectSnackBarState,
+  selectedLocation: selectSelectedLocationDetail,
 })
 
 const mapDispatchToProps = (dispatch) => ({

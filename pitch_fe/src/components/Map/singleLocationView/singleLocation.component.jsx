@@ -1,9 +1,12 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
-import { Map, Marker, Popup, TileLayer } from 'react-leaflet'
+import { Map, Marker } from 'react-leaflet'
 import { selectSelectedLocationDetail } from '../../../redux/reducers/location/location.selectors'
 import { selectFilterDisplayName } from '../../../redux/reducers/search/search.selectors'
+import { customIcon, defaultIcon } from '../../../icons/customMarkerIcon'
+import TileLayerComponent from '../utils/tileLayer.utils'
+import PopupComponent from '../utils/popup.utils'
 
 function SingleLocation({ selectedLocationData, allLocationArray }) {
   const [popup, setPopup] = React.useState(false)
@@ -22,36 +25,34 @@ function SingleLocation({ selectedLocationData, allLocationArray }) {
         duration={2}
         easeLinearity={0.5}
       >
-        <TileLayer
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-        />
+        <TileLayerComponent />
         <>
           <Marker
+            icon={customIcon}
             position={coordinates}
             onclick={() => setPopup(!popup)}
             key={selectedLocationData.place_id}
           />
-          {popup ? (
-            <Popup position={coordinates}>
-              <div>
-                <h3>{selectedLocationData.mAddress}</h3>
-              </div>
-            </Popup>
-          ) : null}
+          {popup ? <PopupComponent item={selectedLocationData} /> : null}
         </>
         {allLocationArray.length > 1
           ? allLocationArray.map((item) => {
               const coord = [parseFloat(item.lat), parseFloat(item.lon)]
               if (item.place_id !== selectedLocationData.place_id) {
                 return (
-                  <>
-                    <Marker
-                      position={coord}
-                      onclick={() => setPopupOfArray({ item: item })}
-                      key={item.place_id}
-                    />
-                  </>
+                  <Marker
+                    icon={defaultIcon}
+                    position={coord}
+                    onClick={() => {
+                      if (popupOfArray.item === null) {
+                        setPopupOfArray({ item })
+                      } else {
+                        setPopupOfArray({ item: null })
+                        setPopupOfArray({ item })
+                      }
+                    }}
+                    key={item.place_id}
+                  />
                 )
               }
             })
@@ -61,13 +62,7 @@ function SingleLocation({ selectedLocationData, allLocationArray }) {
             popupOfArray.item !== null &&
             item.place_id === popupOfArray.item.place_id
           ) {
-            return (
-              <Popup position={[parseFloat(item.lat), parseFloat(item.lon)]}>
-                <div>
-                  <h3>{item.mAddress}</h3>
-                </div>
-              </Popup>
-            )
+            return <PopupComponent item={item} key={item.place_id} />
           }
         })}
       </Map>

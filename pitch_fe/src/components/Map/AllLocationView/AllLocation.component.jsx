@@ -1,10 +1,22 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Map, Marker, Popup, TileLayer } from 'react-leaflet'
+import { Map, Marker } from 'react-leaflet'
+import { createStructuredSelector } from 'reselect'
 
 import { selectFilterDisplayName } from '../../../redux/reducers/search/search.selectors'
+import {
+  selecthoverItem,
+  selectSelectedLocationDetail,
+} from '../../../redux/reducers/location/location.selectors'
+import { defaultIcon, customIcon } from '../../../icons/customMarkerIcon'
+import PopupComponent from '../utils/popup.utils'
+import TileLayerComponent from '../utils/tileLayer.utils'
 
-function AllLocation({ allSearchedLocationArray, hoverItem }) {
+function AllLocation({
+  allSearchedLocationArray,
+  hoverItem,
+  selectedLocation,
+}) {
   const [popup, setPopup] = React.useState({ item: null })
   return (
     <>
@@ -15,36 +27,33 @@ function AllLocation({ allSearchedLocationArray, hoverItem }) {
         duration={2}
         easeLinearity={0.5}
       >
-        <TileLayer
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-        />
+        <TileLayerComponent />
         {allSearchedLocationArray.map((item) => (
-          <>
-            <Marker
-              position={[parseFloat(item.lat), parseFloat(item.lon)]}
-              onClick={() => setPopup({ item })}
-              key={item.place_id}
-            />
-          </>
+          <Marker
+            position={[parseFloat(item.lat), parseFloat(item.lon)]}
+            onClick={() => {
+              if (popup.item === null) {
+                setPopup({ item })
+              } else {
+                setPopup({ item: null })
+                setPopup({ item })
+              }
+            }}
+            key={item.place_id}
+            icon={
+              item.place_id === selectedLocation.place_id
+                ? customIcon
+                : defaultIcon
+            }
+          />
         ))}
         {allSearchedLocationArray.map((item) =>
           hoverItem === null ? (
             popup.item !== null && popup.item.place_id === item.place_id ? (
-              <Popup position={[parseFloat(item.lat), parseFloat(item.lon)]}>
-                <div>
-                  <h3>{item.mAddress}</h3>
-                </div>
-              </Popup>
+              <PopupComponent item={item} key={item.place_id} />
             ) : null
           ) : hoverItem.place_id === item.place_id ? (
-            <Popup
-              position={[parseFloat(hoverItem.lat), parseFloat(hoverItem.lon)]}
-            >
-              <div>
-                <h3>{hoverItem.mAddress}</h3>
-              </div>
-            </Popup>
+            <PopupComponent item={hoverItem} key={hoverItem.place_id} />
           ) : null
         )}
       </Map>
@@ -52,9 +61,10 @@ function AllLocation({ allSearchedLocationArray, hoverItem }) {
   )
 }
 
-const mapStateToProps = (state) => ({
-  allSearchedLocationArray: selectFilterDisplayName(state),
-  hoverItem: state.location.hoverItem,
+const mapStateToProps = createStructuredSelector({
+  allSearchedLocationArray: selectFilterDisplayName,
+  hoverItem: selecthoverItem,
+  selectedLocation: selectSelectedLocationDetail,
 })
 
 export default connect(mapStateToProps)(AllLocation)
