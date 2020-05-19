@@ -8,6 +8,7 @@ export const Dropdown = styled.div`
   position: absolute;
   top: 3.5rem;
   left: 0;
+  z-index: 1500;
   background-color: white;
   border-radius: 1rem;
   -webkit-box-shadow: 0px 7px 24px 0px rgba(0, 0, 0, 0.75);

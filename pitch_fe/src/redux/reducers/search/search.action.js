@@ -22,3 +22,8 @@ export const searchFetchAsync = (searchQuery) => (dispatch) => {
     })
     .catch((error) => dispatch(searchFailure(error.response)))
 }
+
+export const setMapZIndex = (value) => ({
+  type: 'CHANGE_Z_INDEX',
+  payload: value,
+})

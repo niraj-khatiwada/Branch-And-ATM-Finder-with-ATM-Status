@@ -27,6 +27,7 @@ export const SidebarWrapper = styled.div`
   overflow-y: scroll;
   overflow-x: none;
   max-width: 20vw;
+  z-index: 1500;
   background-color: white;
   border-radius: 1rem;
   -webkit-box-shadow: 0px 7px 24px 0px rgba(0, 0, 0, 0.75);

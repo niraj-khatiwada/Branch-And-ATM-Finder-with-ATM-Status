@@ -19,7 +19,10 @@ import {
   selectSelectedLocationDetail,
 } from '../../redux/reducers/location/location.selectors'
 import { selectSearchedData } from '../../redux/reducers/search/search.selectors'
-import { searchFetchAsync } from '../../redux/reducers/search/search.action'
+import {
+  searchFetchAsync,
+  setMapZIndex,
+} from '../../redux/reducers/search/search.action'
 import SearchDropdown from '../Search  Dropdown/searchDropdown.component'
 import { isSingleLocation } from '../../redux/reducers/location/location.action'
 import ArrayListSidebar from '../utils/searchArrayList.component'
@@ -29,12 +32,14 @@ function Navbar({
   isSingleLocation,
   searchData,
   isSingleLocationState,
+  setMapZIndex,
 }) {
   const [inputState, setInputState] = React.useState('')
   const [searchDropdownState, setsearchDropdownState] = React.useState(false)
   const handleChange = (evt) => {
     setInputState(evt.target.value)
     setsearchDropdownState(true)
+    setMapZIndex(-1)
   }
   const handleSearchSubmit = (evt) => {
     evt.preventDefault()
@@ -42,7 +47,12 @@ function Navbar({
   }
   const history = useHistory()
   return (
-    <div>
+    <>
+      {!isSingleLocationState ? (
+        <SidebarWrapper>
+          <ArrayListSidebar handleClose={() => ''} />
+        </SidebarWrapper>
+      ) : null}
       <AppBar position="static">
         <CustomToolbar>
           <CustomTypography variant="h6" noWrap>
@@ -58,6 +68,7 @@ function Navbar({
                 onChange={handleChange}
                 onFocus={() => {
                   setsearchDropdownState(true)
+                  setMapZIndex(-1)
                   if (!isSingleLocationState) {
                     isSingleLocation()
                     history.push('/')
@@ -87,13 +98,8 @@ function Navbar({
             </CustomButton>
           ) : null}
         </CustomToolbar>
-        {!isSingleLocationState ? (
-          <SidebarWrapper>
-            <ArrayListSidebar handleClose={() => ''} />
-          </SidebarWrapper>
-        ) : null}
       </AppBar>
-    </div>
+    </>
   )
 }
 
@@ -106,6 +112,7 @@ const mapStateToProps = createStructuredSelector({
 const mapDispatchToProps = (dispatch) => ({
   fetchSearch: (searchQuery) => dispatch(searchFetchAsync(searchQuery)),
   isSingleLocation: () => dispatch(isSingleLocation()),
+  setMapZIndex: (value) => dispatch(setMapZIndex(value)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Navbar)

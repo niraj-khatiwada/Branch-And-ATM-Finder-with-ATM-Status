@@ -4,6 +4,7 @@ const INITIAL_STATE = {
   isSearchFetching: false,
   searchedData: null,
   searcherror: undefined,
+  mapZIndex: 0,
 }
 
 export const searchReducer = (state = INITIAL_STATE, action) => {
@@ -14,6 +15,8 @@ export const searchReducer = (state = INITIAL_STATE, action) => {
       return { ...state, searchedData: action.payload }
     case searchStateType.searchFailure:
       return { ...state, searcherror: action.payload }
+    case 'CHANGE_Z_INDEX':
+      return { ...state, mapZIndex: action.payload }
     default:
       return state
   }

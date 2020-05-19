@@ -5,6 +5,10 @@ const selectSearch = (state) => state.search
 export const selectSearchedData = createSelector([selectSearch], (search) =>
   search.searchedData ? search.searchedData : []
 )
+export const selectZIndex = createSelector(
+  [selectSearch],
+  (search) => search.mapZIndex
+)
 
 export const selectFilterDisplayName = createSelector(
   [selectSearchedData],

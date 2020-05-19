@@ -9,7 +9,7 @@ const AllLocation = React.lazy(() =>
 
 function App() {
   return (
-    <div className="App">
+    <div className="App" style={{ position: 'relative' }}>
       <Navbar />
       <Switch>
         <Route exact path="/" component={SingleLocation} />
