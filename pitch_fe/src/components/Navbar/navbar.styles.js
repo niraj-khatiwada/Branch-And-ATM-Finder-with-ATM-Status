@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import InputBase from '@material-ui/core/InputBase'
+import { InputBase, Typography, Button } from '@material-ui/core'
 
 export const SearchWrapper = styled.div`
   width: 50rem;
@@ -32,4 +32,19 @@ export const SidebarWrapper = styled.div`
   -webkit-box-shadow: 0px 7px 24px 0px rgba(0, 0, 0, 0.75);
   -moz-box-shadow: 0px 7px 24px 0px rgba(0, 0, 0, 0.75);
   box-shadow: 0px 7px 24px 0px rgba(0, 0, 0, 0.75);
+`
+
+export const CustomForm = styled.form`
+  width: 100%;
+`
+export const CustomTypography = styled(Typography)`
+  display: flex;
+  align-items: center;
+`
+
+export const CustomButton = styled(Button)`
+  width: 10rem;
+  height: 3rem;
+  display: flex;
+  justify-content: center;
 `

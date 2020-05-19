@@ -1,15 +1,23 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
-import { AppBar, Toolbar, Typography, Button } from '@material-ui/core'
+import { AppBar, Toolbar } from '@material-ui/core'
+import { useHistory } from 'react-router-dom'
+
+import {
+  SearchWrapper,
+  CustomInputBase,
+  SidebarWrapper,
+  CustomTypography,
+  CustomForm,
+  CustomButton,
+} from './navbar.styles'
 
 import {
   selectSingleLocation,
   selectSelectedLocationDetail,
 } from '../../redux/reducers/location/location.selectors'
 import { selectSearchedData } from '../../redux/reducers/search/search.selectors'
-
-import { SearchWrapper, CustomInputBase, SidebarWrapper } from './navbar.styles'
 import { searchFetchAsync } from '../../redux/reducers/search/search.action'
 import SearchDropdown from '../Search  Dropdown/searchDropdown.component'
 import { isSingleLocation } from '../../redux/reducers/location/location.action'
@@ -19,7 +27,6 @@ function Navbar({
   fetchSearch,
   isSingleLocation,
   searchData,
-  selectedLocation,
   isSingleLocationState,
 }) {
   const [inputState, setInputState] = React.useState('')
@@ -32,57 +39,54 @@ function Navbar({
     evt.preventDefault()
     fetchSearch(inputState)
   }
+  const history = useHistory()
   return (
     <div>
       <AppBar position="static">
         <Toolbar style={{ display: 'flex', justifyContent: 'space-between' }}>
-          <div style={{ display: 'flex', alignItems: 'center' }}>
-            <Typography variant="h6" noWrap>
-              Pitch
-            </Typography>
-          </div>
+          <CustomTypography variant="h6" noWrap>
+            Pitch
+          </CustomTypography>
           <SearchWrapper>
-            <form style={{ width: '100%' }} onSubmit={handleSearchSubmit}>
+            <CustomForm onSubmit={handleSearchSubmit}>
               <CustomInputBase
                 id="searchInput"
                 placeholder="Search…"
                 inputProps={{ 'aria-label': 'search' }}
-                style={{}}
                 value={inputState}
                 onChange={handleChange}
                 onFocus={() => {
                   setsearchDropdownState(true)
                   if (!isSingleLocationState) {
                     isSingleLocation()
+                    history.push('/')
                   }
                 }}
               />
-            </form>
+            </CustomForm>
             {searchDropdownState ? (
               <SearchDropdown
                 handleClose={() => setsearchDropdownState(false)}
               />
             ) : null}
           </SearchWrapper>
-          <div
-            style={{
-              width: '10rem',
-              height: '3rem',
-              display: 'flex',
-              justifyContent: 'center',
-            }}
-          >
-            {searchData ? (
-              <Button
-                onClick={() => isSingleLocation()}
-                color="primary"
-                variant="contained"
-                fullWidth={true}
-              >
-                {isSingleLocationState ? `See all ATM's` : 'Go Back'}
-              </Button>
-            ) : null}
-          </div>
+          {searchData ? (
+            <CustomButton
+              onClick={() => {
+                isSingleLocation()
+                if (!isSingleLocationState) {
+                  history.push('/')
+                } else {
+                  history.push('/all')
+                }
+              }}
+              color="primary"
+              variant="contained"
+              fullWidth={true}
+            >
+              {isSingleLocationState ? `See all ATM's` : 'Go Back'}
+            </CustomButton>
+          ) : null}
         </Toolbar>
         {!isSingleLocationState ? (
           <SidebarWrapper>

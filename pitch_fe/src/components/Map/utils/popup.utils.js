@@ -1,5 +1,5 @@
 import React from 'react'
-import { Popup, TileLayer } from 'react-leaflet'
+import { Popup } from 'react-leaflet'
 
 export default function PopupComponent({ item }) {
   return (

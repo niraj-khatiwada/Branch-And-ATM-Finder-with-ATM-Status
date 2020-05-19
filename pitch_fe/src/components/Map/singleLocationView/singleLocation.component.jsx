@@ -7,6 +7,7 @@ import { selectFilterDisplayName } from '../../../redux/reducers/search/search.s
 import { customIcon, defaultIcon } from '../../../icons/customMarkerIcon'
 import TileLayerComponent from '../utils/tileLayer.utils'
 import PopupComponent from '../utils/popup.utils'
+import Snackbar from '../Snackbar/Snackbar.component'
 
 function SingleLocation({ selectedLocationData, allLocationArray }) {
   const [popup, setPopup] = React.useState(false)
@@ -26,6 +27,7 @@ function SingleLocation({ selectedLocationData, allLocationArray }) {
         easeLinearity={0.5}
       >
         <TileLayerComponent />
+        <Snackbar />
         <>
           <Marker
             icon={customIcon}

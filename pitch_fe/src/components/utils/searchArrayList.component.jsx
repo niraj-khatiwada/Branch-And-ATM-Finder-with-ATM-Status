@@ -2,6 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { v4 as uuid } from 'uuid'
 import { createStructuredSelector } from 'reselect'
+import { useHistory } from 'react-router-dom'
 
 import { selectFilterDisplayName } from '../../redux/reducers/search/search.selectors'
 import { selectSingleLocation } from '../../redux/reducers/location/location.selectors'
@@ -29,6 +30,7 @@ function ArrayList({
   setSingleLocation,
   setHoverItem,
 }) {
+  const history = useHistory()
   return (
     <>
       <List component="nav" aria-label="search results">
@@ -42,6 +44,7 @@ function ArrayList({
                 openSnackBar()
                 if (!isSingleState) {
                   setSingleLocation()
+                  history.push('/')
                 }
               }}
               key={item.place_id}
