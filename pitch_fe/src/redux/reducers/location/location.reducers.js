@@ -1,6 +1,6 @@
 const INITIAL_STATE = {
   isSingleLocation: true,
-  snackBarState: true,
+  snackBarState: false,
   hoverItem: null,
   selectedLocationDetail: {
     place_id: 235452178,

@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { Snackbar, IconButton } from '@material-ui/core'
+import { Snackbar } from '@material-ui/core'
 
 export const CustomSnackbar = styled(Snackbar)`
   && {
