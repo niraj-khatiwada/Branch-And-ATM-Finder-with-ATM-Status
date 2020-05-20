@@ -22,5 +22,5 @@ export const ButtonWrapper = styled.div`
   padding-right: 5px;
   background-color: #048998;
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
 `

@@ -28,33 +28,37 @@ function AllLocation({
         easeLinearity={0.5}
       >
         <TileLayerComponent />
-        {allSearchedLocationArray.map((item) => (
-          <Marker
-            position={[parseFloat(item.lat), parseFloat(item.lon)]}
-            onClick={() => {
-              popup.item === null
-                ? setPopup({ item, isOpen: true })
-                : setPopup({ item, isOpen: !popup.isOpen })
-            }}
-            key={item.place_id}
-            icon={
-              item.place_id === selectedLocation.place_id
-                ? customIcon
-                : defaultIcon
-            }
-          />
-        ))}
-        {allSearchedLocationArray.map((item) =>
-          hoverItem === null ? (
-            popup.item !== null && popup.item.place_id === item.place_id ? (
-              popup.isOpen ? (
-                <PopupComponent item={item} key={item.place_id} />
+        {allSearchedLocationArray !== null
+          ? allSearchedLocationArray.map((item) => (
+              <Marker
+                position={[parseFloat(item.lat), parseFloat(item.lon)]}
+                onClick={() => {
+                  popup.item === null
+                    ? setPopup({ item, isOpen: true })
+                    : setPopup({ item, isOpen: !popup.isOpen })
+                }}
+                key={item.place_id}
+                icon={
+                  item.place_id === selectedLocation.place_id
+                    ? customIcon
+                    : defaultIcon
+                }
+              />
+            ))
+          : null}
+        {allSearchedLocationArray !== null
+          ? allSearchedLocationArray.map((item) =>
+              hoverItem === null ? (
+                popup.item !== null && popup.item.place_id === item.place_id ? (
+                  popup.isOpen ? (
+                    <PopupComponent item={item} key={item.place_id} />
+                  ) : null
+                ) : null
+              ) : hoverItem.place_id === item.place_id ? (
+                <PopupComponent item={hoverItem} key={hoverItem.place_id} />
               ) : null
-            ) : null
-          ) : hoverItem.place_id === item.place_id ? (
-            <PopupComponent item={hoverItem} key={hoverItem.place_id} />
-          ) : null
-        )}
+            )
+          : null}
       </Map>
     </>
   )

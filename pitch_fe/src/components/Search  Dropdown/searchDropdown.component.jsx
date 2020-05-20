@@ -6,8 +6,9 @@ import ArrayList from '../utils/searchArrayList.component'
 import { setMapZIndex } from '../../redux/reducers/search/search.action'
 
 function SearchDropdown({ handleClose, setMapZIndex, ZIndex }) {
+  const searchDropdownRef = React.useRef(null)
   React.useEffect(() => {
-    const dropdown = document.getElementById('searchDropdown')
+    const dropdown = searchDropdownRef.current
     const searchInput = document.getElementById('searchInput')
     document.addEventListener('click', (evt) => {
       if (!dropdown.contains(evt.target) && !searchInput.contains(evt.target)) {
@@ -20,7 +21,7 @@ function SearchDropdown({ handleClose, setMapZIndex, ZIndex }) {
     }
   }, [ZIndex])
   return (
-    <Dropdown id="searchDropdown">
+    <Dropdown id="searchDropdown" ref={searchDropdownRef}>
       <ArrayList handleClose={handleClose} />
     </Dropdown>
   )

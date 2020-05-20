@@ -34,36 +34,38 @@ function ArrayList({
   return (
     <>
       <List component="nav" aria-label="search results">
-        {searchedArrayData.map((item) => (
-          <React.Fragment key={uuid()}>
-            <ListItem
-              button
-              onClick={() => {
-                selectLocation(item)
-                handleClose()
-                openSnackBar()
-                if (!isSingleState) {
-                  setSingleLocation()
-                  history.push('/')
-                }
-              }}
-              key={item.place_id}
-              onMouseEnter={() => {
-                if (!isSingleState) {
-                  return setHoverItem(item)
-                }
-              }}
-              onMouseLeave={() => {
-                if (!isSingleState) {
-                  return setHoverItem(null)
-                }
-              }}
-            >
-              <ListItemText secondary={item.mAddress} />
-            </ListItem>
-            {searchedArrayData.length !== 1 ? <Divider /> : null}
-          </React.Fragment>
-        ))}
+        {searchedArrayData !== null
+          ? searchedArrayData.map((item) => (
+              <React.Fragment key={uuid()}>
+                <ListItem
+                  button
+                  onClick={() => {
+                    selectLocation(item)
+                    handleClose()
+                    openSnackBar()
+                    if (!isSingleState) {
+                      setSingleLocation()
+                      history.push('/')
+                    }
+                  }}
+                  key={item.place_id}
+                  onMouseEnter={() => {
+                    if (!isSingleState) {
+                      return setHoverItem(item)
+                    }
+                  }}
+                  onMouseLeave={() => {
+                    if (!isSingleState) {
+                      return setHoverItem(null)
+                    }
+                  }}
+                >
+                  <ListItemText secondary={item.mAddress} />
+                </ListItem>
+                {searchedArrayData.length !== 1 ? <Divider /> : null}
+              </React.Fragment>
+            ))
+          : null}
       </List>
     </>
   )

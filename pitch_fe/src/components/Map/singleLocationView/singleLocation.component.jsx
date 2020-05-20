@@ -44,7 +44,7 @@ function SingleLocation({ selectedLocationData, allLocationArray, mapZIndex }) {
           />
           {popup ? <PopupComponent item={selectedLocationData} /> : null}
         </>
-        {allLocationArray.length > 1
+        {allLocationArray !== null
           ? allLocationArray
               .filter((item) => selectedLocationData.place_id !== item.place_id)
               .map((item) => (
@@ -63,15 +63,17 @@ function SingleLocation({ selectedLocationData, allLocationArray, mapZIndex }) {
                 />
               ))
           : null}
-        {allLocationArray.map((item) => {
-          if (
-            popupOfArray.item !== null &&
-            item.place_id === popupOfArray.item.place_id
-          )
-            return popupOfArray.isOpen ? (
-              <PopupComponent item={item} key={item.place_id} />
-            ) : null
-        })}
+        {allLocationArray !== null
+          ? allLocationArray.map((item) => {
+              if (
+                popupOfArray.item !== null &&
+                item.place_id === popupOfArray.item.place_id
+              )
+                return popupOfArray.isOpen ? (
+                  <PopupComponent item={item} key={item.place_id} />
+                ) : null
+            })
+          : null}
       </Map>
     </>
   )

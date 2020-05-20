@@ -36,7 +36,7 @@ function Navbar({ isSingleLocation, searchData, isSingleLocationState }) {
           </div>
           <Search />
           <div>
-            {searchData.length > 0 ? (
+            {searchData !== null ? (
               <CustomButton
                 onClick={() => {
                   isSingleLocation()
