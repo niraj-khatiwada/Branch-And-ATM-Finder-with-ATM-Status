@@ -5,6 +5,10 @@ import { useHistory } from 'react-router-dom'
 
 import { CustomInputBase, SearchWrapper, CustomForm } from './Search.styles'
 import SearchDropdown from '../Search  Dropdown/searchDropdown.component'
+import {
+  WithSpinner,
+  SearchWithSpinnerWrapper,
+} from '../../components/HOC withSpinner/withSpinner.styles'
 
 import {
   searchFetchAsync,
@@ -15,7 +19,10 @@ import {
   selectSingleLocation,
   selectSelectedLocationDetail,
 } from '../../redux/reducers/location/location.selectors'
-import { selectSearchedData } from '../../redux/reducers/search/search.selectors'
+import {
+  selectSearchedData,
+  selectIsSearchFetching,
+} from '../../redux/reducers/search/search.selectors'
 
 //
 function Search({
@@ -23,6 +30,7 @@ function Search({
   setMapzIndex,
   isSingleLocationState,
   isSingleLocation,
+  isSearching,
 }) {
   const [inputState, setInputState] = React.useState('')
   const [searchDropdownState, setsearchDropdownState] = React.useState(false)
@@ -38,28 +46,33 @@ function Search({
     fetchSearch(inputState)
   }
   return (
-    <SearchWrapper>
-      <CustomForm onSubmit={handleSearchSubmit}>
-        <CustomInputBase
-          id="searchInput"
-          placeholder="Search…"
-          inputProps={{ 'aria-label': 'search' }}
-          value={inputState}
-          onChange={handleChange}
-          onFocus={() => {
-            setsearchDropdownState(true)
-            setMapzIndex(-1)
-            if (!isSingleLocationState) {
-              isSingleLocation()
-              history.push('/')
-            }
-          }}
-        />
-      </CustomForm>
-      {searchDropdownState ? (
-        <SearchDropdown handleClose={() => setsearchDropdownState(false)} />
-      ) : null}
-    </SearchWrapper>
+    <>
+      <SearchWrapper>
+        <CustomForm onSubmit={handleSearchSubmit}>
+          <CustomInputBase
+            id="searchInput"
+            placeholder="Search…"
+            inputProps={{ 'aria-label': 'search' }}
+            value={inputState}
+            onChange={handleChange}
+            onFocus={() => {
+              setsearchDropdownState(true)
+              setMapzIndex(-1)
+              if (!isSingleLocationState) {
+                isSingleLocation()
+                history.push('/')
+              }
+            }}
+          />
+        </CustomForm>
+        {searchDropdownState ? (
+          <SearchDropdown handleClose={() => setsearchDropdownState(false)} />
+        ) : null}
+        <SearchWithSpinnerWrapper>
+          {isSearching ? <WithSpinner></WithSpinner> : null}
+        </SearchWithSpinnerWrapper>
+      </SearchWrapper>
+    </>
   )
 }
 
@@ -67,6 +80,7 @@ const mapStateToProps = createStructuredSelector({
   searchData: selectSearchedData,
   selectedLocation: selectSelectedLocationDetail,
   isSingleLocationState: selectSingleLocation,
+  isSearching: selectIsSearchFetching,
 })
 
 const mapDispatchToProps = (dispatch) => ({

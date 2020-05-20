@@ -2,6 +2,11 @@ import { createSelector } from 'reselect'
 
 const selectSearch = (state) => state.search
 
+export const selectIsSearchFetching = createSelector(
+  [selectSearch],
+  (search) => search.isSearchFetching
+)
+
 export const selectSearchedData = createSelector([selectSearch], (search) =>
   search.searchedData ? search.searchedData : []
 )

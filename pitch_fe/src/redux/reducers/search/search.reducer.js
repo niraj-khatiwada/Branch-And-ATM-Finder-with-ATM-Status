@@ -12,9 +12,9 @@ export const searchReducer = (state = INITIAL_STATE, action) => {
     case searchStateType.searchStart:
       return { ...state, isSearchFetching: true }
     case searchStateType.searchSuccess:
-      return { ...state, searchedData: action.payload }
+      return { ...state, searchedData: action.payload, isSearchFetching: false }
     case searchStateType.searchFailure:
-      return { ...state, searcherror: action.payload }
+      return { ...state, searcherror: action.payload, isSearchFetching: false }
     case 'CHANGE_Z_INDEX':
       return { ...state, mapZIndex: action.payload }
     default:

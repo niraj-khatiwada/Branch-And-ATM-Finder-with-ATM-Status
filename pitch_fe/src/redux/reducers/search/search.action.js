@@ -15,7 +15,7 @@ const searchFailure = (error) => ({
 })
 
 export const searchFetchAsync = (searchQuery) => (dispatch) => {
-  dispatch(searchStart)
+  dispatch(searchStart())
   openStreetSearch(searchQuery)
     .then((res) => {
       dispatch(searchSuccess(res.data))
