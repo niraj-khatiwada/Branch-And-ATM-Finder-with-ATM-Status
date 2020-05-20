@@ -4,7 +4,10 @@ import { v4 as uuid } from 'uuid'
 import { createStructuredSelector } from 'reselect'
 import { useHistory } from 'react-router-dom'
 
-import { selectFilterDisplayName } from '../../redux/reducers/search/search.selectors'
+import {
+  selectFilterDisplayName,
+  selectNoDataFound,
+} from '../../redux/reducers/search/search.selectors'
 import { selectSingleLocation } from '../../redux/reducers/location/location.selectors'
 import {
   selectedLocation,
@@ -34,38 +37,42 @@ function ArrayList({
   return (
     <>
       <List component="nav" aria-label="search results">
-        {searchedArrayData !== null
-          ? searchedArrayData.map((item) => (
-              <React.Fragment key={uuid()}>
-                <ListItem
-                  button
-                  onClick={() => {
-                    selectLocation(item)
-                    handleClose()
-                    openSnackBar()
-                    if (!isSingleState) {
-                      setSingleLocation()
-                      history.push('/')
-                    }
-                  }}
-                  key={item.place_id}
-                  onMouseEnter={() => {
-                    if (!isSingleState) {
-                      return setHoverItem(item)
-                    }
-                  }}
-                  onMouseLeave={() => {
-                    if (!isSingleState) {
-                      return setHoverItem(null)
-                    }
-                  }}
-                >
-                  <ListItemText secondary={item.mAddress} />
-                </ListItem>
-                {searchedArrayData.length !== 1 ? <Divider /> : null}
-              </React.Fragment>
-            ))
-          : null}
+        {searchedArrayData !== null ? (
+          searchedArrayData.map((item) => (
+            <React.Fragment key={uuid()}>
+              <ListItem
+                button
+                onClick={() => {
+                  selectLocation(item)
+                  handleClose()
+                  openSnackBar()
+                  if (!isSingleState) {
+                    setSingleLocation()
+                    history.push('/')
+                  }
+                }}
+                key={item.place_id}
+                onMouseEnter={() => {
+                  if (!isSingleState) {
+                    return setHoverItem(item)
+                  }
+                }}
+                onMouseLeave={() => {
+                  if (!isSingleState) {
+                    return setHoverItem(null)
+                  }
+                }}
+              >
+                <ListItemText secondary={item.mAddress} />
+              </ListItem>
+              {searchedArrayData.length !== 1 ? <Divider /> : null}
+            </React.Fragment>
+          ))
+        ) : (
+          <ListItem>
+            <ListItemText>Search query doesn't match</ListItemText>
+          </ListItem>
+        )}
       </List>
     </>
   )
@@ -74,6 +81,7 @@ function ArrayList({
 const mapStateToProps = createStructuredSelector({
   searchedArrayData: selectFilterDisplayName,
   isSingleState: selectSingleLocation,
+  noDataFound: selectNoDataFound,
 })
 
 const mapDispatchToProps = (dispatch) => ({

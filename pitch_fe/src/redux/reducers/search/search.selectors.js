@@ -46,3 +46,8 @@ export const selectFilterDisplayName = createSelector(
       : null
   }
 )
+
+export const selectNoDataFound = createSelector(
+  [selectSearch],
+  (search) => search.noDataFound
+)

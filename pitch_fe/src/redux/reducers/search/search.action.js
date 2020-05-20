@@ -14,11 +14,17 @@ const searchFailure = (error) => ({
   payload: error,
 })
 
+export const setNoDataFound = () => ({
+  type: 'NO_DATA_FOUND',
+})
+
 export const searchFetchAsync = (searchQuery) => (dispatch) => {
   dispatch(searchStart())
   openStreetSearch(searchQuery)
     .then((res) => {
-      dispatch(searchSuccess(res.data))
+      res.data.length !== 0
+        ? dispatch(searchSuccess(res.data))
+        : dispatch(setNoDataFound())
     })
     .catch((error) => dispatch(searchFailure(error.response)))
 }
