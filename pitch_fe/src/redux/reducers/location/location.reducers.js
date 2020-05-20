@@ -1,6 +1,6 @@
 const INITIAL_STATE = {
   isSingleLocation: true,
-  snackBarState: false,
+  snackBarState: true,
   hoverItem: null,
   selectedLocationDetail: {
     place_id: 235452178,
@@ -24,6 +24,9 @@ const INITIAL_STATE = {
     },
     namedetails: {
       name: '',
+    },
+    extratags: {
+      website: '',
     },
   },
 }

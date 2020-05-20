@@ -1,7 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
-import { AppBar, Toolbar } from '@material-ui/core'
 import { useHistory } from 'react-router-dom'
 
 import {
@@ -12,6 +11,7 @@ import {
   CustomForm,
   CustomButton,
   CustomToolbar,
+  CustomAppBar,
 } from './navbar.styles'
 
 import {
@@ -32,14 +32,13 @@ function Navbar({
   isSingleLocation,
   searchData,
   isSingleLocationState,
-  setMapZIndex,
+  setMapzIndex,
 }) {
   const [inputState, setInputState] = React.useState('')
   const [searchDropdownState, setsearchDropdownState] = React.useState(false)
   const handleChange = (evt) => {
     setInputState(evt.target.value)
     setsearchDropdownState(true)
-    setMapZIndex(-1)
   }
   const handleSearchSubmit = (evt) => {
     evt.preventDefault()
@@ -53,11 +52,13 @@ function Navbar({
           <ArrayListSidebar handleClose={() => ''} />
         </SidebarWrapper>
       ) : null}
-      <AppBar position="static">
+      <CustomAppBar position="static">
         <CustomToolbar>
-          <CustomTypography variant="h6" noWrap>
-            Pitch
-          </CustomTypography>
+          <div>
+            <CustomTypography variant="h6" noWrap>
+              Pitch
+            </CustomTypography>
+          </div>
           <SearchWrapper>
             <CustomForm onSubmit={handleSearchSubmit}>
               <CustomInputBase
@@ -67,8 +68,9 @@ function Navbar({
                 value={inputState}
                 onChange={handleChange}
                 onFocus={() => {
+                  console.log('on Focus')
                   setsearchDropdownState(true)
-                  setMapZIndex(-1)
+                  setMapzIndex(-1)
                   if (!isSingleLocationState) {
                     isSingleLocation()
                     history.push('/')
@@ -82,23 +84,24 @@ function Navbar({
               />
             ) : null}
           </SearchWrapper>
-          {searchData ? (
-            <CustomButton
-              onClick={() => {
-                isSingleLocation()
-                !isSingleLocationState
-                  ? history.push('/')
-                  : history.push('/all')
-              }}
-              color="primary"
-              variant="contained"
-              fullWidth={true}
-            >
-              {isSingleLocationState ? `See all ATM's` : 'Go Back'}
-            </CustomButton>
-          ) : null}
+          <div>
+            {searchData ? (
+              <CustomButton
+                onClick={() => {
+                  isSingleLocation()
+                  !isSingleLocationState
+                    ? history.push('/')
+                    : history.push('/all')
+                }}
+                variant="contained"
+                fullWidth={true}
+              >
+                {isSingleLocationState ? `See all ATM's` : 'Go Back'}
+              </CustomButton>
+            ) : null}
+          </div>
         </CustomToolbar>
-      </AppBar>
+      </CustomAppBar>
     </>
   )
 }
@@ -112,7 +115,7 @@ const mapStateToProps = createStructuredSelector({
 const mapDispatchToProps = (dispatch) => ({
   fetchSearch: (searchQuery) => dispatch(searchFetchAsync(searchQuery)),
   isSingleLocation: () => dispatch(isSingleLocation()),
-  setMapZIndex: (value) => dispatch(setMapZIndex(value)),
+  setMapzIndex: (value) => dispatch(setMapZIndex(value)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Navbar)

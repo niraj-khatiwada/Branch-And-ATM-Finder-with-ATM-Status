@@ -16,6 +16,9 @@ export const openStreetSearch = async (searchQuery) => {
       limit: 50,
       countrycodes: 'np',
       namedetails: 1,
+      viewbox: '85.279114, 27.667793, 85.370351, 27.74974',
+      bounded: 1,
+      extratags: 1,
       q: searchQuery,
     },
   })

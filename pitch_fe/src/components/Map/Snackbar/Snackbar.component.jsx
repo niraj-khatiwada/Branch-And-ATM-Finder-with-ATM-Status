@@ -2,7 +2,11 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
 
-import { CustomSnackbar } from './Snackbar.styles'
+import {
+  CustomSnackbar,
+  SnackBarContent,
+  ButtonWrapper,
+} from './Snackbar.styles'
 import { snackBar } from '../../../redux/reducers/location/location.action'
 import {
   selectSnackBarState,
@@ -15,18 +19,35 @@ import CloseIcon from '@material-ui/icons/Close'
 function SnackBar({ snackBarState, handleSnackBar, selectedLocation }) {
   return (
     <CustomSnackbar
-      anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-      message={
+      anchorOrigin={{
+        vertical: 'top',
+        horizontal: 'right',
+      }}
+      children={
         selectedLocation ? (
-          <div>
-            <p>{selectedLocation.mAddress}</p>
-          </div>
+          <SnackBarContent>
+            <ButtonWrapper>
+              <IconButton onClick={() => handleSnackBar()} size="small">
+                <CloseIcon />
+              </IconButton>
+            </ButtonWrapper>
+            <div style={{ padding: '1rem' }}>
+              {' '}
+              <p>{selectedLocation.mAddress}</p>
+              {selectedLocation.address.postcode
+                ? `Postcode: ${selectedLocation.address.postcode}`
+                : null}
+              <p>
+                Website:
+                {selectedLocation.extratags.website ? (
+                  <a href={selectedLocation.extratags.website}>
+                    {selectedLocation.extratags.website}
+                  </a>
+                ) : null}
+              </p>
+            </div>
+          </SnackBarContent>
         ) : null
-      }
-      action={
-        <IconButton onClick={() => handleSnackBar()}>
-          <CloseIcon fontSize="small" />
-        </IconButton>
       }
       open={snackBarState}
     />

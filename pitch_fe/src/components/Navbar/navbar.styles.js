@@ -1,5 +1,11 @@
 import styled from 'styled-components'
-import { InputBase, Typography, Button, Toolbar } from '@material-ui/core'
+import {
+  InputBase,
+  Typography,
+  Button,
+  Toolbar,
+  AppBar,
+} from '@material-ui/core'
 
 export const SearchWrapper = styled.div`
   width: 50rem;
@@ -12,7 +18,7 @@ export const CustomInputBase = styled(InputBase)`
   width: 100%;
   padding: 0 1rem;
   border-radius: 0.5rem;
-  height: 3rem;
+  height: 2.5rem;
   transition: all 50ms linear;
   &:active {
     transform: scale(1.02);
@@ -45,12 +51,23 @@ export const CustomTypography = styled(Typography)`
 
 export const CustomButton = styled(Button)`
   width: 10rem;
-  height: 3rem;
+  height: 2.5rem;
   display: flex;
   justify-content: center;
+  && {
+    border-radius: 1rem;
+    background-color: #00a8b5;
+  }
 `
 
 export const CustomToolbar = styled(Toolbar)`
   display: flex;
+  max-width: 100vw;
   justify-content: space-between;
+`
+
+export const CustomAppBar = styled(AppBar)`
+  && {
+    background-color: #048998;
+  }
 `
