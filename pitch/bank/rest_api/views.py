@@ -1,4 +1,4 @@
-from rest_framework import generics, viewsets
+from rest_framework import generics, viewsets, response, status
 
 from . import serializers
 from .. import models
@@ -38,7 +38,16 @@ class BranchViewset(viewsets.ModelViewSet):
         return super().list(request, *args, **kwargs)
 
     def create(self, request, *args, **kwargs):
-        return super().create(request, *args, **kwargs)
+        print(request.data)
+        bank_name = request.data.get('bank_name')
+        try:
+            obj = models.Branch.objects.get(
+                bank_name__iexact=bank_name)
+            print(obj)
+            return response.Response({'detail': 'Branch already exist'}, status=status.HTTP_400_BAD_REQUEST)
+        except models.Bank.DoesNotExist:
+            bank = models.
+            return super().create(request, *args, **kwargs)
 
     def retrieve(self, request, *args, **kwargs):
         return super().retrieve(request, *args, **kwargs)

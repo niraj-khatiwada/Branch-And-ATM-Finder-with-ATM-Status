@@ -17,7 +17,7 @@ class ArrayField(ListField):
 class BankSerializer(serializers.ModelSerializer):
     detail_url = serializers.SerializerMethodField(read_only=True)
     bank_contact_number = ArrayField()
-    tags = ArrayField()
+    tags = ArrayField(required=False)
 
     class Meta:
         model = models.Bank
@@ -31,8 +31,8 @@ class BankSerializer(serializers.ModelSerializer):
 
 class BranchSerializer(serializers.ModelSerializer):
     detail_url = serializers.SerializerMethodField(read_only=True)
-    branch_contact_number = ArrayField()
-    tags = ArrayField()
+    branch_contact_number = ArrayField(required=False)
+    tags = ArrayField(required=False)
 
     class Meta:
         model = models.Branch
@@ -46,7 +46,7 @@ class BranchSerializer(serializers.ModelSerializer):
 
 class ATMSerializer(serializers.ModelSerializer):
     detail_url = serializers.SerializerMethodField(read_only=True)
-    tags = ArrayField()
+    tags = ArrayField(required=False)
 
     class Meta:
         model = models.ATM

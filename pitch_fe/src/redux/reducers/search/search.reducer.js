@@ -1,10 +1,10 @@
-import { searchStateType } from '../../reducers.type'
+import { searchStateType, secondaryTypes } from '../../reducers.type'
 
 const INITIAL_STATE = {
   isSearchFetching: false,
   searchedData: null,
   searcherror: undefined,
-  noDataFound: [{ mAddress: 'No matching query' }],
+  noDataFound: [{ mAddress: 'No matching bank, branch or ATM found' }],
   mapZIndex: 0,
 }
 
@@ -16,9 +16,9 @@ export const searchReducer = (state = INITIAL_STATE, action) => {
       return { ...state, searchedData: action.payload, isSearchFetching: false }
     case searchStateType.searchFailure:
       return { ...state, searcherror: action.payload, isSearchFetching: false }
-    case 'CHANGE_Z_INDEX':
+    case secondaryTypes.changeZIndex:
       return { ...state, mapZIndex: action.payload }
-    case 'NO_DATA_FOUND':
+    case secondaryTypes.noDataFound:
       return { ...state, isSearchFetching: false }
     default:
       return state

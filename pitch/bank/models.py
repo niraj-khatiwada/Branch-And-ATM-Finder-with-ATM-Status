@@ -54,27 +54,45 @@ class Branch(models.Model):
     id = models.UUIDField(
         primary_key=True, default=uuid.uuid4, editable=False)
     bank = models.ForeignKey(Bank, on_delete=models.CASCADE)
-    branch_name = models.CharField(max_length=255)
+    branch_name = models.CharField(max_length=255)  # display name
+    branch_mAddress = models.CharField(
+        max_length=100, blank=True, null=True, default='')  # modified readable address
     branch_description = models.TextField(null=True, blank=True)
-
+    branch_place_id = models.CharField(
+        max_length=100, blank=True, null=True, default='')  # place_id in map
     # Address
-    branch_address = models.CharField(
-        max_length=255, help_text='Read Only field')  # Automatic
+    branch_lat = models.CharField(
+        max_length=100, blank=True, null=True, default='')  # latitude
+    branch_lon = models.CharField(
+        max_length=100, blank=True, null=True, default='')  # longitude
     branch_district_name = models.CharField(
-        max_length=100)
-    branch_city_name = models.CharField(max_length=100, blank=True, null=True)
-    branch_postal_code = models.IntegerField(blank=True, null=True)
+        max_length=100, blank=True, null=True, default='')  # county
+    branch_city_name = models.CharField(
+        max_length=100, blank=True, null=True, default='')  # city name
+    branch_postal_code = models.IntegerField(
+        blank=True, null=True, default=44600)
     branch_street_name = models.CharField(
-        max_length=100, blank=True, null=True)
+        max_length=100, blank=True, null=True, default='')  # road
     branch_building_number = models.CharField(
-        max_length=100, blank=True, null=True)
-    branch_help_text = models.TextField(blank=True, null=True)
+        max_length=100, blank=True, null=True, default='')
+    branch_neighbourhood = models.CharField(
+        max_length=100, blank=True, null=True, default='')
+    branch_province = models.CharField(
+        max_length=100, blank=True, null=True, default='')  # region
+    branch_municipality = models.CharField(
+        max_length=100, blank=True, null=True, default='')
+    branch_help_text = models.TextField(blank=True, null=True, default='')
     # ATM
+    # Extra fields from search
+    extra_tags = models.CharField(
+        max_length=100, blank=True, null=True, default='')  # extra tags like opening hours website
+    namedetails = models.CharField(
+        max_length=100, blank=True, null=True, default='')  # other versions of same name
 
     branch_contact_number = ArrayField(
-        models.CharField(max_length=10))
+        models.CharField(max_length=10, blank=True, null=True, default=''), blank=True, default=list)
     tags = ArrayField(models.CharField(
-        max_length=50, blank=True, null=True), blank=True)
+        max_length=50, blank=True, null=True, default=''), blank=True, default=list)
 
     def __str__(self):
         return self.branch_name
@@ -83,11 +101,6 @@ class Branch(models.Model):
         verbose_name = 'Branch'
         verbose_name_plural = 'Branches'
         db_table = 'branch'
-
-    def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
-        self.branch_address = f'{self.branch_street_name or ""} {self.branch_city_name or ""} {self.branch_district_name}'.lstrip(
-            ', ')
-        return super().save(force_insert=force_insert, force_update=force_update, using=using, update_fields=update_fields)
 
 
 class ATM(models.Model):

@@ -1,5 +1,7 @@
 import { openStreetSearch } from '../../../components/utils/axios.config'
 import { searchStateType } from '../../reducers.type'
+import { cleanSearchQuery } from './cleanSearchQuery'
+
 const searchStart = () => ({
   type: searchStateType.searchStart,
 })
@@ -20,11 +22,18 @@ export const setNoDataFound = () => ({
 
 export const searchFetchAsync = (searchQuery) => (dispatch) => {
   dispatch(searchStart())
-  openStreetSearch(searchQuery)
+  openStreetSearch(cleanSearchQuery(searchQuery))
     .then((res) => {
-      res.data.length !== 0
-        ? dispatch(searchSuccess(res.data))
-        : dispatch(setNoDataFound())
+      if (
+        res.data.length !== 0 &&
+        res.data.filter((item) => item.type === 'atm' || item.type === 'bank')
+          .length !== 0
+      ) {
+        dispatch(searchSuccess(res.data))
+      } else {
+        dispatch(searchSuccess(null))
+        dispatch(setNoDataFound())
+      }
     })
     .catch((error) => dispatch(searchFailure(error.response)))
 }

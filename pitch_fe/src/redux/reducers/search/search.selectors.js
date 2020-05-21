@@ -42,7 +42,7 @@ export const selectFilterDisplayName = createSelector(
               ...item,
             }
           })
-        : [{ mAddress: 'No matching banks found' }]
+        : null
       : null
   }
 )

@@ -10,9 +10,9 @@ class BankAdmin(admin.ModelAdmin):
 
 
 class BranchAdmin(admin.ModelAdmin):
-    list_display = ('branch_name', 'bank', 'branch_address',)
+    list_display = ('branch_name', 'bank',)
     form = forms.BranchForm
-    readonly_fields = ('branch_address',)
+    readonly_fields = ('branch_name',)
 
 
 class ATMAdmin(admin.ModelAdmin):

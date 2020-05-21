@@ -70,7 +70,9 @@ function ArrayList({
           ))
         ) : (
           <ListItem>
-            <ListItemText>Search query doesn't match</ListItemText>
+            <ListItemText style={{ color: 'black' }}>
+              No matching bank, branch or ATM found
+            </ListItemText>
           </ListItem>
         )}
       </List>

@@ -34,16 +34,35 @@ function Search({
 }) {
   const [inputState, setInputState] = React.useState('')
   const [searchDropdownState, setsearchDropdownState] = React.useState(false)
+  const [timerID, setTimerID] = React.useState(null)
 
   const history = useHistory()
 
   const handleChange = (evt) => {
-    setInputState(evt.target.value)
-    setsearchDropdownState(true)
+    const value = evt.target.value
+    setInputState(value)
+    if (value.trim().length > 0) {
+      setsearchDropdownState(true)
+      if (timerID) {
+        clearTimeout(timerID)
+        setTimerID(
+          setTimeout(() => {
+            return fetchSearch(value)
+          }, 1500)
+        )
+      } else {
+        setTimerID(setTimeout(() => fetchSearch(value), 1500))
+      }
+    }
   }
   const handleSearchSubmit = (evt) => {
     evt.preventDefault()
-    fetchSearch(inputState)
+    if (inputState.trim().length !== 0) {
+      if (timerID) {
+        clearTimeout(timerID)
+      }
+      fetchSearch(inputState)
+    }
   }
   return (
     <>
@@ -56,8 +75,10 @@ function Search({
             value={inputState}
             onChange={handleChange}
             onFocus={() => {
-              setsearchDropdownState(true)
               setMapzIndex(-1)
+              if (inputState.trim().length !== 0) {
+                setsearchDropdownState(true)
+              }
               if (!isSingleLocationState) {
                 isSingleLocation()
                 history.push('/')
@@ -66,7 +87,14 @@ function Search({
           />
         </CustomForm>
         {searchDropdownState ? (
-          <SearchDropdown handleClose={() => setsearchDropdownState(false)} />
+          <SearchDropdown
+            handleClose={() => {
+              if (timerID) {
+                clearTimeout(timerID)
+              }
+              setsearchDropdownState(false)
+            }}
+          />
         ) : null}
         <SearchWithSpinnerWrapper>
           {isSearching ? <WithSpinner></WithSpinner> : null}
