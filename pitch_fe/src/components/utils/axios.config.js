@@ -1,14 +1,9 @@
 import axios from 'axios'
 
-const openStreetURL =
-  process.env.NODE_ENV === 'development'
-    ? 'https://nominatim.openstreetmap.org/'
-    : ''
-
 export const openStreetSearch = async (searchQuery) => {
   return await axios({
     method: 'get',
-    url: openStreetURL,
+    url: 'https://nominatim.openstreetmap.org/',
     params: {
       format: 'json',
       addressdetails: 1,
@@ -21,5 +16,36 @@ export const openStreetSearch = async (searchQuery) => {
       extratags: 1,
       q: searchQuery,
     },
+  })
+}
+
+const dbURL =
+  process.env.NODE_ENV === 'development'
+    ? 'http://localhost:8000/api/branch/'
+    : ''
+
+export const storeBranchToDB = async (searchedData) => {
+  searchedData.forEach((item) => {
+    return axios({
+      method: 'post',
+      url: dbURL,
+      data: {
+        bank: item.address.bank.toLowerCase(),
+        name: item.display_name,
+        place_id: item.place_id,
+        lat: item.lat,
+        lon: item.lon,
+        district_name: item.address.county,
+        city_name: item.address.city,
+        postal_code: item.address.postcode,
+        street_name: item.address.road || item.address.footway,
+        neighbourhood: item.address.neighbourhood,
+        building_number: item.address.house_number,
+        province: item.address.region,
+        municipality: item.address.municipality,
+        namedetals: item.namedetails,
+        extra_tags: item.extratags,
+      },
+    })
   })
 }

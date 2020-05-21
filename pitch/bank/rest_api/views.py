@@ -41,7 +41,8 @@ class BranchViewset(viewsets.ModelViewSet):
         return super().list(request, *args, **kwargs)
 
     def create(self, request, *args, **kwargs):
-        data = request.data.dict()
+        data = request.data
+        print("after", data)
         bank_name = data.pop('bank')
         try:
             obj = models.Bank.objects.get(
