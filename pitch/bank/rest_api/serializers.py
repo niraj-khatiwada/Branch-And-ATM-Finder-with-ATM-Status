@@ -16,14 +16,14 @@ class ArrayField(ListField):
 
 class BankSerializer(serializers.ModelSerializer):
     detail_url = serializers.SerializerMethodField(read_only=True)
-    bank_contact_number = ArrayField()
+    contact_number = ArrayField()
     tags = ArrayField(required=False)
 
     class Meta:
         model = models.Bank
         fields = '__all__'
         extra_fields = ('detail_url')
-        read_only_fields = ('bank_central_hq_address',)
+        read_only_fields = ('central_hq_address',)
 
     def get_detail_url(self, instance):
         return reverse('bank:bank-viewset-detail', kwargs={'pk': instance.id}, request=self.context.get('request'))
@@ -38,7 +38,7 @@ class BranchSerializer(serializers.ModelSerializer):
         model = models.Branch
         fields = '__all__'
         extra_fields = ('detail_url',)
-        read_only_fields = ('branch_address',)
+        read_only_fields = ('address',)
 
     def get_detail_url(self, instance):
         return reverse('bank:branch-viewset-detail', kwargs={'pk': instance.id}, request=self.context.get('request'))
@@ -52,7 +52,7 @@ class ATMSerializer(serializers.ModelSerializer):
         model = models.ATM
         fields = '__all__'
         extra_fields = ('detail_url',)
-        read_only_fields = ('atm_address',)
+        read_only_fields = ('ddress',)
 
     def get_detail_url(self, instance):
         return reverse('bank:atm-viewset:detail', kwargs={'pk': instance.id}, request=self.context.get('request'))
@@ -63,4 +63,4 @@ class AnnonATMSerializer(ATMSerializer):
         model = models.AnonATM
         fields = '__all__'
         extra_fields = ('detail_url',)
-        read_only_fields = ('atm_address',)
+        read_only_fields = ('address',)

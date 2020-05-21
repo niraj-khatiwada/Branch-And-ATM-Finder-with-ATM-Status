@@ -4,24 +4,24 @@ from . import forms
 
 
 class BankAdmin(admin.ModelAdmin):
-    list_display = ('bank_name', 'bank_central_hq_address',)
+    list_display = ('name', 'central_hq_address',)
     form = forms.BankForm
-    readonly_fields = ('bank_central_hq_address',)
+    readonly_fields = ('central_hq_address',)
 
 
 class BranchAdmin(admin.ModelAdmin):
-    list_display = ('branch_name', 'bank',)
+    list_display = ('name', 'bank',)
     form = forms.BranchForm
-    readonly_fields = ('branch_name',)
+    readonly_fields = ('name',)
 
 
 class ATMAdmin(admin.ModelAdmin):
-    list_display = ('branch', 'atm_name',)
+    list_display = ('branch', 'name',)
     form = forms.ATMForm
 
 
 class AnnonAtmAdmin(admin.ModelAdmin):
-    list_display = ('bank', 'atm_address')
+    list_display = ('bank', 'address')
     form = forms.AnnonATMForm
 
 
