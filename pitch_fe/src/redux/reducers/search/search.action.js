@@ -29,10 +29,9 @@ export const searchFetchAsync = (searchQuery) => (dispatch) => {
     .then((res) => {
       if (res.data.length !== 0) {
         dispatch(searchSuccess(res.data))
-        if (res.data.filter((item) => item.type === 'bank').length !== 0) {
+        const getOnlyBank = res.data.filter((item) => item.type === 'bank')
+        if (getOnlyBank.length !== 0) {
           storeBranchToDB(res.data)
-            .then((response) => console.log(response.data))
-            .catch((error) => console.log(error.response))
         }
       } else {
         dispatch(searchSuccess(null))

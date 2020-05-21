@@ -55,39 +55,37 @@ class Branch(models.Model):
         primary_key=True, default=uuid.uuid4, editable=False)
     bank = models.ForeignKey(Bank, on_delete=models.CASCADE)
     name = models.CharField(max_length=255)  # display name
-    mAddress = models.CharField(
-        max_length=100, blank=True, null=True, default='')  # modified readable address
     description = models.TextField(null=True, blank=True)
     place_id = models.CharField(
-        max_length=100, blank=True, null=True, default='')  # place_id in map
+        max_length=255, blank=True, null=True, default='')  # place_id in map
     # Address
     lat = models.CharField(
         max_length=100, blank=True, null=True, default='')  # latitude
     lon = models.CharField(
         max_length=100, blank=True, null=True, default='')  # longitude
     district_name = models.CharField(
-        max_length=100, blank=True, null=True, default='')  # county
+        max_length=255, blank=True, null=True, default='')  # county
     city_name = models.CharField(
-        max_length=100, blank=True, null=True, default='')  # city name
-    postal_code = models.IntegerField(
-        blank=True, null=True, default=44600)
+        max_length=255, blank=True, null=True, default='')  # city name
+    postal_code = models.CharField(max_length=255,
+                                   blank=True, null=True)
     street_name = models.CharField(
-        max_length=100, blank=True, null=True, default='')  # road
+        max_length=255, blank=True, null=True, default='')  # road
     building_number = models.CharField(
-        max_length=100, blank=True, null=True, default='')
+        max_length=255, blank=True, null=True, default='')
     neighbourhood = models.CharField(
-        max_length=100, blank=True, null=True, default='')
+        max_length=255, blank=True, null=True, default='')
     province = models.CharField(
-        max_length=100, blank=True, null=True, default='')  # region
+        max_length=255, blank=True, null=True, default='')  # region
     municipality = models.CharField(
-        max_length=100, blank=True, null=True, default='')
+        max_length=255, blank=True, null=True, default='')
     help_text = models.TextField(blank=True, null=True, default='')
     # ATM
     # Extra fields from search
-    extra_tags = models.CharField(
-        max_length=100, blank=True, null=True, default='')  # extra tags like opening hours website
+    extra_tags = models.TextField(
+        blank=True, null=True, default='')  # extra tags like opening hours website
     namedetails = models.CharField(
-        max_length=100, blank=True, null=True, default='')  # other versions of same name
+        max_length=255, blank=True, null=True, default='')  # other versions of same name
 
     contact_number = ArrayField(
         models.CharField(max_length=10, blank=True, null=True, default=''), blank=True, default=list)

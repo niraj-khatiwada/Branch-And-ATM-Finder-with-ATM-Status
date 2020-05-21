@@ -25,8 +25,8 @@ const dbURL =
     : ''
 
 export const storeBranchToDB = async (searchedData) => {
-  searchedData.forEach((item) => {
-    return axios({
+  for (let item of searchedData) {
+    await axios({
       method: 'post',
       url: dbURL,
       data: {
@@ -43,9 +43,13 @@ export const storeBranchToDB = async (searchedData) => {
         building_number: item.address.house_number,
         province: item.address.region,
         municipality: item.address.municipality,
-        namedetals: item.namedetails,
+        namedetails: item.namedetails,
         extra_tags: item.extratags,
       },
     })
-  })
+      .then((res) => console.log(res.data))
+      .catch((error) => {
+        console.log(error.response)
+      })
+  }
 }
