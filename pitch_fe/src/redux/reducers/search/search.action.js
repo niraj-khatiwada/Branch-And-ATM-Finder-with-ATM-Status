@@ -29,9 +29,11 @@ export const searchFetchAsync = (searchQuery) => (dispatch) => {
     .then((res) => {
       if (res.data.length !== 0) {
         dispatch(searchSuccess(res.data))
-        const getOnlyBank = res.data.filter((item) => item.type === 'bank')
+        const getOnlyBank = res.data.filter(
+          (item) => item.type === 'bank' && item.address.hasOwnProperty('bank')
+        )
         if (getOnlyBank.length !== 0) {
-          storeBranchToDB(res.data)
+          storeBranchToDB(getOnlyBank)
         }
       } else {
         dispatch(searchSuccess(null))

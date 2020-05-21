@@ -1,4 +1,5 @@
 from rest_framework import generics, viewsets, response, status
+from django.db.models import Q
 
 from . import serializers
 from .. import models
@@ -47,7 +48,13 @@ class BranchViewset(viewsets.ModelViewSet):
             obj = models.Bank.objects.get(
                 name__iexact=bank_name)
         except models.Bank.DoesNotExist:
-            return response.Response({'detail': 'Bank doesn\'t exists'}, status=status.HTTP_400_BAD_REQUEST)
+            try:
+                obj = models.Bank.objects.get(
+                    Q(name__iexact=data.get('namedetails').get('name')) |
+                    Q(name__iexact=data.get('namedetails').get('name:en')) |
+                    Q(name__iexact=data.get('namedetails').get('name:ne')))
+            except models.Bank.DoesNotExist:
+                return response.Response({'detail': 'Bank doesn\'t exists'}, status=status.HTTP_400_BAD_REQUEST)
         place_id = data.get('place_id')
         try:
             branch_obj = models.Branch.objects.get(

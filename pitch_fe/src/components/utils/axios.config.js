@@ -8,7 +8,7 @@ export const openStreetSearch = async (searchQuery) => {
       format: 'json',
       addressdetails: 1,
       polygon_svg: 1,
-      limit: 10,
+      limit: 50,
       countrycodes: 'np',
       namedetails: 1,
       viewbox: '85.279114, 27.667793, 85.370351, 27.74974',
