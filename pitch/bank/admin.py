@@ -16,7 +16,7 @@ class BranchAdmin(admin.ModelAdmin):
 
 
 class ATMAdmin(admin.ModelAdmin):
-    list_display = ('branch', 'name',)
+    list_display = ('branch', 'name', 'status')
     form = forms.ATMForm
 
 

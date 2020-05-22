@@ -112,7 +112,7 @@ class ATM(models.Model):
         max_length=50, blank=True, null=True), blank=True)
 
     def __str__(self):
-        return f'{self.branch}, {self.branch__name}, {self.branch__address}'
+        return f'{self.name}'
 
     class Meta:
         verbose_name = 'ATM'

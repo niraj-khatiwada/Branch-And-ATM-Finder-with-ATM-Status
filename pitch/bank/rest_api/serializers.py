@@ -52,10 +52,10 @@ class ATMSerializer(serializers.ModelSerializer):
         model = models.ATM
         fields = '__all__'
         extra_fields = ('detail_url',)
-        read_only_fields = ('ddress',)
+        read_only_fields = ('name',)
 
     def get_detail_url(self, instance):
-        return reverse('bank:atm-viewset:detail', kwargs={'pk': instance.id}, request=self.context.get('request'))
+        return reverse('bank:atm-viewset-detail', kwargs={'pk': instance.id}, request=self.context.get('request'))
 
 
 class AnnonATMSerializer(ATMSerializer):

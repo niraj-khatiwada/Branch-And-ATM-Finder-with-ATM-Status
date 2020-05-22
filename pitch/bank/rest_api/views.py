@@ -1,5 +1,6 @@
 from rest_framework import generics, viewsets, response, status
 from django.db.models import Q
+import json
 
 from . import serializers
 from .. import models
@@ -67,7 +68,17 @@ class BranchViewset(viewsets.ModelViewSet):
         return response.Response({'detail': 'Branch already exists', 'id': branch_obj.id, 'place_id': branch_obj.place_id}, status=status.HTTP_409_CONFLICT)
 
     def retrieve(self, request, *args, **kwargs):
-        return super().retrieve(request, *args, **kwargs)
+        pk = self.kwargs.get('pk')
+        try:
+            branch = models.Branch.objects.get(id=pk)
+        except models.Branch.DoesNotExist:
+            return response.Response({'detail': 'Branch Does not exist'}, status=status.HTTP_404_NOT_FOUND)
+        try:
+            atms = models.ATM.objects.get(branch_id=pk)
+        except models.ATM.DoesNotExist:
+            return response.Response({'detail': 'Not ATM found'}, status=status.HTTP_404_NOT_FOUND)
+        serialized_atm = serializers.ATMSerializer(atms)
+        return response.Response({'parent': branch.bank.name, 'headquarter': branch.bank.central_hq_address, 'contact_number': branch.bank.contact_number, 'website': branch.bank.website_url, 'atm': serialized_atm.data})
 
     def update(self, request, *args, **kwargs):
         return super().update(request, *args, **kwargs)
@@ -80,9 +91,8 @@ class ATMViewset(viewsets.ModelViewSet):
     permisiion_classes = []
     serializer_class = serializers.ATMSerializer
     queryset = models.ATM.objects.all()
-    search_fields = ('branch__branch_name', 'bank__bank_name',
-                     'atm_address', 'atm_city_name')
-    ordering_fields = ('bank__bank_name',)
+    search_fields = ('name', 'branch')
+    ordering_fields = ('branch')
 
     def list(self, request, *args, **kwargs):
         return super().list(request, *args, **kwargs)
