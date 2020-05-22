@@ -68,6 +68,7 @@ export const locationReducer = (state = INITIAL_STATE, action) => {
           ...state.selectedLocationDetailFromDB,
           isFetching: false,
           fetchedDataFromDBSuccess: action.payload,
+          fetchedDataFromDBError: null,
         },
       }
     case detailsFromDBTypes.fetchFailure:
@@ -77,6 +78,7 @@ export const locationReducer = (state = INITIAL_STATE, action) => {
           ...state.selectedLocationDetailFromDB,
           isFetching: false,
           fetchedDataFromDBError: action.payload,
+          fetchedDataFromDBSuccess: null,
         },
       }
     default:

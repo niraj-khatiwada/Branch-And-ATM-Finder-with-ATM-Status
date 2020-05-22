@@ -30,7 +30,7 @@ const fetchLocationFromDBSuccess = (data) => ({
 })
 
 const fetchLocationFromDBFailure = (error) => ({
-  type: fetchLocationFromDBFailure,
+  type: detailsFromDBTypes.fetchFailure,
   payload: error,
 })
 

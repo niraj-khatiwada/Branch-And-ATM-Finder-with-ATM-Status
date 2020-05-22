@@ -37,7 +37,7 @@ function SnackBar({
         fetchLocationDetails(getDBID)
       }
     }
-  }, [selectedLocation])
+  }, [selectedLocation, isStoreToDBStillFetching])
   return (
     <CustomSnackbar
       anchorOrigin={{
@@ -57,15 +57,8 @@ function SnackBar({
               {selectedLocation.address.postcode
                 ? `Postcode: ${selectedLocation.address.postcode}`
                 : null}
-              <p>
-                Website:
-                {selectedLocation.extratags.website ? (
-                  <a href={selectedLocation.extratags.website}>
-                    {selectedLocation.extratags.website}
-                  </a>
-                ) : null}
-              </p>
             </div>
+            <div></div>
           </SnackBarContent>
         ) : null
       }

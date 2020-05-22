@@ -72,13 +72,14 @@ class BranchViewset(viewsets.ModelViewSet):
         try:
             branch = models.Branch.objects.get(id=pk)
         except models.Branch.DoesNotExist:
-            return response.Response({'detail': 'Branch Does not exist'}, status=status.HTTP_404_NOT_FOUND)
+            return response.Response({'detail': 'Branch does not exist'}, status=status.HTTP_404_NOT_FOUND)
         try:
-            atms = models.ATM.objects.get(branch_id=pk)
+            atms = models.ATM.objects.filter(branch=branch)
         except models.ATM.DoesNotExist:
             return response.Response({'detail': 'Not ATM found'}, status=status.HTTP_404_NOT_FOUND)
-        serialized_atm = serializers.ATMSerializer(atms)
-        return response.Response({'parent': branch.bank.name, 'headquarter': branch.bank.central_hq_address, 'contact_number': branch.bank.contact_number, 'website': branch.bank.website_url, 'atm': serialized_atm.data})
+        serialized_atm_array = [
+            serializers.ATMSerializer(item).data for item in atms]
+        return response.Response({'parent': branch.bank.name, 'headquarter': branch.bank.central_hq_address, 'contact_number': branch.bank.contact_number, 'website': branch.bank.website_url, 'atm': serialized_atm_array})
 
     def update(self, request, *args, **kwargs):
         return super().update(request, *args, **kwargs)

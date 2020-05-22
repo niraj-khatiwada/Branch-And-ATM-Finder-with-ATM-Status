@@ -70,7 +70,6 @@ export const selectSelectedLocationDBID = createSelector(
       const snackbarItem = storeToDBResults.find(
         (item) => parseInt(item.place_id) === selectedLocationDetail.place_id
       )
-      console.log(snackbarItem)
       return snackbarItem ? snackbarItem.id : null
     } else {
       return null
