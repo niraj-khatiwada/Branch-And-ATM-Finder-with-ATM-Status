@@ -2,14 +2,16 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
 
-import { getLocationDetailFromDBAsync } from '../../../redux/reducers/location/location.action'
-
+import { selectSelectedLocationDBID } from '../../../redux/reducers/search/search.selectors'
 import {
   CustomSnackbar,
   SnackBarContent,
   ButtonWrapper,
 } from './Snackbar.styles'
-import { snackBar } from '../../../redux/reducers/location/location.action'
+import {
+  snackBar,
+  getLocationDetailFromDBAsync,
+} from '../../../redux/reducers/location/location.action'
 import {
   selectSnackBarState,
   selectSelectedLocationDetail,
@@ -23,10 +25,11 @@ function SnackBar({
   handleSnackBar,
   selectedLocation,
   fetchLocationDetails,
+  getDBID,
 }) {
-  React.useEffect(() => fetchLocationDetails(selectedLocation), [
-    selectedLocation,
-  ])
+  React.useEffect(() => {
+    fetchLocationDetails(getDBID(selectedLocation.place_id))
+  }, [selectedLocation])
   return (
     <CustomSnackbar
       anchorOrigin={{
@@ -66,11 +69,11 @@ function SnackBar({
 const mapStateToProps = createStructuredSelector({
   snackBarState: selectSnackBarState,
   selectedLocation: selectSelectedLocationDetail,
+  getDBID: selectSelectedLocationDBID,
 })
 
 const mapDispatchToProps = (dispatch) => ({
   handleSnackBar: () => dispatch(snackBar(false)),
-  fetchLocationDetails: (selected_location) =>
-    dispatch(getLocationDetailFromDBAsync(selected_location)),
+  fetchLocationDetails: (id) => dispatch(getLocationDetailFromDBAsync(id)),
 })
 export default connect(mapStateToProps, mapDispatchToProps)(SnackBar)

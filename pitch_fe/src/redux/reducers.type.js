@@ -4,6 +4,10 @@ export const searchStateType = {
   searchFailure: 'SEARCH_FAILURE',
 }
 
+export const storeToDBTypes = {
+  storeToDBStart: 'STORE_TO_DB_START',
+  storeToDBResults: 'STORE_TO_DB_RESULTS',
+}
 export const detailsFromDBTypes = {
   fetchStart: 'FETCH_LOCATION_FROM_DB_START',
   fetchSuccess: 'FETCH_LOCATION_FROM_DB_SUCCESS',

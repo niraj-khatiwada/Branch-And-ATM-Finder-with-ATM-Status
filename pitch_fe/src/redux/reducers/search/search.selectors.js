@@ -51,3 +51,20 @@ export const selectNoDataFound = createSelector(
   [selectSearch],
   (search) => search.noDataFound
 )
+
+export const selectStoreToDB = createSelector(
+  [selectSearch],
+  (search) => search.storeToDB
+)
+
+export const selectDBResults = createSelector(
+  [selectStoreToDB],
+  (storeToDB) => storeToDB.storeToDBResults
+)
+export const selectSelectedLocationDBID = (place_id) =>
+  createSelector([selectDBResults], (storeToDBResults) => {
+    if (storeToDBResults) {
+      const value = storeToDBResults.find((item) => item.place_id === place_id)
+      return value.id
+    }
+  })

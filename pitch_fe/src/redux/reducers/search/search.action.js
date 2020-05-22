@@ -2,7 +2,7 @@ import {
   openStreetSearch,
   storeBranchToDB,
 } from '../../axios config/axios.config'
-import { searchStateType } from '../../reducers.type'
+import { searchStateType, storeToDBTypes } from '../../reducers.type'
 import { cleanSearchQuery } from './cleanSearchQuery'
 
 const searchStart = () => ({
@@ -23,17 +23,28 @@ export const setNoDataFound = () => ({
   type: 'NO_DATA_FOUND',
 })
 
+const storeToDBStart = () => ({
+  type: storeToDBTypes.storeToDBStart,
+})
+
+const storeToDBResults = (dataArray) => ({
+  type: storeToDBTypes.storeToDBResults,
+  payload: dataArray,
+})
+
 export const searchFetchAsync = (searchQuery) => (dispatch) => {
   dispatch(searchStart())
   openStreetSearch(cleanSearchQuery(searchQuery))
-    .then((res) => {
+    .then(async (res) => {
       if (res.data.length !== 0) {
         dispatch(searchSuccess(res.data))
         const getOnlyBank = res.data.filter(
           (item) => item.type === 'bank' && item.address.hasOwnProperty('bank')
         )
         if (getOnlyBank.length !== 0) {
-          storeBranchToDB(getOnlyBank)
+          dispatch(storeToDBStart())
+          const idArray = await storeBranchToDB(getOnlyBank)
+          dispatch(storeToDBResults(idArray))
         }
       } else {
         dispatch(searchSuccess(null))
