@@ -1,4 +1,5 @@
 import { createSelector } from 'reselect'
+import { selectSelectedLocationDetail } from '../location/location.selectors'
 
 const selectSearch = (state) => state.search
 
@@ -61,10 +62,23 @@ export const selectDBResults = createSelector(
   [selectStoreToDB],
   (storeToDB) => storeToDB.storeToDBResults
 )
-export const selectSelectedLocationDBID = (place_id) =>
-  createSelector([selectDBResults], (storeToDBResults) => {
+
+export const selectSelectedLocationDBID = createSelector(
+  [selectDBResults, selectSelectedLocationDetail],
+  (storeToDBResults, selectedLocationDetail) => {
     if (storeToDBResults) {
-      const value = storeToDBResults.find((item) => item.place_id === place_id)
-      return value.id
+      const snackbarItem = storeToDBResults.find(
+        (item) => parseInt(item.place_id) === selectedLocationDetail.place_id
+      )
+      console.log(snackbarItem)
+      return snackbarItem ? snackbarItem.id : null
+    } else {
+      return null
     }
-  })
+  }
+)
+
+export const selectIsStoreToDBFetching = createSelector(
+  [selectStoreToDB],
+  (storeToDB) => storeToDB.isStoreToDBFetching
+)

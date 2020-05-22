@@ -2,7 +2,10 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
 
-import { selectSelectedLocationDBID } from '../../../redux/reducers/search/search.selectors'
+import {
+  selectSelectedLocationDBID,
+  selectIsStoreToDBFetching,
+} from '../../../redux/reducers/search/search.selectors'
 import {
   CustomSnackbar,
   SnackBarContent,
@@ -26,9 +29,14 @@ function SnackBar({
   selectedLocation,
   fetchLocationDetails,
   getDBID,
+  isStoreToDBStillFetching,
 }) {
   React.useEffect(() => {
-    fetchLocationDetails(getDBID(selectedLocation.place_id))
+    if (selectedLocation.place_id !== 235452178 && !isStoreToDBStillFetching) {
+      if (getDBID) {
+        fetchLocationDetails(getDBID)
+      }
+    }
   }, [selectedLocation])
   return (
     <CustomSnackbar
@@ -70,6 +78,7 @@ const mapStateToProps = createStructuredSelector({
   snackBarState: selectSnackBarState,
   selectedLocation: selectSelectedLocationDetail,
   getDBID: selectSelectedLocationDBID,
+  isStoreToDBStillFetching: selectIsStoreToDBFetching,
 })
 
 const mapDispatchToProps = (dispatch) => ({

@@ -66,9 +66,8 @@ export const storeBranchToDB = async (searchedData) => {
   return idArray
 }
 
-// Fetch atm and other details from DB
 export const fetchLocationDetailsFromDB = async (id) =>
   await axios({
     method: 'get',
-    url: `dbURL/${id}/`,
+    url: `${dbURL}${id}/`,
   })
