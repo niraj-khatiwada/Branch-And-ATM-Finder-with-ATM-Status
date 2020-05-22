@@ -64,7 +64,7 @@ class BranchViewset(viewsets.ModelViewSet):
             new_branch = models.Branch(bank_id=get_bank_id, **data)
             new_branch.save()
             return response.Response({'detail': 'Branch does not exist. Creating branch...'}, status=status.HTTP_201_CREATED)
-        return response.Response({'detail': 'Branch already exists'})
+        return response.Response({'detail': 'Branch already exists'}, status=status.HTTP_409_CONFLICT)
 
     def retrieve(self, request, *args, **kwargs):
         return super().retrieve(request, *args, **kwargs)

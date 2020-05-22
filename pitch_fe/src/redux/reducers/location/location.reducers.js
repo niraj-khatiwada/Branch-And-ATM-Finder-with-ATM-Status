@@ -1,3 +1,5 @@
+import { detailsFromDBTypes, secondaryTypes } from '../../reducers.type'
+
 const INITIAL_STATE = {
   isSingleLocation: true,
   snackBarState: false,
@@ -29,23 +31,54 @@ const INITIAL_STATE = {
       website: '',
     },
   },
+  selectedLocationDetailFromDB: {
+    isFetching: false,
+    fetchedDataFromDBSuccess: null,
+    fetchedDataFromDBError: null,
+  },
 }
 export const locationReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case 'LOCATION_SELECTED':
+    case secondaryTypes.locationSelected:
       return {
         ...state,
         selectedLocationDetail: action.payload,
       }
-    case 'IS_SINGLE_LOCATION':
+    case secondaryTypes.isSingleLocaion:
       return {
         ...state,
         isSingleLocation: !state.isSingleLocation,
       }
-    case 'SNACKBAR_STATE':
+    case secondaryTypes.snackBarState:
       return { ...state, snackBarState: action.payload }
-    case 'HOVER_ITEM':
+    case secondaryTypes.hoverItem:
       return { ...state, hoverItem: action.payload }
+    case detailsFromDBTypes.fetchStart:
+      return {
+        ...state,
+        selectedLocationDetailFromDB: {
+          ...state.selectedLocationDetailFromDB,
+          isFetching: true,
+        },
+      }
+    case detailsFromDBTypes.fetchSuccess:
+      return {
+        ...state,
+        selectedLocationDetailFromDB: {
+          ...state.selectedLocationDetailFromDB,
+          isFetching: false,
+          fetchedDataFromDBSuccess: action.payload,
+        },
+      }
+    case detailsFromDBTypes.fetchFailure:
+      return {
+        ...state,
+        selectedLocationDetailFromDB: {
+          ...state.selectedLocationDetailFromDB,
+          isFetching: false,
+          fetchedDataFromDBError: action.payload,
+        },
+      }
     default:
       return state
   }

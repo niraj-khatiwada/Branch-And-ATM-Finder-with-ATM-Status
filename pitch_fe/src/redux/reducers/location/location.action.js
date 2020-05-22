@@ -1,3 +1,6 @@
+import { fetchLocationDetailsFromDB } from '../../axios config/axios.config'
+import { detailsFromDBTypes } from '../../reducers.type'
+
 export const selectedLocation = (locationDetails) => ({
   type: 'LOCATION_SELECTED',
   payload: locationDetails,
@@ -16,3 +19,32 @@ export const setHoverItem = (item) => ({
   type: 'HOVER_ITEM',
   payload: item,
 })
+
+const fetchLocationFromDBStart = () => ({
+  type: detailsFromDBTypes.fetchStart,
+})
+
+const fetchLocationFromDBSuccess = (data) => ({
+  type: detailsFromDBTypes.fetchSuccess,
+  payload: data,
+})
+
+const fetchLocationFromDBFailure = (error) => ({
+  type: fetchLocationFromDBFailure,
+  payload: error,
+})
+
+export const getLocationDetailFromDBAsync = (selectedLocation) => (
+  dispatch
+) => {
+  dispatch(fetchLocationFromDBStart())
+  fetchLocationDetailsFromDB(selectedLocation.place_id)
+    .then((res) => {
+      dispatch(fetchLocationFromDBSuccess(res.data))
+      console.log(res.data)
+    })
+    .catch((error) => {
+      dispatch(fetchLocationFromDBFailure(error.response))
+      console.log(error.response)
+    })
+}

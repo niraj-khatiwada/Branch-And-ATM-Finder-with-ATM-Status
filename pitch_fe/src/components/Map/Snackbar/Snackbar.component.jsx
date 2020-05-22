@@ -2,6 +2,8 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
 
+import { getLocationDetailFromDBAsync } from '../../../redux/reducers/location/location.action'
+
 import {
   CustomSnackbar,
   SnackBarContent,
@@ -16,7 +18,15 @@ import {
 import { IconButton } from '@material-ui/core'
 import CloseIcon from '@material-ui/icons/Close'
 
-function SnackBar({ snackBarState, handleSnackBar, selectedLocation }) {
+function SnackBar({
+  snackBarState,
+  handleSnackBar,
+  selectedLocation,
+  fetchLocationDetails,
+}) {
+  React.useEffect(() => fetchLocationDetails(selectedLocation), [
+    selectedLocation,
+  ])
   return (
     <CustomSnackbar
       anchorOrigin={{
@@ -32,7 +42,6 @@ function SnackBar({ snackBarState, handleSnackBar, selectedLocation }) {
               </IconButton>
             </ButtonWrapper>
             <div style={{ padding: '1rem' }}>
-              {' '}
               <p>{selectedLocation.mAddress}</p>
               {selectedLocation.address.postcode
                 ? `Postcode: ${selectedLocation.address.postcode}`
@@ -61,5 +70,7 @@ const mapStateToProps = createStructuredSelector({
 
 const mapDispatchToProps = (dispatch) => ({
   handleSnackBar: () => dispatch(snackBar(false)),
+  fetchLocationDetails: (selected_location) =>
+    dispatch(getLocationDetailFromDBAsync(selected_location)),
 })
 export default connect(mapStateToProps, mapDispatchToProps)(SnackBar)
