@@ -1,15 +1,7 @@
 import styled from 'styled-components'
 
-export const Center = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: center;
-`
-
 export const Wrapper = styled.div`
-  display: flex;
   width: 12rem;
-  justify-content: space-between;
   margin-bottom: 1rem;
 `
 export const GreenWrapper = styled.div`

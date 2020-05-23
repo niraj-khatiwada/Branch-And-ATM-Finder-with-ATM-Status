@@ -24,7 +24,7 @@ const fetchLocationFromDBStart = () => ({
   type: detailsFromDBTypes.fetchStart,
 })
 
-const fetchLocationFromDBSuccess = (data) => ({
+export const fetchLocationFromDBSuccess = (data) => ({
   type: detailsFromDBTypes.fetchSuccess,
   payload: data,
 })

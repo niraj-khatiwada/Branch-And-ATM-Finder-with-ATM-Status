@@ -14,6 +14,7 @@ import {
 import {
   snackBar,
   getLocationDetailFromDBAsync,
+  fetchLocationFromDBSuccess,
 } from '../../../redux/reducers/location/location.action'
 import {
   selectSnackBarState,
@@ -32,11 +33,14 @@ function SnackBar({
   fetchLocationDetails,
   getDBID,
   isStoreToDBStillFetching,
+  fetchDataFromDBSuccess,
 }) {
   React.useEffect(() => {
     if (selectedLocation.place_id !== 235452178 && !isStoreToDBStillFetching) {
       if (getDBID) {
         fetchLocationDetails(getDBID)
+      } else {
+        fetchDataFromDBSuccess()
       }
     }
   }, [selectedLocation, isStoreToDBStillFetching])
@@ -73,5 +77,6 @@ const mapStateToProps = createStructuredSelector({
 const mapDispatchToProps = (dispatch) => ({
   handleSnackBar: () => dispatch(snackBar(false)),
   fetchLocationDetails: (id) => dispatch(getLocationDetailFromDBAsync(id)),
+  fetchDataFromDBSuccess: () => dispatch(fetchLocationFromDBSuccess(null)),
 })
 export default connect(mapStateToProps, mapDispatchToProps)(SnackBar)

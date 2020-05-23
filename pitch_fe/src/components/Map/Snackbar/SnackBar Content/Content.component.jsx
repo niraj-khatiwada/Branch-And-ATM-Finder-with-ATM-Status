@@ -19,6 +19,9 @@ import {
   H4,
 } from './Content.styles'
 
+import { WithSpinner } from '../../../HOC withSpinner/withSpinner.styles'
+import { selectIsStoreToDBFetching } from '../../../../redux/reducers/search/search.selectors'
+
 import {
   selectSuccessFromDB,
   selectSelectedLocationDetail,
@@ -31,7 +34,7 @@ import bank from '../icons/bank.png'
 import atm from '../icons/atm.png'
 import atm_alt from '../icons/atm_alt.png'
 
-function Content({ dataFromDB, selectedLocation }) {
+function Content({ dataFromDB, selectedLocation, isDBStillFetching }) {
   return (
     <ContentWrapper>
       <BranchWrapper>
@@ -97,6 +100,12 @@ function Content({ dataFromDB, selectedLocation }) {
             ) : null}
           </BankWrapper>
         </>
+      ) : isDBStillFetching ? (
+        <div
+          style={{ width: '100%', display: 'flex', justifyContent: 'center' }}
+        >
+          <WithSpinner color="white" />
+        </div>
       ) : null}
     </ContentWrapper>
   )
@@ -105,6 +114,7 @@ function Content({ dataFromDB, selectedLocation }) {
 const mapStateToProps = createStructuredSelector({
   selectedLocation: selectSelectedLocationDetail,
   dataFromDB: selectSuccessFromDB,
+  isDBStillFetching: selectIsStoreToDBFetching,
 })
 
 export default connect(mapStateToProps)(Content)
