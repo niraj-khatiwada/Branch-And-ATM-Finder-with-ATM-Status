@@ -34,7 +34,6 @@ function ArrayList({
   setHoverItem,
 }) {
   const history = useHistory()
-  console.log('Array List Rerendering')
 
   const handleClick = (item) => {
     selectLocation(item)
@@ -93,4 +92,7 @@ const mapDispatchToProps = (dispatch) => ({
   setSingleLocation: () => dispatch(isSingleLocation()),
   setHoverItem: (item) => dispatch(setHoverItem(item)),
 })
-export default connect(mapStateToProps, mapDispatchToProps)(ArrayList)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(React.memo(ArrayList))
