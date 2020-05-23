@@ -5,7 +5,7 @@ import { Dropdown } from './searchDropdown.styles'
 import ArrayList from '../utils/searchArrayList.component'
 import { setMapZIndex } from '../../redux/reducers/search/search.action'
 
-function SearchDropdown({ handleClose, setMapZIndex, ZIndex }) {
+function SearchDropdown({ handleClose, setMapZIndex }) {
   React.useEffect(() => {
     const dropdown = document.getElementById('searchDropdown')
     const searchInput = document.getElementById('searchInput')
@@ -16,6 +16,7 @@ function SearchDropdown({ handleClose, setMapZIndex, ZIndex }) {
     })
     return () => {
       setMapZIndex(0)
+      handleClose()
       return document.removeEventListener('click', () => handleClose())
     }
   }, [])
@@ -25,12 +26,9 @@ function SearchDropdown({ handleClose, setMapZIndex, ZIndex }) {
     </Dropdown>
   )
 }
-const mapStateToProps = (state) => ({
-  ZIndex: state.search.mapZIndex,
-})
 
 const mapDispatchToProps = (dispatch) => ({
   setMapZIndex: (value) => dispatch(setMapZIndex(value)),
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(SearchDropdown)
+export default connect(null, mapDispatchToProps)(SearchDropdown)

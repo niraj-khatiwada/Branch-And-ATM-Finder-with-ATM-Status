@@ -1,5 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { compose } from 'redux'
 import { createStructuredSelector } from 'reselect'
 import { Map, Marker } from 'react-leaflet'
 import { selectSelectedLocationDetail } from '../../../redux/reducers/location/location.selectors'
@@ -70,7 +71,13 @@ function SingleLocation({ selectedLocationData, allLocationArray, mapZIndex }) {
                 item.place_id === popupOfArray.item.place_id
               )
                 return popupOfArray.isOpen ? (
-                  <PopupComponent item={item} key={item.place_id} />
+                  <PopupComponent
+                    item={item}
+                    key={item.place_id}
+                    closePopup={() =>
+                      setPopupOfArray({ ...popupOfArray, isOpen: false })
+                    }
+                  />
                 ) : null
             })
           : null}

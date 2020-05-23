@@ -38,21 +38,17 @@ function Search({
 
   const history = useHistory()
 
+  const StartFetch = (value) =>
+    setTimerID(setTimeout(() => fetchSearch(value), 1500))
+
   const handleChange = (evt) => {
     const value = evt.target.value
     setInputState(value)
-    if (value.trim().length > 0) {
-      setsearchDropdownState(true)
-      if (timerID) {
-        clearTimeout(timerID)
-        setTimerID(
-          setTimeout(() => {
-            return fetchSearch(value)
-          }, 1500)
-        )
-      } else {
-        setTimerID(setTimeout(() => fetchSearch(value), 1500))
-      }
+    if (timerID) {
+      clearTimeout(timerID)
+      StartFetch(value)
+    } else {
+      StartFetch(value)
     }
   }
   const handleSearchSubmit = (evt) => {
@@ -64,6 +60,20 @@ function Search({
       fetchSearch(inputState)
     }
   }
+  const handleFocus = () => {
+    setMapzIndex(-1)
+    setsearchDropdownState(true)
+    if (!isSingleLocationState) {
+      isSingleLocation()
+      history.push('/')
+    }
+  }
+  const handleClose = () => {
+    if (timerID) {
+      clearTimeout(timerID)
+    }
+    setsearchDropdownState(false)
+  }
   return (
     <>
       <SearchWrapper>
@@ -74,27 +84,11 @@ function Search({
             inputProps={{ 'aria-label': 'search' }}
             value={inputState}
             onChange={handleChange}
-            onFocus={() => {
-              setMapzIndex(-1)
-              if (inputState.trim().length !== 0) {
-                setsearchDropdownState(true)
-              }
-              if (!isSingleLocationState) {
-                isSingleLocation()
-                history.push('/')
-              }
-            }}
+            onFocus={handleFocus}
           />
         </CustomForm>
         {searchDropdownState ? (
-          <SearchDropdown
-            handleClose={() => {
-              if (timerID) {
-                clearTimeout(timerID)
-              }
-              setsearchDropdownState(false)
-            }}
-          />
+          <SearchDropdown handleClose={handleClose} />
         ) : null}
         <SearchWithSpinnerWrapper>
           {isSearching ? <WithSpinner></WithSpinner> : null}
@@ -117,4 +111,4 @@ const mapDispatchToProps = (dispatch) => ({
   setMapzIndex: (value) => dispatch(setMapZIndex(value)),
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(Search)
+export default connect(mapStateToProps, mapDispatchToProps)(React.memo(Search))

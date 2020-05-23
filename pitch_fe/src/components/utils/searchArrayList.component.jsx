@@ -34,6 +34,22 @@ function ArrayList({
   setHoverItem,
 }) {
   const history = useHistory()
+  console.log('Array List Rerendering')
+
+  const handleClick = (item) => {
+    selectLocation(item)
+    handleClose()
+    openSnackBar()
+    if (!isSingleState) {
+      setSingleLocation()
+      history.push('/')
+    }
+  }
+  const handleMouse = (item) => {
+    if (!isSingleState) {
+      return setHoverItem(item)
+    }
+  }
   return (
     <>
       <List component="nav" aria-label="search results">
@@ -42,26 +58,10 @@ function ArrayList({
             <React.Fragment key={uuid()}>
               <ListItem
                 button
-                onClick={() => {
-                  selectLocation(item)
-                  handleClose()
-                  openSnackBar()
-                  if (!isSingleState) {
-                    setSingleLocation()
-                    history.push('/')
-                  }
-                }}
+                onClick={() => handleClick(item)}
                 key={item.place_id}
-                onMouseEnter={() => {
-                  if (!isSingleState) {
-                    return setHoverItem(item)
-                  }
-                }}
-                onMouseLeave={() => {
-                  if (!isSingleState) {
-                    return setHoverItem(null)
-                  }
-                }}
+                onMouseEnter={() => handleMouse(item)}
+                onMouseLeave={() => handleMouse(null)}
               >
                 <ListItemText secondary={item.mAddress} />
               </ListItem>
