@@ -20,6 +20,8 @@ import {
   selectSelectedLocationDetail,
 } from '../../../redux/reducers/location/location.selectors'
 
+import Content from './SnackBar Content/Content.component'
+
 import { IconButton } from '@material-ui/core'
 import CloseIcon from '@material-ui/icons/Close'
 
@@ -52,13 +54,7 @@ function SnackBar({
                 <CloseIcon />
               </IconButton>
             </ButtonWrapper>
-            <div style={{ padding: '1rem' }}>
-              <p>{selectedLocation.mAddress}</p>
-              {selectedLocation.address.postcode
-                ? `Postcode: ${selectedLocation.address.postcode}`
-                : null}
-            </div>
-            <div></div>
+            <Content />
           </SnackBarContent>
         ) : null
       }

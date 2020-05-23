@@ -19,3 +19,16 @@ export const selectSnackBarState = createSelector(
   [selectLocation],
   (location) => location.snackBarState
 )
+
+export const selectLocationDetailsFromDB = createSelector(
+  [selectLocation],
+  (location) => location.selectedLocationDetailFromDB
+)
+
+export const selectSuccessFromDB = createSelector(
+  [selectLocationDetailsFromDB],
+  (selectedLocationDetailFromDB) =>
+    selectedLocationDetailFromDB.fetchedDataFromDBSuccess
+      ? selectedLocationDetailFromDB.fetchedDataFromDBSuccess
+      : null
+)
