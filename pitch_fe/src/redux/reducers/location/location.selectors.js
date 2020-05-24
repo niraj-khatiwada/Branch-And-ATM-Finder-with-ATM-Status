@@ -32,3 +32,8 @@ export const selectSuccessFromDB = createSelector(
       ? selectedLocationDetailFromDB.fetchedDataFromDBSuccess
       : null
 )
+
+export const selectIsRetrieveFromDBStillFetching = createSelector(
+  [selectLocationDetailsFromDB],
+  (selectedLocationDetailFromDB) => selectedLocationDetailFromDB.isFetching
+)

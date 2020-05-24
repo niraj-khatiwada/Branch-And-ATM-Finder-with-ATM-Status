@@ -80,8 +80,13 @@ export const storeBranchToDB = async (searchedData) => {
   return idArray
 }
 
-export const fetchLocationDetailsFromDB = async (id) =>
-  await axios({
-    method: 'get',
-    url: `${branchURL}${id}/`,
-  })
+export const fetchLocationDetailsFromDB = async (obj) =>
+  obj.type === 'bank'
+    ? await axios({
+        method: 'get',
+        url: `${branchURL}${obj.id}/`,
+      })
+    : await axios({
+        method: 'get',
+        url: `${atmURL}${obj.id}/`,
+      })

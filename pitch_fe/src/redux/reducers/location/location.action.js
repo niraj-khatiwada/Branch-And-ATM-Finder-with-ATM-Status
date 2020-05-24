@@ -34,9 +34,9 @@ const fetchLocationFromDBFailure = (error) => ({
   payload: error,
 })
 
-export const getLocationDetailFromDBAsync = (id) => (dispatch) => {
+export const getLocationDetailFromDBAsync = (obj) => (dispatch) => {
   dispatch(fetchLocationFromDBStart())
-  fetchLocationDetailsFromDB(id)
+  fetchLocationDetailsFromDB(obj)
     .then((res) => {
       dispatch(fetchLocationFromDBSuccess(res.data))
       console.log(res.data)

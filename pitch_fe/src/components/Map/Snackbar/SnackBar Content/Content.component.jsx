@@ -25,6 +25,7 @@ import { selectIsStoreToDBFetching } from '../../../../redux/reducers/search/sea
 import {
   selectSuccessFromDB,
   selectSelectedLocationDetail,
+  selectIsRetrieveFromDBStillFetching,
 } from '../../../../redux/reducers/location/location.selectors'
 
 import ATMLabel from '../utils/ATMLabel.component'
@@ -34,13 +35,23 @@ import bank from '../icons/bank.png'
 import atm from '../icons/atm.png'
 import atm_alt from '../icons/atm_alt.png'
 
-function Content({ dataFromDB, selectedLocation, isDBStillFetching }) {
+function Content({
+  dataFromDB,
+  selectedLocation,
+  isDBStillFetching,
+  isRetrieveFromDBStillFetching,
+}) {
   return (
     <ContentWrapper>
       <BranchWrapper>
         <IconAndTitle>
-          <Image src={branch} alt="branch-icon" />
-          <Heading>Branch</Heading>
+          <Image
+            src={selectedLocation.type === 'bank' ? branch : atm}
+            alt="icon"
+          />
+          <Heading>
+            {selectedLocation.type === 'bank' ? 'Branch' : 'ATM'}
+          </Heading>
         </IconAndTitle>
         <H4>{selectedLocation.mAddress}</H4>
         {selectedLocation.address.postcode ? (
@@ -70,22 +81,35 @@ function Content({ dataFromDB, selectedLocation, isDBStillFetching }) {
       </BranchWrapper>
       {dataFromDB ? (
         <>
-          {dataFromDB.atm.length !== 0 ? (
+          {selectedLocation.type === 'bank' &&
+          !isRetrieveFromDBStillFetching ? (
+            dataFromDB.atm.length !== 0 ? (
+              <ATMWrapper>
+                <IconAndTitle>
+                  <Image src={atm} alt="atm-icon" />
+                  <Heading>ATM Status</Heading>
+                </IconAndTitle>
+                <Item>
+                  <ItemHeading>Total ATM's:</ItemHeading>
+                  <P>{dataFromDB.atm.length}</P>
+                </Item>
+                <ATMGrid>
+                  {dataFromDB.atm.map((a) => (
+                    <ATMImageWrapper>
+                      <ATMImage src={atm_alt} atmStatus={a.status} />
+                    </ATMImageWrapper>
+                  ))}
+                </ATMGrid>
+                <ATMLabel />
+              </ATMWrapper>
+            ) : null
+          ) : dataFromDB.atm ? (
             <ATMWrapper>
-              <IconAndTitle>
-                <Image src={atm} alt="atm-icon" />
-                <Heading>ATM Status</Heading>
-              </IconAndTitle>
-              <Item>
-                <ItemHeading>Total ATM's:</ItemHeading>
-                <P>{dataFromDB.atm.length}</P>
-              </Item>
+              <Heading>ATM Status</Heading>
               <ATMGrid>
-                {dataFromDB.atm.map((a) => (
-                  <ATMImageWrapper>
-                    <ATMImage src={atm_alt} atmStatus={a.status} />
-                  </ATMImageWrapper>
-                ))}
+                <ATMImageWrapper>
+                  <ATMImage src={atm_alt} atmStatus={dataFromDB.atm.status} />
+                </ATMImageWrapper>
               </ATMGrid>
               <ATMLabel />
             </ATMWrapper>
@@ -133,6 +157,7 @@ const mapStateToProps = createStructuredSelector({
   selectedLocation: selectSelectedLocationDetail,
   dataFromDB: selectSuccessFromDB,
   isDBStillFetching: selectIsStoreToDBFetching,
+  isRetrieveFromDBStillFetching: selectIsRetrieveFromDBStillFetching,
 })
 
 export default connect(mapStateToProps)(Content)

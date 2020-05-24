@@ -77,7 +77,7 @@ class BranchViewset(viewsets.ModelViewSet):
         try:
             atms = models.ATM.objects.filter(branch=branch)
         except models.ATM.DoesNotExist:
-            return response.Response({'detail': 'Not ATM found'}, status=status.HTTP_404_NOT_FOUND)
+            return response.Response({'detail': 'No ATM found'}, status=status.HTTP_404_NOT_FOUND)
         serialized_atm_array = [
             serializers.ATMSerializer(item).data for item in atms]
         return response.Response({'parent': branch.bank.name, 'headquarter': branch.bank.central_hq_address, 'contact_number': branch.bank.contact_number, 'website': branch.bank.website_url, 'atm': serialized_atm_array})
@@ -142,7 +142,14 @@ class AnnonViewset(viewsets.ModelViewSet):
         return response.Response({'detail': 'ATM already exists', 'id': annon_obj.id, 'place_id': annon_obj.place_id}, status=status.HTTP_409_CONFLICT)
 
     def retrieve(self, request, *args, **kwargs):
-        return super().retrieve(request, *args, **kwargs)
+        pk = self.kwargs.get('pk')
+        try:
+            obj = models.AnonATM.objects.get(pk=pk)
+        except models.AnonATM.DoesNotExist:
+            return response.Response({'detail': 'ATM doesn\'t exits'}, status=status.HTTP_404_NOT_FOUND)
+        serialized_annon_atm = serializers.AnnonATMSerializer(obj)
+        return response.Response({'parent': obj.bank.name, 'headquarter': obj.bank.central_hq_address, 'contact_number': obj.bank.contact_number, 'website': obj.bank.website_url, 'atm': serialized_annon_atm.data})
 
-    def update(self, request, *args, **kwargs):
-        return super().update(request, *args, **kwargs)
+
+def update(self, request, *args, **kwargs):
+    return super().update(request, *args, **kwargs)
