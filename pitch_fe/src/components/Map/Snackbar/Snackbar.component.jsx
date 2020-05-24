@@ -76,7 +76,7 @@ const mapStateToProps = createStructuredSelector({
 
 const mapDispatchToProps = (dispatch) => ({
   handleSnackBar: () => dispatch(snackBar(false)),
-  fetchLocationDetails: (id) => dispatch(getLocationDetailFromDBAsync(id)),
+  fetchLocationDetails: (obj) => dispatch(getLocationDetailFromDBAsync(obj)),
   fetchDataFromDBSuccess: () => dispatch(fetchLocationFromDBSuccess(null)),
 })
 export default connect(mapStateToProps, mapDispatchToProps)(SnackBar)

@@ -48,8 +48,12 @@ const similarData = (item) => ({
 
 // Store to DB
 export const storeBranchToDB = async (searchedData) => {
+  let breakLoop = []
   let idArray = []
   for (let item of searchedData) {
+    if (breakLoop.pop() === "Bank doesn't exists") {
+      break
+    }
     await (item.type === 'bank'
       ? axios({
           method: 'post',
@@ -75,6 +79,7 @@ export const storeBranchToDB = async (searchedData) => {
       .catch((error) => {
         idArray.push(error.response.data)
         console.log(error.response)
+        breakLoop.push(error.response.data.detail)
       })
   }
   return idArray

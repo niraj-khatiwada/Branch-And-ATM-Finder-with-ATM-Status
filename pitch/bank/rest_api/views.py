@@ -130,7 +130,7 @@ class AnnonViewset(viewsets.ModelViewSet):
                     Q(name__iexact=data.get('namedetails').get('name'))
                 )
             except:
-                return response.Response({'detail': 'Bank doesn\'t exist'}, status=status.HTTP_404_NOT_FOUND)
+                return response.Response({'detail': "Bank doesn't exist"}, status=status.HTTP_404_NOT_FOUND)
         place_id = data.get('place_id')
         try:
             annon_obj = models.AnonATM.objects.get(place_id__exact=place_id)
@@ -148,7 +148,7 @@ class AnnonViewset(viewsets.ModelViewSet):
         except models.AnonATM.DoesNotExist:
             return response.Response({'detail': 'ATM doesn\'t exits'}, status=status.HTTP_404_NOT_FOUND)
         serialized_annon_atm = serializers.AnnonATMSerializer(obj)
-        return response.Response({'parent': obj.bank.name, 'headquarter': obj.bank.central_hq_address, 'contact_number': obj.bank.contact_number, 'website': obj.bank.website_url, 'atm': serialized_annon_atm.data})
+        return response.Response({'parent': obj.bank.name, 'headquarter': obj.bank.central_hq_address, 'contact_number': obj.bank.contact_number, 'website': obj.bank.website_url, 'atm': [serialized_annon_atm.data]})
 
 
 def update(self, request, *args, **kwargs):

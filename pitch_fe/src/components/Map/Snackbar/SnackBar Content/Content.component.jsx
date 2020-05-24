@@ -55,13 +55,3 @@ const mapStateToProps = createStructuredSelector({
 })
 
 export default connect(mapStateToProps)(Content)
-
-// <ATMWrapper>
-// <Heading>ATM Status</Heading>
-// <ATMGrid>
-//   <ATMImageWrapper>
-//     <ATMImage src={atm_alt} atmStatus={dataFromDB.atm.status} />
-//   </ATMImageWrapper>
-// </ATMGrid>
-// <ATMLabel />
-// </ATMWrapper>

@@ -7,6 +7,8 @@ import { selectSelectedLocationDetail } from '../../../../../redux/reducers/loca
 import branch from '../../icons/branch.png'
 import atm from '../../icons/atm.png'
 
+import HasOrNot from './hasOrNot.component'
+
 import {
   BranchWrapper,
   IconAndTitle,
@@ -29,28 +31,21 @@ function Branch({ selectedLocation }) {
         <Heading>{selectedLocation.type === 'bank' ? 'Branch' : 'ATM'}</Heading>
       </IconAndTitle>
       <H4>{selectedLocation.mAddress}</H4>
-      {selectedLocation.address.postcode ? (
+      <HasOrNot category="address" item="city" name="City" />
+      <HasOrNot category="address" item="suburb" name="Suburb" />
+      <HasOrNot category="address" item="road" name="Street" />
+      <HasOrNot category="address" item="neighbourhood" name="Neighbourhood" />
+      <HasOrNot category="address" item="region" name="Province" />
+      <HasOrNot category="address" item="postcode" name="Postcode" />
+
+      {selectedLocation.extratags ? (
         <>
-          {selectedLocation.extratags ? (
-            <>
-              {selectedLocation.extratags.contact ? (
-                <Item>
-                  <ItemHeading>Contact: </ItemHeading>
-                  <P>{selectedLocation.extratags.contact}</P>
-                </Item>
-              ) : null}
-              {selectedLocation.extratags.opening_hours ? (
-                <Item>
-                  <ItemHeading>Opening Hours: </ItemHeading>
-                  <P>{selectedLocation.extratags.opening_hours}</P>
-                </Item>
-              ) : null}
-            </>
-          ) : null}
-          <Item>
-            <ItemHeading>Postcode: </ItemHeading>
-            <P>{selectedLocation.address.postcode}</P>
-          </Item>
+          <HasOrNot category="extratags" item="contact" name="Contact" />
+          <HasOrNot
+            category="extratags"
+            item="opening_hours"
+            name="Opening Hours"
+          />
         </>
       ) : null}
     </BranchWrapper>

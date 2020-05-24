@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
 
 import { selectSuccessFromDB } from '../../../../../redux/reducers/location/location.selectors'
+import ATMLabel from '../../utils/ATMLabel.component'
 
 import {
   ATMImageWrapper,
@@ -15,7 +16,6 @@ import {
   ItemHeading,
   P,
   Item,
-  ATMLabel,
 } from '../Content.styles'
 
 import atm from '../../icons/atm.png'
