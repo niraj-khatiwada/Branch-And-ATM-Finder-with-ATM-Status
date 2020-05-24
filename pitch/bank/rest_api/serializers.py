@@ -4,6 +4,12 @@ from rest_framework.fields import ListField
 from .. import models
 
 
+class Branch(serializers.ModelSerializer):
+    class Meta:
+        model = models.Branch
+        fields = ['id', 'name']
+
+
 class ArrayField(ListField):
     def to_representation(self, data):
         obj = super().to_representation(data)
@@ -46,6 +52,7 @@ class BranchSerializer(serializers.ModelSerializer):
 
 class ATMSerializer(serializers.ModelSerializer):
     tags = ArrayField(required=False)
+    branch = Branch(read_only=True)
 
     class Meta:
         model = models.ATM

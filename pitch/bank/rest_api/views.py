@@ -13,8 +13,8 @@ class BankViewset(viewsets.ModelViewSet):
     permisiion_classes = []
     serializer_class = serializers.BankSerializer
     queryset = models.Bank.objects.all()
-    search_fields = ('bank_name', 'bank_central_hq_address', 'bank_city_name',)
-    ordering_fields = ('bank_name',)
+    search_fields = ('name', 'central_hq_address', 'city_name',)
+    ordering_fields = ('name',)
 
     def create(self, request, *args, **kwargs):
         return super().create(request, *args, **kwargs)
@@ -36,7 +36,8 @@ class BranchViewset(viewsets.ModelViewSet):
     permisiion_classes = []
     serializer_class = serializers.BranchSerializer
     queryset = models.Branch.objects.all()
-    search_fields = ('name', 'address', 'city_name',)
+    search_fields = ('name', 'city_name', 'bank', 'district',
+                     'street_name', 'neighbourhood')
     ordering_fields = ('name',)
 
     def list(self, request, *args, **kwargs):
@@ -93,7 +94,7 @@ class ATMViewset(viewsets.ModelViewSet):
     serializer_class = serializers.ATMSerializer
     queryset = models.ATM.objects.all()
     search_fields = ('name', 'branch')
-    ordering_fields = ('branch')
+    ordering_fields = ('branch',)
 
     def list(self, request, *args, **kwargs):
         return super().list(request, *args, **kwargs)

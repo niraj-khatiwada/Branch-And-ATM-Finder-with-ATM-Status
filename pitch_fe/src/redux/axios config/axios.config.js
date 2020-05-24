@@ -38,7 +38,7 @@ export const storeBranchToDB = async (searchedData) => {
       method: 'post',
       url: dbURL,
       data: {
-        bank: item.address.bank.toLowerCase(),
+        bank: item.address.amenity.toLowerCase(),
         name: item.display_name,
         place_id: item.place_id,
         lat: item.lat,
@@ -61,6 +61,7 @@ export const storeBranchToDB = async (searchedData) => {
       .catch((error) => {
         breakLoop.push(error.response.status)
         idArray.push(error.response.data)
+        console.log(error.response)
       })
   }
   return idArray

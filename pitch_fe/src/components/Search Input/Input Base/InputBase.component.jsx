@@ -22,11 +22,17 @@ function InputBase({
   const [timerID, setTimerID] = React.useState(null)
   const history = useHistory()
 
+  const handleDropdown = (checkValue) => {
+    if (checkValue.trim().length !== 0) {
+      return setsearchDropdownState(true)
+    }
+  }
   const StartFetch = (value) =>
     setTimerID(setTimeout(() => fetchSearch(value), 1500))
 
   const handleChange = (evt) => {
     const value = evt.target.value
+    handleDropdown(value)
     setInputState(value)
     if (timerID) {
       clearTimeout(timerID)
@@ -44,9 +50,10 @@ function InputBase({
       fetchSearch(inputState)
     }
   }
+
   const handleFocus = () => {
     setMapzIndex(-1)
-    setsearchDropdownState(true)
+    handleDropdown(inputState)
     if (!isSingleLocationState) {
       isSingleLocation()
       history.push('/')
@@ -61,6 +68,7 @@ function InputBase({
         value={inputState}
         onChange={handleChange}
         onFocus={handleFocus}
+        onBlur={() => setMapzIndex(0)}
       />
     </CustomForm>
   )

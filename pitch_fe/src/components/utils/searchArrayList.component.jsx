@@ -92,7 +92,4 @@ const mapDispatchToProps = (dispatch) => ({
   setSingleLocation: () => dispatch(isSingleLocation()),
   setHoverItem: (item) => dispatch(setHoverItem(item)),
 })
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(React.memo(ArrayList))
+export default connect(mapStateToProps, mapDispatchToProps)(ArrayList)
