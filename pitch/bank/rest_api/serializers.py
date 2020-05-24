@@ -60,8 +60,10 @@ class ATMSerializer(serializers.ModelSerializer):
         read_only_fields = ('name',)
 
 
-class AnnonATMSerializer(ATMSerializer):
+class AnnonATMSerializer(serializers.ModelSerializer):
+    tags = ArrayField(required=False)
+
     class Meta:
         model = models.AnonATM
         fields = '__all__'
-        read_only_fields = ('name',)
+        read_only_fields = ('address',)

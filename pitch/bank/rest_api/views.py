@@ -56,7 +56,7 @@ class BranchViewset(viewsets.ModelViewSet):
                     Q(name__iexact=data.get('namedetails').get('name:en')) |
                     Q(name__iexact=data.get('namedetails').get('name:ne')))
             except models.Bank.DoesNotExist:
-                return response.Response({'detail': 'Bank doesn\'t exists'}, status=status.HTTP_400_BAD_REQUEST)
+                return response.Response({'detail': 'Bank doesn\'t exists'}, status=status.HTTP_404_NOT_FOUND)
         place_id = data.get('place_id')
         try:
             branch_obj = models.Branch.objects.get(
@@ -109,5 +109,40 @@ class ATMViewset(viewsets.ModelViewSet):
         return super().destroy(request, *args, **kwargs)
 
 
-class AnnonViewset(ATMViewset):
+class AnnonViewset(viewsets.ModelViewSet):
+    permission_classes = []
     serializer_class = serializers.AnnonATMSerializer
+    queryset = models.AnonATM.objects.all()
+    search_fields = ('bank', 'address', 'street_name')
+    ordering_fields = ('bank', 'address',)
+
+    def list(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs)
+
+    def create(self, request, *args, **kwargs):
+        data = request.data
+        bank = data.pop('bank')
+        try:
+            obj = models.Bank.objects.get(name__iexact=bank)
+        except:
+            try:
+                obj = models.Bank.objects.get(
+                    Q(name__iexact=data.get('namedetails').get('name'))
+                )
+            except:
+                return response.Response({'detail': 'Bank doesn\'t exist'}, status=status.HTTP_404_NOT_FOUND)
+        place_id = data.get('place_id')
+        try:
+            annon_obj = models.AnonATM.objects.get(place_id__exact=place_id)
+        except:
+            # get_bank_id = obj.id
+            new_annon_atm = models.AnonATM(bank=obj, **data)
+            new_annon_atm.save()
+            return response.Response({'detail': 'ATM doesn\'t exist. Creating ATM...', 'id': new_annon_atm.id, 'place_id': new_annon_atm.place_id}, status=status.HTTP_201_CREATED)
+        return response.Response({'detail': 'ATM already exists', 'id': annon_obj.id, 'place_id': annon_obj.place_id}, status=status.HTTP_409_CONFLICT)
+
+    def retrieve(self, request, *args, **kwargs):
+        return super().retrieve(request, *args, **kwargs)
+
+    def update(self, request, *args, **kwargs):
+        return super().update(request, *args, **kwargs)

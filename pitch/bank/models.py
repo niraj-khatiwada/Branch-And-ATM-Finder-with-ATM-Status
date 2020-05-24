@@ -124,23 +124,36 @@ class AnonATM(models.Model):
     id = models.UUIDField(
         primary_key=True, default=uuid.uuid4, editable=False)
     bank = models.ForeignKey(Bank, on_delete=models.CASCADE)
+    place_id = models.CharField(
+        max_length=255, default='', null=True, blank=True)
     # Address
-    address = models.CharField(max_length=100, help_text='Read Only field')
-    district_name = models.CharField(max_length=100)
+    lat = models.CharField(max_length=100, blank=True, null=True, default='')
+    lon = models.CharField(max_length=100, blank=True, null=True, default='')
+    address = models.CharField(
+        max_length=100, help_text='Read Only field')  # display_name
+    district_name = models.CharField(
+        max_length=100, blank=True, null=True, default='')  # county
     city_name = models.CharField(max_length=100, blank=True, null=True)
-    postal_code = models.IntegerField(blank=True, null=True)
-    street_name = models.CharField(max_length=100, blank=True, null=True)
+    postal_code = models.CharField(max_length=255, blank=True, null=True)
+    street_name = models.CharField(
+        max_length=100, blank=True, null=True)  # street
     building_number = models.CharField(
         max_length=100, blank=True, null=True)
+    neighbourhood = models.CharField(
+        max_length=255, null=True, blank=True, default='')
+    province = models.CharField(
+        max_length=255, null=True, blank=True, default='')
     # ATM DIRECTION HELP TEXT
-    help_text = models.TextField(blank=True, null=True)
+    namedetails = models.CharField(
+        max_length=255, blank=True, null=True, default='')
+    help_text = models.TextField(blank=True, null=True, default='')
     status = models.BooleanField(default=True)
-
+    extra_tags = models.TextField(blank=True, null=True, default='')
     tags = ArrayField(models.CharField(
-        max_length=50, blank=True, null=True), blank=True)
+        max_length=50, blank=True, null=True), blank=True, default=list)
 
     def __str__(self):
-        return f'{self.bank__name}, {self.address}'
+        return f'{self.bank}, {self.address}'
 
     class Meta:
         verbose_name = 'Annon ATM'

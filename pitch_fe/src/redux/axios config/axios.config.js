@@ -20,46 +20,59 @@ export const openStreetSearch = async (searchQuery) => {
   })
 }
 
-const dbURL =
+const branchURL =
   process.env.NODE_ENV === 'development'
     ? 'http://localhost:8000/api/branch/'
     : ''
 
+const atmURL =
+  process.env.NODE_ENV === 'development'
+    ? 'http://localhost:8000/api/annon-atm/'
+    : ''
+
+const similarData = (item) => ({
+  bank: item.address.amenity.toLowerCase(),
+  place_id: item.place_id,
+  lat: item.lat,
+  lon: item.lon,
+  district_name: item.address.county,
+  city_name: item.address.city,
+  postal_code: item.address.postcode,
+  street_name: item.address.road || item.address.footway,
+  neighbourhood: item.address.neighbourhood,
+  building_number: item.address.house_number,
+  province: item.address.region,
+  namedetails: item.namedetails,
+  extra_tags: item.extratags,
+})
+
 // Store to DB
 export const storeBranchToDB = async (searchedData) => {
-  let breakLoop = []
   let idArray = []
   for (let item of searchedData) {
-    const popped = breakLoop.pop()
-    if (popped === 404 || popped === 400) {
-      break
-    }
-    await axios({
-      method: 'post',
-      url: dbURL,
-      data: {
-        bank: item.address.amenity.toLowerCase(),
-        name: item.display_name,
-        place_id: item.place_id,
-        lat: item.lat,
-        lon: item.lon,
-        district_name: item.address.county,
-        city_name: item.address.city,
-        postal_code: item.address.postcode,
-        street_name: item.address.road || item.address.footway,
-        neighbourhood: item.address.neighbourhood,
-        building_number: item.address.house_number,
-        province: item.address.region,
-        municipality: item.address.municipality,
-        namedetails: item.namedetails,
-        extra_tags: item.extratags,
-      },
-    })
+    await (item.type === 'bank'
+      ? axios({
+          method: 'post',
+          url: branchURL,
+          data: {
+            ...similarData(item),
+            municipality: item.address.municipality,
+            name: item.display_name,
+          },
+        })
+      : axios({
+          method: 'post',
+          url: atmURL,
+          data: {
+            ...similarData(item),
+            address: item.display_name,
+          },
+        })
+    )
       .then((res) => {
         idArray.push(res.data)
       })
       .catch((error) => {
-        breakLoop.push(error.response.status)
         idArray.push(error.response.data)
         console.log(error.response)
       })
@@ -70,5 +83,5 @@ export const storeBranchToDB = async (searchedData) => {
 export const fetchLocationDetailsFromDB = async (id) =>
   await axios({
     method: 'get',
-    url: `${dbURL}${id}/`,
+    url: `${branchURL}${id}/`,
   })

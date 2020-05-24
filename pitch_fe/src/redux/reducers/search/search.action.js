@@ -38,7 +38,9 @@ export const searchFetchAsync = (searchQuery) => (dispatch) => {
     .then(async (res) => {
       if (res.data.length !== 0) {
         dispatch(searchSuccess(res.data))
-        const getOnlyBank = res.data.filter((item) => item.type === 'bank')
+        const getOnlyBank = res.data.filter(
+          (item) => item.type === 'bank' || item.type === 'atm'
+        )
         if (getOnlyBank.length !== 0) {
           dispatch(storeToDBStart())
           console.log(getOnlyBank)
