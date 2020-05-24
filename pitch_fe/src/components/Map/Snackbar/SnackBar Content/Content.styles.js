@@ -71,3 +71,9 @@ export const H4 = styled.h4`
   font-family:  -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 `
+
+export const WithSpinnerWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+`
