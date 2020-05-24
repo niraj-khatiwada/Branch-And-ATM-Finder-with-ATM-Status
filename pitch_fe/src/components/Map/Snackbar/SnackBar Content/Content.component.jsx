@@ -44,10 +44,28 @@ function Content({ dataFromDB, selectedLocation, isDBStillFetching }) {
         </IconAndTitle>
         <H4>{selectedLocation.mAddress}</H4>
         {selectedLocation.address.postcode ? (
-          <Item>
-            <ItemHeading>Postcode: </ItemHeading>
-            <P>{selectedLocation.address.postcode}</P>
-          </Item>
+          <>
+            {selectedLocation.extratags ? (
+              <>
+                {selectedLocation.extratags.contact ? (
+                  <Item>
+                    <ItemHeading>Contact: </ItemHeading>
+                    <P>{selectedLocation.extratags.contact}</P>
+                  </Item>
+                ) : null}
+                {selectedLocation.extratags.opening_hours ? (
+                  <Item>
+                    <ItemHeading>Opening Hours: </ItemHeading>
+                    <P>{selectedLocation.extratags.opening_hours}</P>
+                  </Item>
+                ) : null}
+              </>
+            ) : null}
+            <Item>
+              <ItemHeading>Postcode: </ItemHeading>
+              <P>{selectedLocation.address.postcode}</P>
+            </Item>
+          </>
         ) : null}
       </BranchWrapper>
       {dataFromDB ? (

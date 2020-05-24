@@ -25,7 +25,7 @@ export const selectFilterDisplayName = createSelector(
         ? searchedData.map((item) => {
             const address = item.address
             let empty = [
-              address.bank || address.atm || '',
+              address.amenity || '',
               address.road || '',
               address.suburb || '',
               address.hamlet || '',
