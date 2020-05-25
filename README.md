@@ -16,8 +16,8 @@ NOTE: The number of ATM's in a branch and their statuses is arbitrary. These inf
 -Redux for state management
 
 ## Others
-### -[Nominatim](https://nominatim.org/release-docs/develop/) [OpenStreet](https://www.openstreetmap.org/) Map API for search
-### -Leaflet JS to display the map and location.
+#### -[Nominatim](https://nominatim.org/release-docs/develop/) [OpenStreet](https://www.openstreetmap.org/) Map API for search
+#### -Leaflet JS to display the map and location.
 
 ## Home
 <img src="gitImages/home.png" />
