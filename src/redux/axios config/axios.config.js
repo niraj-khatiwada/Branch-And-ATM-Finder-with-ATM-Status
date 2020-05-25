@@ -1,5 +1,13 @@
 import axios from 'axios'
 
+const getCookie = () => {
+  let cookie
+  if (document.cookie && document.cookie !== '') {
+    cookie = document.cookie.replace('csrftoken=', '')
+    return cookie
+  }
+}
+
 // Search Open Street map
 export const openStreetSearch = async (searchQuery) => {
   return await axios({
@@ -62,6 +70,9 @@ export const storeBranchToDB = async (searchedData) => {
             ...similarData(item),
             municipality: item.address.municipality,
             name: item.display_name,
+          },
+          headers: {
+            'X-CSRF-TOKEN': getCookie(),
           },
         })
       : axios({
