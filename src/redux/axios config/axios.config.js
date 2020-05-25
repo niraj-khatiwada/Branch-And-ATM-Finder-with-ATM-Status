@@ -23,12 +23,12 @@ export const openStreetSearch = async (searchQuery) => {
 const branchURL =
   process.env.NODE_ENV === 'development'
     ? 'http://localhost:8000/api/branch/'
-    : ''
+    : 'https://pitch-version1.herokuapp.com/api/branch/'
 
 const atmURL =
   process.env.NODE_ENV === 'development'
     ? 'http://localhost:8000/api/annon-atm/'
-    : ''
+    : 'https://pitch-version1.herokuapp.com/api/annon-atm/'
 
 const similarData = (item) => ({
   bank: item.address.amenity.toLowerCase(),

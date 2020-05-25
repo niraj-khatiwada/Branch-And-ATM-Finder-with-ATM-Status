@@ -1,3 +1,4 @@
 {
-    "python.pythonPath": "C:\\Users\\niraj\\envs\\pitch_env\\Scripts\\python.exe"
+    "python.pythonPath": "C:\\Users\\niraj\\envs\\pitch_env\\Scripts\\python.exe",
+    "git.ignoreLimitWarning": true
 }
