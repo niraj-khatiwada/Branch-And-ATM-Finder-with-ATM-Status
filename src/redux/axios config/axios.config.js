@@ -72,7 +72,7 @@ export const storeBranchToDB = async (searchedData) => {
             name: item.display_name,
           },
           headers: {
-            'X-CSRF-TOKEN': getCookie(),
+            'X-CSRFToken': getCookie(),
           },
         })
       : axios({
@@ -81,6 +81,9 @@ export const storeBranchToDB = async (searchedData) => {
           data: {
             ...similarData(item),
             address: item.display_name,
+          },
+          headers: {
+            'X-CSRFToken': getCookie(),
           },
         })
     )
