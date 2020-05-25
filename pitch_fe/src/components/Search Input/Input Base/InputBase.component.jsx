@@ -1,4 +1,6 @@
 import React from 'react'
+import { connect } from 'react-redux'
+
 import { CustomInputBase, CustomForm } from '../Search.styles'
 import { createStructuredSelector } from 'reselect'
 import { useHistory } from 'react-router-dom'
@@ -8,7 +10,6 @@ import {
   setMapZIndex,
 } from '../../../redux/reducers/search/search.action'
 import { isSingleLocation } from '../../../redux/reducers/location/location.action'
-import { connect } from 'react-redux'
 import { selectSingleLocation } from '../../../redux/reducers/location/location.selectors'
 
 function InputBase({

@@ -127,18 +127,18 @@ class AnonATM(models.Model):
     place_id = models.CharField(
         max_length=255, default='', null=True, blank=True)
     # Address
-    lat = models.CharField(max_length=100, blank=True, null=True, default='')
-    lon = models.CharField(max_length=100, blank=True, null=True, default='')
+    lat = models.CharField(max_length=255, blank=True, null=True, default='')
+    lon = models.CharField(max_length=255, blank=True, null=True, default='')
     address = models.CharField(
-        max_length=100, help_text='Read Only field')  # display_name
+        max_length=255, help_text='Read Only field')  # display_name
     district_name = models.CharField(
-        max_length=100, blank=True, null=True, default='')  # county
+        max_length=255, blank=True, null=True, default='')  # county
     city_name = models.CharField(max_length=100, blank=True, null=True)
     postal_code = models.CharField(max_length=255, blank=True, null=True)
     street_name = models.CharField(
-        max_length=100, blank=True, null=True)  # street
+        max_length=255, blank=True, null=True)  # street
     building_number = models.CharField(
-        max_length=100, blank=True, null=True)
+        max_length=255, blank=True, null=True)
     neighbourhood = models.CharField(
         max_length=255, null=True, blank=True, default='')
     province = models.CharField(

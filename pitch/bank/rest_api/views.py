@@ -36,7 +36,7 @@ class BranchViewset(viewsets.ModelViewSet):
     permisiion_classes = []
     serializer_class = serializers.BranchSerializer
     queryset = models.Branch.objects.all()
-    search_fields = ('name', 'city_name', 'bank', 'district',
+    search_fields = ('name', 'city_name', 'bank__name', 'district_name',
                      'street_name', 'neighbourhood')
     ordering_fields = ('name',)
 
@@ -93,8 +93,8 @@ class ATMViewset(viewsets.ModelViewSet):
     permisiion_classes = []
     serializer_class = serializers.ATMSerializer
     queryset = models.ATM.objects.all()
-    search_fields = ('name', 'branch')
-    ordering_fields = ('branch',)
+    search_fields = ('name', 'branch__name')
+    ordering_fields = ('branch__name',)
 
     def list(self, request, *args, **kwargs):
         return super().list(request, *args, **kwargs)
@@ -113,8 +113,8 @@ class AnnonViewset(viewsets.ModelViewSet):
     permission_classes = []
     serializer_class = serializers.AnnonATMSerializer
     queryset = models.AnonATM.objects.all()
-    search_fields = ('bank', 'address', 'street_name')
-    ordering_fields = ('bank', 'address',)
+    search_fields = ('bank__name', 'address', 'street_name')
+    ordering_fields = ('address',)
 
     def list(self, request, *args, **kwargs):
         return super().list(request, *args, **kwargs)
@@ -130,7 +130,7 @@ class AnnonViewset(viewsets.ModelViewSet):
                     Q(name__iexact=data.get('namedetails').get('name'))
                 )
             except:
-                return response.Response({'detail': "Bank doesn't exist"}, status=status.HTTP_404_NOT_FOUND)
+                return response.Response({'detail': "Bank doesn't exists"}, status=status.HTTP_404_NOT_FOUND)
         place_id = data.get('place_id')
         try:
             annon_obj = models.AnonATM.objects.get(place_id__exact=place_id)

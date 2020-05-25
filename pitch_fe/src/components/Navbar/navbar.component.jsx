@@ -46,7 +46,7 @@ function Navbar({ isSingleLocation, searchData, isSingleLocationState }) {
                 }}
                 variant="contained"
               >
-                {isSingleLocationState ? `See all ATM's` : 'Go Back'}
+                {isSingleLocationState ? `See all` : 'Go Back'}
               </CustomButton>
             ) : null}
           </div>

@@ -31,7 +31,6 @@ function Branch({ selectedLocation }) {
         <Heading>{selectedLocation.type === 'bank' ? 'Branch' : 'ATM'}</Heading>
       </IconAndTitle>
       <H4>{selectedLocation.mAddress}</H4>
-      <HasOrNot category="address" item="city" name="City" />
       <HasOrNot category="address" item="suburb" name="Suburb" />
       <HasOrNot category="address" item="road" name="Street" />
       <HasOrNot category="address" item="neighbourhood" name="Neighbourhood" />

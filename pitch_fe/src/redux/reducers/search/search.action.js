@@ -5,16 +5,16 @@ import {
 import { searchStateType, storeToDBTypes } from '../../reducers.type'
 import { cleanSearchQuery } from './cleanSearchQuery'
 
-const searchStart = () => ({
+export const searchStart = () => ({
   type: searchStateType.searchStart,
 })
 
-const searchSuccess = (data) => ({
+export const searchSuccess = (data) => ({
   type: searchStateType.searchSuccess,
   payload: data,
 })
 
-const searchFailure = (error) => ({
+export const searchFailure = (error) => ({
   type: searchStateType.searchFailure,
   payload: error,
 })
