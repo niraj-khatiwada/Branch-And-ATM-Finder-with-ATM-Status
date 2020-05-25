@@ -78,7 +78,6 @@ export const storeBranchToDB = async (searchedData) => {
       })
       .catch((error) => {
         idArray.push(error.response.data)
-        console.log(error.response)
         breakLoop.push(error.response.data.detail)
       })
   }

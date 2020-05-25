@@ -19,7 +19,6 @@ function InputBase({
   isSingleLocation,
   setsearchDropdownState,
   isSingleLocationState,
-  fetchAutoComplete,
 }) {
   const [inputState, setInputState] = React.useState('')
   const [timerID, setTimerID] = React.useState(null)
@@ -35,7 +34,7 @@ function InputBase({
 
   const handleChange = (evt) => {
     const value = evt.target.value
-    handleDropdown(value)
+    handleDropdown(inputState)
     setInputState(value)
     if (timerID) {
       clearTimeout(timerID)
@@ -71,7 +70,6 @@ function InputBase({
         value={inputState}
         onChange={handleChange}
         onFocus={handleFocus}
-        onBlur={() => setMapzIndex(0)}
       />
     </CustomForm>
   )
@@ -85,7 +83,6 @@ const mapDispatchToProps = (dispatch) => ({
   fetchSearch: (searchQuery) => dispatch(searchFetchAsync(searchQuery)),
   isSingleLocation: () => dispatch(isSingleLocation()),
   setMapzIndex: (value) => dispatch(setMapZIndex(value)),
-  fetchAutoComplete: (value) => dispatch(fetchAutoCompleteAsync(value)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(InputBase)

@@ -39,10 +39,8 @@ export const getLocationDetailFromDBAsync = (obj) => (dispatch) => {
   fetchLocationDetailsFromDB(obj)
     .then((res) => {
       dispatch(fetchLocationFromDBSuccess(res.data))
-      console.log(res.data)
     })
     .catch((error) => {
       dispatch(fetchLocationFromDBFailure(error.response))
-      console.log(error.response)
     })
 }
