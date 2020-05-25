@@ -95,3 +95,22 @@ export const fetchLocationDetailsFromDB = async (obj) =>
         method: 'get',
         url: `${atmURL}${obj.id}/`,
       })
+
+export const fetchAutoCompleteSearch = async (searchQuery) => {
+  let results = []
+  await axios({
+    method: 'get',
+    url: branchURL,
+    params: {
+      q: searchQuery,
+    },
+  }).then((res) => (results = [...res.data]))
+  await axios({
+    method: 'get',
+    url: atmURL,
+    params: {
+      q: searchQuery,
+    },
+  }).then((res) => (results = [...results, ...res.data]))
+  return results
+}

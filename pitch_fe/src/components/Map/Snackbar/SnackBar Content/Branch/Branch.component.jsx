@@ -34,7 +34,7 @@ function Branch({ selectedLocation }) {
       <HasOrNot category="address" item="suburb" name="Suburb" />
       <HasOrNot category="address" item="road" name="Street" />
       <HasOrNot category="address" item="neighbourhood" name="Neighbourhood" />
-      <HasOrNot category="address" item="region" name="Province" />
+      <HasOrNot category="address" item="city" name="City" />
       <HasOrNot category="address" item="postcode" name="Postcode" />
 
       {selectedLocation.extratags ? (

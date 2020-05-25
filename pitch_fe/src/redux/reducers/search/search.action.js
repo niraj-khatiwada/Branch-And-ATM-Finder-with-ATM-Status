@@ -1,6 +1,7 @@
 import {
   openStreetSearch,
   storeBranchToDB,
+  fetchAutoCompleteSearch,
 } from '../../axios config/axios.config'
 import { searchStateType, storeToDBTypes } from '../../reducers.type'
 import { cleanSearchQuery } from './cleanSearchQuery'
@@ -43,7 +44,6 @@ export const searchFetchAsync = (searchQuery) => (dispatch) => {
         )
         if (getOnlyBank.length !== 0) {
           dispatch(storeToDBStart())
-          console.log(getOnlyBank)
           const idArray = await storeBranchToDB(getOnlyBank)
           dispatch(storeToDBResults(idArray))
         }
@@ -59,3 +59,11 @@ export const setMapZIndex = (value) => ({
   type: 'CHANGE_Z_INDEX',
   payload: value,
 })
+
+export const fetchAutoCompleteAsync = (searchQuery) => async (dispatch) => {
+  dispatch(searchStart())
+  const results = await fetchAutoCompleteSearch(searchQuery)
+  if (results.length !== 0) {
+    dispatch(searchSuccess(results))
+  }
+}
