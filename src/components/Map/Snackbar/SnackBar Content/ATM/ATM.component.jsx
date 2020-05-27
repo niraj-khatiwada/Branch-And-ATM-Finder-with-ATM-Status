@@ -8,6 +8,12 @@ import {
 } from '../../../../../redux/reducers/location/location.selectors'
 import ATMLabel from '../../utils/ATMLabel.component'
 
+import { fetchMinDistanceDetailFromDBAsync } from '../../../../../redux/reducers/location/location.action'
+import {
+  selectDistance,
+  selectMinDistanceDBID,
+} from '../../../../../redux/reducers/search/search.selectors'
+
 import {
   ATMImageWrapper,
   ATMGrid,
@@ -24,7 +30,13 @@ import {
 import atm from '../../icons/atm.png'
 import atm_alt from '../../icons/atm_alt.png'
 
-function ATM({ dataFromDB, type, isAllDown }) {
+function ATM({ dataFromDB, type, isAllDown, minDistance, minDistanceDBID }) {
+  React.useEffect(() => {
+    if (isAllDown) {
+      console.log('min distance id is', minDistanceDBID)
+      fetchMinDistanceDetail(minDistanceDBID)
+    }
+  }, [isAllDown])
   return (
     <ATMWrapper>
       <IconAndTitle>
@@ -38,6 +50,9 @@ function ATM({ dataFromDB, type, isAllDown }) {
         ) : (
           <>
             <Heading>Nearest ATM</Heading>
+            <Item>
+              <P>{minDistance ? minDistance.data.display_name : null}</P>
+            </Item>
           </>
         )}
       </IconAndTitle>
@@ -48,11 +63,13 @@ function ATM({ dataFromDB, type, isAllDown }) {
         </Item>
       ) : null}
       <ATMGrid>
-        {dataFromDB.atm.map((a) => (
-          <ATMImageWrapper>
-            <ATMImage src={atm_alt} atmStatus={a.status} />
-          </ATMImageWrapper>
-        ))}
+        {type === 'bank' || type === 'atm'
+          ? dataFromDB.atm.map((a) => (
+              <ATMImageWrapper>
+                <ATMImage src={atm_alt} atmStatus={a.status} />
+              </ATMImageWrapper>
+            ))
+          : null}
       </ATMGrid>
       <ATMLabel />
     </ATMWrapper>
@@ -62,6 +79,13 @@ function ATM({ dataFromDB, type, isAllDown }) {
 const mapStateToProps = createStructuredSelector({
   dataFromDB: selectSuccessFromDB,
   isAllDown: selectIsAllDown,
+  minDistance: selectDistance,
+  minDistanceDBID: selectMinDistanceDBID,
+})
+
+const mapDispatchToProps = (dispatch) => ({
+  fetchMinDistanceDetail: (id) =>
+    dispatch(fetchMinDistanceDetailFromDBAsync(id)),
 })
 
 export default connect(mapStateToProps)(ATM)

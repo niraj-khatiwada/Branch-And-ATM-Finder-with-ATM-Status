@@ -1,5 +1,9 @@
 import { fetchLocationDetailsFromDB } from '../../axios config/axios.config'
-import { detailsFromDBTypes, secondaryTypes } from '../../reducers.type'
+import {
+  detailsFromDBTypes,
+  secondaryTypes,
+  minDistanceDetailsFromDBTypes,
+} from '../../reducers.type'
 
 export const selectedLocation = (locationDetails) => ({
   type: 'LOCATION_SELECTED',
@@ -49,3 +53,24 @@ export const setIsAllDown = (value) => ({
   type: secondaryTypes.isAllDown,
   payload: value,
 })
+
+const fetchMinDistanceDetailFromDBStart = () => ({
+  type: minDistanceDetailsFromDBTypes.fetchStart,
+})
+
+const fetchMinDistanceDetailFromDBSuccess = (data) => ({
+  type: minDistanceDetailsFromDBTypes.fetchSuccess,
+  payload: data,
+})
+
+const fetchMinDistanceDetailFromDBFailure = (error) => ({
+  type: minDistanceDetailsFromDBTypes.fetchFailure,
+  payload: error,
+})
+export const fetchMinDistanceDetailFromDBAsync = (id) => (dispatch) => {
+  dispatch(fetchMinDistanceDetailFromDBStart())
+    .then((res) => dispatch(fetchMinDistanceDetailFromDBSuccess(res.data)))
+    .catch((error) =>
+      dispatch(fetchMinDistanceDetailFromDBFailure(error.response))
+    )
+}

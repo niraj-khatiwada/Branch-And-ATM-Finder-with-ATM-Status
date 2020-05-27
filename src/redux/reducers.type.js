@@ -23,3 +23,9 @@ export const secondaryTypes = {
   hoverItem: 'HOVER_ITEM',
   isAllDown: 'IS_ALL_DOWN',
 }
+
+export const minDistanceDetailsFromDBTypes = {
+  fetchStart: 'FETCH_MIN_DISTANCE_DETAIL_FROM_DB_START',
+  fetchSuccess: 'FETCH_MIN_DISTANCE_DETAIL_FROM_DB_SUCCESS',
+  fetchFailure: 'FETCH_MIN_DISTANCE_DETAIL_FROM_DB_FAILURE',
+}

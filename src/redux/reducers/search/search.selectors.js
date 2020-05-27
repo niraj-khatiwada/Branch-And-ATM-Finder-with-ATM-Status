@@ -85,22 +85,46 @@ export const selectIsStoreToDBFetching = createSelector(
 )
 
 export const selectDistance = createSelector(
-  [selectSearchedData, selectSelectedLocationDetail],
-  (searchedData, selectedLocationDetail) =>
-    searchedData && searchedData.length !== 0
-      ? searchedData
-          .filter((i) => i.place_id !== selectedLocationDetail.place_id)
-          .map((item) => ({
-            distance:
-              Math.sqrt(
-                (parseFloat(selectedLocationDetail.lon) -
-                  parseFloat(item.lon)) **
-                  2 +
-                  (parseFloat(selectedLocationDetail.lat) -
-                    parseFloat(item.lat)) **
-                    2
-              ) * 100,
-            place_id: item.place_id,
-          }))
-      : null
+  [selectFilterDisplayName, selectSelectedLocationDetail],
+  (searchedData, selectedLocationDetail) => {
+    if (searchedData !== null && searchedData.length !== 0) {
+      const distanceArray = searchedData
+        .filter((i) => i.place_id !== selectedLocationDetail.place_id)
+        .map((item) => ({
+          distance:
+            Math.sqrt(
+              (parseFloat(selectedLocationDetail.lon) - parseFloat(item.lon)) **
+                2 +
+                (parseFloat(selectedLocationDetail.lat) -
+                  parseFloat(item.lat)) **
+                  2
+            ) * 100,
+          data: { ...item },
+        }))
+      console.log(distanceArray)
+      const minDistance = distanceArray.find(
+        (item) =>
+          item.distance ===
+          Math.min(...distanceArray.map((item) => item.distance))
+      )
+      console.log(minDistance)
+      return minDistance
+    } else {
+      return null
+    }
+  }
+)
+
+export const selectMinDistanceDBID = createSelector(
+  [selectDBResults, selectDistance],
+  (storeToDBResults, minDistance) => {
+    if (storeToDBResults) {
+      const minDistanceItemFromDB = storeToDBResults.find(
+        (item) => parseInt(item.place_id) === minDistance.data.place_id
+      )
+      return minDistanceItemFromDB ? { id: minDistanceItemFromDB.id } : null
+    } else {
+      return null
+    }
+  }
 )

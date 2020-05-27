@@ -26,7 +26,6 @@ import Content from './SnackBar Content/Content.component'
 
 import { IconButton } from '@material-ui/core'
 import CloseIcon from '@material-ui/icons/Close'
-import AllDown from './AllDown.component'
 
 function SnackBar({
   snackBarState,
