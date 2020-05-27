@@ -58,7 +58,7 @@ const fetchMinDistanceDetailFromDBStart = () => ({
   type: minDistanceDetailsFromDBTypes.fetchStart,
 })
 
-const fetchMinDistanceDetailFromDBSuccess = (data) => ({
+export const fetchMinDistanceDetailFromDBSuccess = (data) => ({
   type: minDistanceDetailsFromDBTypes.fetchSuccess,
   payload: data,
 })
@@ -67,8 +67,10 @@ const fetchMinDistanceDetailFromDBFailure = (error) => ({
   type: minDistanceDetailsFromDBTypes.fetchFailure,
   payload: error,
 })
-export const fetchMinDistanceDetailFromDBAsync = (id) => (dispatch) => {
+
+export const fetchMinDistanceDetailFromDBAsync = (obj) => (dispatch) => {
   dispatch(fetchMinDistanceDetailFromDBStart())
+  fetchLocationDetailsFromDB(obj)
     .then((res) => dispatch(fetchMinDistanceDetailFromDBSuccess(res.data)))
     .catch((error) =>
       dispatch(fetchMinDistanceDetailFromDBFailure(error.response))

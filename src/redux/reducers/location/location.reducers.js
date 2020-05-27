@@ -1,4 +1,8 @@
-import { detailsFromDBTypes, secondaryTypes } from '../../reducers.type'
+import {
+  detailsFromDBTypes,
+  secondaryTypes,
+  minDistanceDetailsFromDBTypes,
+} from '../../reducers.type'
 
 const INITIAL_STATE = {
   isSingleLocation: true,
@@ -37,6 +41,11 @@ const INITIAL_STATE = {
     fetchedDataFromDBError: null,
   },
   isAllDown: false,
+  minDistanceDetailFromDB: {
+    isMinDistanceDetailFromDBFetching: false,
+    minDistanceDetailFromDBSuccess: null,
+    minDistanceDetailFromDBError: null,
+  },
 }
 export const locationReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
@@ -84,6 +93,34 @@ export const locationReducer = (state = INITIAL_STATE, action) => {
       }
     case secondaryTypes.isAllDown:
       return { ...state, isAllDown: action.payload }
+    case minDistanceDetailsFromDBTypes.fetchStart:
+      return {
+        ...state,
+        minDistanceDetailFromDB: {
+          ...state.minDistanceDetailFromDB,
+          isMinDistanceDetailFromDBFetching: true,
+        },
+      }
+    case minDistanceDetailsFromDBTypes.fetchSuccess:
+      return {
+        ...state,
+        minDistanceDetailFromDB: {
+          ...state.minDistanceDetailFromDB,
+          isMinDistanceDetailFromDBFetching: false,
+          minDistanceDetailFromDBSuccess: action.payload,
+          minDistanceDetailFromDBError: null,
+        },
+      }
+    case minDistanceDetailsFromDBTypes.fetchFailure:
+      return {
+        ...state,
+        minDistanceDetailFromDB: {
+          ...state.minDistanceDetailFromDB,
+          isMinDistanceDetailFromDBFetching: false,
+          minDistanceDetailFromDBSuccess: null,
+          minDistanceDetailFromDBError: action.payload,
+        },
+      }
     default:
       return state
   }

@@ -5,10 +5,14 @@ import { createStructuredSelector } from 'reselect'
 import {
   selectSuccessFromDB,
   selectIsAllDown,
+  selectIsRetrieveFromDBStillFetching,
 } from '../../../../../redux/reducers/location/location.selectors'
 import ATMLabel from '../../utils/ATMLabel.component'
 
-import { fetchMinDistanceDetailFromDBAsync } from '../../../../../redux/reducers/location/location.action'
+import {
+  fetchMinDistanceDetailFromDBAsync,
+  fetchMinDistanceDetailFromDBSuccess,
+} from '../../../../../redux/reducers/location/location.action'
 import {
   selectDistance,
   selectMinDistanceDBID,
@@ -30,13 +34,24 @@ import {
 import atm from '../../icons/atm.png'
 import atm_alt from '../../icons/atm_alt.png'
 
-function ATM({ dataFromDB, type, isAllDown, minDistance, minDistanceDBID }) {
+function ATM({
+  dataFromDB,
+  type,
+  isAllDown,
+  minDistance,
+  minDistanceDBID,
+  fetchMinDistanceDetail,
+  fetchMinDistanceDetailFromDBSuccess,
+  selectIsRetrieveFromDBStillFetching,
+}) {
   React.useEffect(() => {
-    if (isAllDown) {
+    if (isAllDown && !selectIsRetrieveFromDBStillFetching) {
       console.log('min distance id is', minDistanceDBID)
       fetchMinDistanceDetail(minDistanceDBID)
+    } else {
+      fetchMinDistanceDetailFromDBSuccess()
     }
-  }, [isAllDown])
+  }, [isAllDown, selectIsRetrieveFromDBStillFetching])
   return (
     <ATMWrapper>
       <IconAndTitle>
@@ -81,11 +96,14 @@ const mapStateToProps = createStructuredSelector({
   isAllDown: selectIsAllDown,
   minDistance: selectDistance,
   minDistanceDBID: selectMinDistanceDBID,
+  selectIsRetrieveFromDBStillFetching: selectIsRetrieveFromDBStillFetching,
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  fetchMinDistanceDetail: (id) =>
-    dispatch(fetchMinDistanceDetailFromDBAsync(id)),
+  fetchMinDistanceDetail: (obj) =>
+    dispatch(fetchMinDistanceDetailFromDBAsync(obj)),
+  fetchMinDistanceDetailFromDBSuccess: () =>
+    dispatch(fetchMinDistanceDetailFromDBSuccess(null)),
 })
 
-export default connect(mapStateToProps)(ATM)
+export default connect(mapStateToProps, mapDispatchToProps)(ATM)
