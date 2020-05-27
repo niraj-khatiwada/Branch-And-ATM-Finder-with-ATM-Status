@@ -47,3 +47,16 @@ export const selectIsAllDown = createSelector(
         : null
       : null
 )
+
+export const selectMinDistance = createSelector(
+  [selectLocation],
+  (location) => location.minDistanceDetailFromDB
+)
+
+export const selectMinDistanceATMDetails = createSelector(
+  [selectMinDistance],
+  (minDistanceDetails) =>
+    minDistanceDetails !== null
+      ? minDistanceDetails.minDistanceDetailFromDBSuccess
+      : null
+)

@@ -6,6 +6,7 @@ import {
   selectSuccessFromDB,
   selectIsAllDown,
   selectIsRetrieveFromDBStillFetching,
+  selectMinDistanceATMDetails,
 } from '../../../../../redux/reducers/location/location.selectors'
 import ATMLabel from '../../utils/ATMLabel.component'
 
@@ -43,6 +44,7 @@ function ATM({
   fetchMinDistanceDetail,
   fetchMinDistanceDetailFromDBSuccess,
   selectIsRetrieveFromDBStillFetching,
+  minDistanceAtmDetails,
 }) {
   React.useEffect(() => {
     if (isAllDown && !selectIsRetrieveFromDBStillFetching) {
@@ -54,27 +56,36 @@ function ATM({
   }, [isAllDown, selectIsRetrieveFromDBStillFetching])
   return (
     <ATMWrapper>
-      <IconAndTitle>
-        {type === 'bank' || type === 'atm' ? (
+      {type === 'bank' || type === 'atm' ? (
+        <IconAndTitle>
           <>
-            {type === 'bank' ? <Image src={atm} alt="atm-icon" /> : null}
+            <Image src={atm} alt="atm-icon" />
             <Heading isAllDown={isAllDown}>
               ATM Status {isAllDown ? "(All ATM's are down)" : null}
             </Heading>
           </>
-        ) : (
-          <>
+        </IconAndTitle>
+      ) : (
+        <>
+          <IconAndTitle>
+            <Image src={atm} />
             <Heading>Nearest ATM</Heading>
-            <Item>
-              <P>{minDistance ? minDistance.data.display_name : null}</P>
-            </Item>
-          </>
-        )}
-      </IconAndTitle>
-      {type === 'bank' ? (
+          </IconAndTitle>
+          <Item>
+            <P>{minDistance ? minDistance.data.display_name : null}</P>
+          </Item>
+        </>
+      )}
+      {type === 'bank' && type !== 'atm' ? (
         <Item>
           <ItemHeading>Total ATM's:</ItemHeading>
           <P>{dataFromDB.atm.length}</P>
+        </Item>
+      ) : minDistanceAtmDetails !== null &&
+        minDistanceAtmDetails.atm.length !== 0 ? (
+        <Item>
+          <ItemHeading>Total ATM's:</ItemHeading>
+          <P>{minDistanceAtmDetails.atm.length}</P>
         </Item>
       ) : null}
       <ATMGrid>
@@ -82,6 +93,12 @@ function ATM({
           ? dataFromDB.atm.map((a) => (
               <ATMImageWrapper>
                 <ATMImage src={atm_alt} atmStatus={a.status} />
+              </ATMImageWrapper>
+            ))
+          : minDistanceAtmDetails
+          ? minDistanceAtmDetails.atm.map((atm) => (
+              <ATMImageWrapper>
+                <ATMImage src={atm_alt} atmStatus={atm.status} />
               </ATMImageWrapper>
             ))
           : null}
@@ -97,6 +114,7 @@ const mapStateToProps = createStructuredSelector({
   minDistance: selectDistance,
   minDistanceDBID: selectMinDistanceDBID,
   selectIsRetrieveFromDBStillFetching: selectIsRetrieveFromDBStillFetching,
+  minDistanceAtmDetails: selectMinDistanceATMDetails,
 })
 
 const mapDispatchToProps = (dispatch) => ({

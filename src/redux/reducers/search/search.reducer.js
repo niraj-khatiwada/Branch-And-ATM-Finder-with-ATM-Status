@@ -23,7 +23,7 @@ export const searchReducer = (state = INITIAL_STATE, action) => {
     case searchStateType.searchSuccess:
       return {
         ...state,
-        searchedData: [...state.searchedData, ...action.payload],
+        searchedData: action.payload,
         isSearchFetching: false,
       }
     case searchStateType.searchFailure:
