@@ -36,5 +36,8 @@ If its a branch it will display info about branch and its address and display it
 If its an ATM it will display like this.
 <img src='gitImages/atm.png' />
 
+If all of the ATM's of a particular branch or branch independent ATM is down, it will show the next nearest running ATM from tha place.
+<img src="gitImages/atmdown.png" />
+
 Additionally if you like to know info about all of the branch or ATM's and filter precisely you can toggle See ALl at the right top.
 <img src="gitImages/seeall.png" />
