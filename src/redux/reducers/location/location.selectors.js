@@ -37,3 +37,13 @@ export const selectIsRetrieveFromDBStillFetching = createSelector(
   [selectLocationDetailsFromDB],
   (selectedLocationDetailFromDB) => selectedLocationDetailFromDB.isFetching
 )
+
+export const selectIsAllDown = createSelector(
+  [selectSuccessFromDB],
+  (fetchedDataFromDBSuccess) =>
+    fetchedDataFromDBSuccess
+      ? fetchedDataFromDBSuccess.atm.length !== 0
+        ? fetchedDataFromDBSuccess.atm.every((item) => item.status === false)
+        : null
+      : null
+)

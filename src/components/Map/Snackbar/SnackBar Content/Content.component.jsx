@@ -15,6 +15,7 @@ import {
   selectSuccessFromDB,
   selectSelectedLocationDetail,
   selectIsRetrieveFromDBStillFetching,
+  selectIsAllDown,
 } from '../../../../redux/reducers/location/location.selectors'
 
 function Content({
@@ -22,6 +23,7 @@ function Content({
   selectedLocation,
   isDBStillFetching,
   isRetrieveFromDBStillFetching,
+  isAllDown,
 }) {
   return (
     <ContentWrapper>
@@ -36,7 +38,7 @@ function Content({
           ) : dataFromDB.atm ? (
             <ATM type={selectedLocation.type} />
           ) : null}
-          <Bank />
+          {!isAllDown ? <Bank /> : <ATM />}
         </>
       ) : isDBStillFetching ? (
         <WithSpinnerWrapper>
@@ -52,6 +54,7 @@ const mapStateToProps = createStructuredSelector({
   dataFromDB: selectSuccessFromDB,
   isDBStillFetching: selectIsStoreToDBFetching,
   isRetrieveFromDBStillFetching: selectIsRetrieveFromDBStillFetching,
+  isAllDown: selectIsAllDown,
 })
 
 export default connect(mapStateToProps)(Content)

@@ -2,7 +2,10 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
 
-import { selectSuccessFromDB } from '../../../../../redux/reducers/location/location.selectors'
+import {
+  selectSuccessFromDB,
+  selectIsAllDown,
+} from '../../../../../redux/reducers/location/location.selectors'
 import ATMLabel from '../../utils/ATMLabel.component'
 
 import {
@@ -21,12 +24,22 @@ import {
 import atm from '../../icons/atm.png'
 import atm_alt from '../../icons/atm_alt.png'
 
-function ATM({ dataFromDB, type }) {
+function ATM({ dataFromDB, type, isAllDown }) {
   return (
     <ATMWrapper>
       <IconAndTitle>
-        {type === 'bank' ? <Image src={atm} alt="atm-icon" /> : null}
-        <Heading>ATM Status</Heading>
+        {type === 'bank' || type === 'atm' ? (
+          <>
+            {type === 'bank' ? <Image src={atm} alt="atm-icon" /> : null}
+            <Heading isAllDown={isAllDown}>
+              ATM Status {isAllDown ? "(All ATM's are down)" : null}
+            </Heading>
+          </>
+        ) : (
+          <>
+            <Heading>Nearest ATM</Heading>
+          </>
+        )}
       </IconAndTitle>
       {type === 'bank' ? (
         <Item>
@@ -48,6 +61,7 @@ function ATM({ dataFromDB, type }) {
 
 const mapStateToProps = createStructuredSelector({
   dataFromDB: selectSuccessFromDB,
+  isAllDown: selectIsAllDown,
 })
 
 export default connect(mapStateToProps)(ATM)

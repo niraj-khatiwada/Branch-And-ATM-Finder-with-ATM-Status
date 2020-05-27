@@ -19,6 +19,7 @@ function InputBase({
   isSingleLocation,
   setsearchDropdownState,
   isSingleLocationState,
+  fetchAutoComplete,
 }) {
   const [inputState, setInputState] = React.useState('')
   const [timerID, setTimerID] = React.useState(null)

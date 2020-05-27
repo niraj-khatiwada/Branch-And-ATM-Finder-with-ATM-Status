@@ -19,12 +19,14 @@ import {
 import {
   selectSnackBarState,
   selectSelectedLocationDetail,
+  selectIsAllDown,
 } from '../../../redux/reducers/location/location.selectors'
 
 import Content from './SnackBar Content/Content.component'
 
 import { IconButton } from '@material-ui/core'
 import CloseIcon from '@material-ui/icons/Close'
+import AllDown from './AllDown.component'
 
 function SnackBar({
   snackBarState,
@@ -34,6 +36,7 @@ function SnackBar({
   getDBID,
   isStoreToDBStillFetching,
   fetchDataFromDBSuccess,
+  isAllDown,
 }) {
   React.useEffect(() => {
     if (selectedLocation.place_id !== 235452178 && !isStoreToDBStillFetching) {
@@ -45,25 +48,27 @@ function SnackBar({
     }
   }, [selectedLocation, isStoreToDBStillFetching])
   return (
-    <CustomSnackbar
-      anchorOrigin={{
-        vertical: 'top',
-        horizontal: 'right',
-      }}
-      children={
-        selectedLocation ? (
-          <SnackBarContent>
-            <ButtonWrapper>
-              <IconButton onClick={() => handleSnackBar()} size="small">
-                <CloseIcon />
-              </IconButton>
-            </ButtonWrapper>
-            <Content />
-          </SnackBarContent>
-        ) : null
-      }
-      open={snackBarState}
-    />
+    <>
+      <CustomSnackbar
+        anchorOrigin={{
+          vertical: 'top',
+          horizontal: 'right',
+        }}
+        children={
+          selectedLocation ? (
+            <SnackBarContent>
+              <ButtonWrapper>
+                <IconButton onClick={() => handleSnackBar()} size="small">
+                  <CloseIcon />
+                </IconButton>
+              </ButtonWrapper>
+              <Content />
+            </SnackBarContent>
+          ) : null
+        }
+        open={snackBarState}
+      />
+    </>
   )
 }
 

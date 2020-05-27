@@ -83,3 +83,24 @@ export const selectIsStoreToDBFetching = createSelector(
   [selectStoreToDB],
   (storeToDB) => storeToDB.isStoreToDBFetching
 )
+
+export const selectDistance = createSelector(
+  [selectSearchedData, selectSelectedLocationDetail],
+  (searchedData, selectedLocationDetail) =>
+    searchedData && searchedData.length !== 0
+      ? searchedData
+          .filter((i) => i.place_id !== selectedLocationDetail.place_id)
+          .map((item) => ({
+            distance:
+              Math.sqrt(
+                (parseFloat(selectedLocationDetail.lon) -
+                  parseFloat(item.lon)) **
+                  2 +
+                  (parseFloat(selectedLocationDetail.lat) -
+                    parseFloat(item.lat)) **
+                    2
+              ) * 100,
+            place_id: item.place_id,
+          }))
+      : null
+)

@@ -36,6 +36,7 @@ const INITIAL_STATE = {
     fetchedDataFromDBSuccess: null,
     fetchedDataFromDBError: null,
   },
+  isAllDown: false,
 }
 export const locationReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
@@ -81,6 +82,8 @@ export const locationReducer = (state = INITIAL_STATE, action) => {
           fetchedDataFromDBSuccess: null,
         },
       }
+    case secondaryTypes.isAllDown:
+      return { ...state, isAllDown: action.payload }
     default:
       return state
   }

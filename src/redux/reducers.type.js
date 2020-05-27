@@ -21,4 +21,5 @@ export const secondaryTypes = {
   isSingleLocaion: 'IS_SINGLE_LOCATION',
   snackBarState: 'SNACKBAR_STATE',
   hoverItem: 'HOVER_ITEM',
+  isAllDown: 'IS_ALL_DOWN',
 }

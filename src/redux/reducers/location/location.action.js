@@ -1,5 +1,5 @@
 import { fetchLocationDetailsFromDB } from '../../axios config/axios.config'
-import { detailsFromDBTypes } from '../../reducers.type'
+import { detailsFromDBTypes, secondaryTypes } from '../../reducers.type'
 
 export const selectedLocation = (locationDetails) => ({
   type: 'LOCATION_SELECTED',
@@ -44,3 +44,8 @@ export const getLocationDetailFromDBAsync = (obj) => (dispatch) => {
       dispatch(fetchLocationFromDBFailure(error.response))
     })
 }
+
+export const setIsAllDown = (value) => ({
+  type: secondaryTypes.isAllDown,
+  payload: value,
+})

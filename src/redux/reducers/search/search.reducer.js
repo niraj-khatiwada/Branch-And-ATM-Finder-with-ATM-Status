@@ -6,7 +6,7 @@ import {
 
 const INITIAL_STATE = {
   isSearchFetching: false,
-  searchedData: null,
+  searchedData: [],
   searcherror: undefined,
   noDataFound: [{ mAddress: 'No matching bank, branch or ATM found' }],
   mapZIndex: 0,
@@ -21,7 +21,11 @@ export const searchReducer = (state = INITIAL_STATE, action) => {
     case searchStateType.searchStart:
       return { ...state, isSearchFetching: true }
     case searchStateType.searchSuccess:
-      return { ...state, searchedData: action.payload, isSearchFetching: false }
+      return {
+        ...state,
+        searchedData: [...state.searchedData, ...action.payload],
+        isSearchFetching: false,
+      }
     case searchStateType.searchFailure:
       return { ...state, searcherror: action.payload, isSearchFetching: false }
     case secondaryTypes.changeZIndex:
