@@ -19,7 +19,6 @@ import {
 import {
   selectSnackBarState,
   selectSelectedLocationDetail,
-  selectIsAllDown,
 } from '../../../redux/reducers/location/location.selectors'
 
 import Content from './SnackBar Content/Content.component'
@@ -35,7 +34,6 @@ function SnackBar({
   getDBID,
   isStoreToDBStillFetching,
   fetchDataFromDBSuccess,
-  isAllDown,
 }) {
   React.useEffect(() => {
     if (selectedLocation.place_id !== 235452178 && !isStoreToDBStillFetching) {

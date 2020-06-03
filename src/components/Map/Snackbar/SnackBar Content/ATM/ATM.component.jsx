@@ -103,7 +103,7 @@ function ATM({
             ))
           : null}
       </ATMGrid>
-      <ATMLabel />
+      {type === 'bank' || type === 'atm' ? <ATMLabel /> : null}
     </ATMWrapper>
   )
 }

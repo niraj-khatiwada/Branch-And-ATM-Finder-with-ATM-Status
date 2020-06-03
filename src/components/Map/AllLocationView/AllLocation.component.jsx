@@ -2,6 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Map, Marker } from 'react-leaflet'
 import { createStructuredSelector } from 'reselect'
+import { motion } from 'framer-motion'
 
 import { selectFilterDisplayName } from '../../../redux/reducers/search/search.selectors'
 import {
@@ -12,6 +13,15 @@ import { defaultIcon, customIcon } from '../../../icons/customMarkerIcon'
 import PopupComponent from '../utils/popup.utils'
 import TileLayerComponent from '../utils/tileLayer.utils'
 
+const pageTransition = {
+  in: {
+    scale: 1,
+  },
+  out: {
+    scale: 0.9,
+  },
+}
+
 function AllLocation({
   allSearchedLocationArray,
   hoverItem,
@@ -19,7 +29,15 @@ function AllLocation({
 }) {
   const [popup, setPopup] = React.useState({ item: null, isOpen: false })
   return (
-    <>
+    <motion.div
+      variants={pageTransition}
+      animate="in"
+      exit="out"
+      initial="out"
+      transition={{
+        transition: 'linear',
+      }}
+    >
       <Map
         center={[27.6805555556, 85.3875]}
         zoom={13}
@@ -60,7 +78,7 @@ function AllLocation({
             )
           : null}
       </Map>
-    </>
+    </motion.div>
   )
 }
 

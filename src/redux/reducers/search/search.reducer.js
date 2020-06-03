@@ -6,7 +6,7 @@ import {
 
 const INITIAL_STATE = {
   isSearchFetching: false,
-  searchedData: [],
+  searchedData: null,
   searcherror: undefined,
   noDataFound: [{ mAddress: 'No matching bank, branch or ATM found' }],
   mapZIndex: 0,

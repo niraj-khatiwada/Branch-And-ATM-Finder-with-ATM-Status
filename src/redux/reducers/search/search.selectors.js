@@ -118,7 +118,7 @@ export const selectDistance = createSelector(
 export const selectMinDistanceDBID = createSelector(
   [selectDBResults, selectDistance],
   (storeToDBResults, minDistance) => {
-    if (storeToDBResults) {
+    if (storeToDBResults !== null && minDistance !== null) {
       const minDistanceItemFromDB = storeToDBResults.find(
         (item) => parseInt(item.place_id) === minDistance.data.place_id
       )

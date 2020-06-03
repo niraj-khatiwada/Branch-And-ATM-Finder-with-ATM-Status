@@ -13,7 +13,6 @@ export const CustomInputBase = styled(InputBase)`
   }
 `
 export const SearchWrapper = styled.div`
-  width: 50rem;
   display: flex;
   position: relative;
 `

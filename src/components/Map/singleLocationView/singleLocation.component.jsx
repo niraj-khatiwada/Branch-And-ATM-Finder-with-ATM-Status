@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { compose } from 'redux'
+import { motion, AnimatePresence } from 'framer-motion'
 import { createStructuredSelector } from 'reselect'
 import { Map, Marker } from 'react-leaflet'
 import { selectSelectedLocationDetail } from '../../../redux/reducers/location/location.selectors'
@@ -12,6 +12,15 @@ import { customIcon, defaultIcon } from '../../../icons/customMarkerIcon'
 import TileLayerComponent from '../utils/tileLayer.utils'
 import PopupComponent from '../utils/popup.utils'
 import Snackbar from '../Snackbar/Snackbar.component'
+
+const pageTransition = {
+  in: {
+    scale: 1,
+  },
+  out: {
+    scale: 0.9,
+  },
+}
 
 function SingleLocation({ selectedLocationData, allLocationArray, mapZIndex }) {
   const [popup, setPopup] = React.useState(false)
@@ -25,7 +34,15 @@ function SingleLocation({ selectedLocationData, allLocationArray, mapZIndex }) {
   ]
 
   return (
-    <>
+    <motion.div
+      variants={pageTransition}
+      animate="in"
+      exit="out"
+      initial="out"
+      transition={{
+        transition: 'linear',
+      }}
+    >
       <Map
         center={coordinates}
         zoom={50}
@@ -35,7 +52,18 @@ function SingleLocation({ selectedLocationData, allLocationArray, mapZIndex }) {
         style={{ zIndex: mapZIndex }}
       >
         <TileLayerComponent />
-        <Snackbar />
+        <motion.div
+          animate={{ y: 0 }}
+          initial={{ y: '100vh' }}
+          transition={{
+            type: 'tween',
+            ease: 'easeOut',
+            duration: 0.2,
+            delay: 0.2,
+          }}
+        >
+          <Snackbar />
+        </motion.div>
         <>
           <Marker
             icon={customIcon}
@@ -82,7 +110,7 @@ function SingleLocation({ selectedLocationData, allLocationArray, mapZIndex }) {
             })
           : null}
       </Map>
-    </>
+    </motion.div>
   )
 }
 

@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { Typography, Button, Toolbar, AppBar } from '@material-ui/core'
+import { Typography, Button, Grid, AppBar } from '@material-ui/core'
 
 export const SidebarWrapper = styled.div`
   position: absolute;
@@ -33,10 +33,8 @@ export const CustomButton = styled(Button)`
   }
 `
 
-export const CustomToolbar = styled(Toolbar)`
-  display: flex;
-  max-width: 100vw;
-  justify-content: space-between;
+export const CustomGrid = styled(Grid)`
+  padding: 0.5rem;
 `
 
 export const CustomAppBar = styled(AppBar)`

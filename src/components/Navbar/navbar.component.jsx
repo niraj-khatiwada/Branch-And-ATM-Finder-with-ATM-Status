@@ -2,12 +2,13 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
 import { useHistory } from 'react-router-dom'
+import { Grid } from '@material-ui/core'
 
 import {
   SidebarWrapper,
   CustomTypography,
   CustomButton,
-  CustomToolbar,
+  CustomGrid,
   CustomAppBar,
 } from './navbar.styles'
 
@@ -28,14 +29,16 @@ function Navbar({ isSingleLocation, searchData, isSingleLocationState }) {
         </SidebarWrapper>
       ) : null}
       <CustomAppBar position="static">
-        <CustomToolbar>
-          <div>
+        <CustomGrid container justify="space-between" alignItems="center">
+          <Grid item>
             <CustomTypography variant="h6" noWrap>
               Pitch
             </CustomTypography>
-          </div>
-          <Search />
-          <div>
+          </Grid>
+          <Grid item style={{ width: '50rem' }}>
+            <Search />
+          </Grid>
+          <Grid item>
             {searchData !== null ? (
               <CustomButton
                 onClick={() => {
@@ -49,8 +52,8 @@ function Navbar({ isSingleLocation, searchData, isSingleLocationState }) {
                 {isSingleLocationState ? `See all` : 'Go Back'}
               </CustomButton>
             ) : null}
-          </div>
-        </CustomToolbar>
+          </Grid>
+        </CustomGrid>
       </CustomAppBar>
     </>
   )
