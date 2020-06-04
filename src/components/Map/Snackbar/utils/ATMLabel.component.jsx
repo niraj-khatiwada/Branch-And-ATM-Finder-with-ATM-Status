@@ -8,7 +8,6 @@ import {
   RedWrapper,
   Red,
   NotWorking,
-  Center,
 } from './ATMLabel.styles'
 
 export default function ATMLabel() {

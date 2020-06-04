@@ -1,6 +1,6 @@
 import React from 'react'
 import Navbar from './components/Navbar/navbar.component'
-import { Route, Switch, useLocation } from 'react-router-dom'
+import { Route, Switch } from 'react-router-dom'
 import { AnimatePresence } from 'framer-motion'
 
 import SingleLocation from './components/Map/singleLocationView/singleLocation.component'
@@ -10,7 +10,6 @@ const AllLocation = React.lazy(() =>
 )
 
 function App() {
-  const location = useLocation()
   return (
     <div className="App" style={{ position: 'relative' }}>
       <Navbar />

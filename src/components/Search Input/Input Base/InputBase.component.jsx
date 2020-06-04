@@ -8,7 +8,6 @@ import { useHistory } from 'react-router-dom'
 import {
   searchFetchAsync,
   setMapZIndex,
-  fetchAutoCompleteAsync,
 } from '../../../redux/reducers/search/search.action'
 import { isSingleLocation } from '../../../redux/reducers/location/location.action'
 import { selectSingleLocation } from '../../../redux/reducers/location/location.selectors'
@@ -19,7 +18,6 @@ function InputBase({
   isSingleLocation,
   setsearchDropdownState,
   isSingleLocationState,
-  fetchAutoComplete,
 }) {
   const [inputState, setInputState] = React.useState('')
   const [timerID, setTimerID] = React.useState(null)

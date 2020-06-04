@@ -13,10 +13,13 @@ import ATMLabel from '../../utils/ATMLabel.component'
 import {
   fetchMinDistanceDetailFromDBAsync,
   fetchMinDistanceDetailFromDBSuccess,
+  selectedLocation,
 } from '../../../../../redux/reducers/location/location.action'
+
 import {
   selectDistance,
-  selectMinDistanceDBID,
+  selectDBResults,
+  selectFilterDisplayName,
 } from '../../../../../redux/reducers/search/search.selectors'
 
 import {
@@ -30,6 +33,7 @@ import {
   ItemHeading,
   P,
   Item,
+  CustomButton,
 } from '../Content.styles'
 
 import atm from '../../icons/atm.png'
@@ -39,21 +43,33 @@ function ATM({
   dataFromDB,
   type,
   isAllDown,
-  minDistance,
-  minDistanceDBID,
+  sortedDistanceArray,
   fetchMinDistanceDetail,
   fetchMinDistanceDetailFromDBSuccess,
   selectIsRetrieveFromDBStillFetching,
   minDistanceAtmDetails,
+  DBResults,
+  searchedArray,
+  selectSingleLocation,
 }) {
   React.useEffect(() => {
     if (isAllDown && !selectIsRetrieveFromDBStillFetching) {
-      console.log('min distance id is', minDistanceDBID)
-      fetchMinDistanceDetail(minDistanceDBID)
+      fetchMinDistanceDetail(sortedDistanceArray, DBResults)
     } else {
       fetchMinDistanceDetailFromDBSuccess()
     }
   }, [isAllDown, selectIsRetrieveFromDBStillFetching])
+
+  const handleClick = (evt) => {
+    let value
+    minDistanceAtmDetails.atm[0].branch
+      ? (value = minDistanceAtmDetails.atm[0].branch.name)
+      : (value = minDistanceAtmDetails.atm[0].address)
+    const a = searchedArray.find((item) => item.display_name === value)
+    if (a) {
+      selectSingleLocation(a)
+    }
+  }
   return (
     <ATMWrapper>
       {type === 'bank' || type === 'atm' ? (
@@ -69,10 +85,26 @@ function ATM({
         <>
           <IconAndTitle>
             <Image src={atm} />
-            <Heading>Nearest ATM</Heading>
+            <Heading>
+              Nearest ATM{' '}
+              <CustomButton
+                color="secondary"
+                size="small"
+                onClick={handleClick}
+              >
+                See Details
+              </CustomButton>
+            </Heading>
           </IconAndTitle>
           <Item>
-            <P>{minDistance ? minDistance.data.display_name : null}</P>
+            <P>
+              {minDistanceAtmDetails !== null &&
+              minDistanceAtmDetails.atm.length !== 0
+                ? minDistanceAtmDetails.atm[0].branch
+                  ? minDistanceAtmDetails.atm[0].branch.name
+                  : minDistanceAtmDetails.atm[0].address
+                : null}
+            </P>
           </Item>
         </>
       )}
@@ -111,17 +143,19 @@ function ATM({
 const mapStateToProps = createStructuredSelector({
   dataFromDB: selectSuccessFromDB,
   isAllDown: selectIsAllDown,
-  minDistance: selectDistance,
-  minDistanceDBID: selectMinDistanceDBID,
+  sortedDistanceArray: selectDistance,
+  DBResults: selectDBResults,
   selectIsRetrieveFromDBStillFetching: selectIsRetrieveFromDBStillFetching,
   minDistanceAtmDetails: selectMinDistanceATMDetails,
+  searchedArray: selectFilterDisplayName,
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  fetchMinDistanceDetail: (obj) =>
-    dispatch(fetchMinDistanceDetailFromDBAsync(obj)),
+  fetchMinDistanceDetail: (a, b) =>
+    dispatch(fetchMinDistanceDetailFromDBAsync(a, b)),
   fetchMinDistanceDetailFromDBSuccess: () =>
     dispatch(fetchMinDistanceDetailFromDBSuccess(null)),
+  selectSingleLocation: (item) => dispatch(selectedLocation(item)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ATM)

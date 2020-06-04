@@ -101,31 +101,11 @@ export const selectDistance = createSelector(
             ) * 100,
           data: { ...item },
         }))
-      console.log(distanceArray)
-      const minDistance = distanceArray.find(
-        (item) =>
-          item.distance ===
-          Math.min(...distanceArray.map((item) => item.distance))
+      const sortedDistanceArray = distanceArray.sort(
+        (a, b) => a.distance - b.distance
       )
-      console.log(minDistance)
-      return minDistance
-    } else {
-      return null
-    }
-  }
-)
 
-export const selectMinDistanceDBID = createSelector(
-  [selectDBResults, selectDistance],
-  (storeToDBResults, minDistance) => {
-    if (storeToDBResults !== null && minDistance !== null) {
-      const minDistanceItemFromDB = storeToDBResults.find(
-        (item) => parseInt(item.place_id) === minDistance.data.place_id
-      )
-      console.log('min distance from DB', minDistanceItemFromDB)
-      return minDistanceItemFromDB
-        ? { id: minDistanceItemFromDB.id, type: minDistance.data.type }
-        : null
+      return sortedDistanceArray
     } else {
       return null
     }

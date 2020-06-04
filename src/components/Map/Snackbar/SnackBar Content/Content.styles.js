@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { Button } from '@material-ui/core'
 
 export const ContentWrapper = styled.div`
   padding: 1rem;
@@ -77,4 +78,19 @@ export const WithSpinnerWrapper = styled.div`
   width: 100%;
   display: flex;
   justify-content: center;
+`
+
+export const CustomButton = styled(Button)`
+  && {
+    margin-left: 2.5rem;
+    color: black;
+    background: #00a8b5;
+    border-radius: 1rem;
+    border: 1px solid transparent;
+    transform: scale(0.9);
+  }
+  &:hover {
+    color: white;
+    border: 1px solid #00a8b5;
+  }
 `

@@ -15,9 +15,6 @@ import {
   Image,
   Heading,
   H4,
-  Item,
-  ItemHeading,
-  P,
 } from '../Content.styles'
 
 function Branch({ selectedLocation }) {

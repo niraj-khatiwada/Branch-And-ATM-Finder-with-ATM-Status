@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { createStructuredSelector } from 'reselect'
 import { Map, Marker } from 'react-leaflet'
 import { selectSelectedLocationDetail } from '../../../redux/reducers/location/location.selectors'

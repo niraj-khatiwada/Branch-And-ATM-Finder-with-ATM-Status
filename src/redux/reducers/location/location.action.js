@@ -68,11 +68,40 @@ const fetchMinDistanceDetailFromDBFailure = (error) => ({
   payload: error,
 })
 
-export const fetchMinDistanceDetailFromDBAsync = (obj) => (dispatch) => {
+const getDBID = (distance, DBResults) => {
+  const minDistanceItemFromDB = DBResults.find(
+    (item) => parseInt(item.place_id) === distance.data.place_id
+  )
+  return minDistanceItemFromDB
+    ? {
+        id: minDistanceItemFromDB.id,
+        type: distance.data.type,
+      }
+    : null
+}
+
+export const fetchMinDistanceDetailFromDBAsync = (
+  sortedDistanceArray,
+  DBResults
+) => async (dispatch) => {
+  let breakloop = []
   dispatch(fetchMinDistanceDetailFromDBStart())
-  fetchLocationDetailsFromDB(obj)
-    .then((res) => dispatch(fetchMinDistanceDetailFromDBSuccess(res.data)))
-    .catch((error) =>
-      dispatch(fetchMinDistanceDetailFromDBFailure(error.response))
-    )
+  for (let distance of sortedDistanceArray) {
+    if (breakloop.pop() === 'True') {
+      break
+    }
+    await fetchLocationDetailsFromDB(getDBID(distance, DBResults))
+      .then((res) => {
+        if (res.data.atm.length !== 0) {
+          if (!res.data.atm.every((a) => a.status === false)) {
+            dispatch(fetchMinDistanceDetailFromDBSuccess(res.data))
+            breakloop.push('True')
+          }
+        }
+      })
+      .catch((error) => {
+        dispatch(fetchMinDistanceDetailFromDBFailure(error.response))
+        console.log(error.response)
+      })
+  }
 }

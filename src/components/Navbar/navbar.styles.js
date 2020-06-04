@@ -34,7 +34,7 @@ export const CustomButton = styled(Button)`
 `
 
 export const CustomGrid = styled(Grid)`
-  padding: 0.5rem;
+  padding: 0.5rem 1rem;
 `
 
 export const CustomAppBar = styled(AppBar)`

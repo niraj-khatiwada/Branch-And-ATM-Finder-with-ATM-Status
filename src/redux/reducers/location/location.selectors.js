@@ -60,3 +60,9 @@ export const selectMinDistanceATMDetails = createSelector(
       ? minDistanceDetails.minDistanceDetailFromDBSuccess
       : null
 )
+
+export const selectMinDistanceFromDBError = createSelector(
+  [selectMinDistance],
+  (minDistanceDetailFromDB) =>
+    minDistanceDetailFromDB.minDistanceDetailFromDBError
+)
