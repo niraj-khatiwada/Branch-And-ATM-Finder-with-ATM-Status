@@ -90,19 +90,20 @@ WSGI_APPLICATION = 'pitch.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': config('PITCH_DB_NAME'),
-        'USER': config('PITCH_DB_USER'),
-        'PASSWORD': config('PITCH_DB_PASSWORD'),
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
-}
-# 'default': {
-#     'ENGINE': 'django.db.backends.sqlite3',
-#     'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-# }
 
+}
+
+# 'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': config('PITCH_DB_NAME'),
+#         'USER': config('PITCH_DB_USER'),
+#         'PASSWORD': config('PITCH_DB_PASSWORD'),
+#         'HOST': 'localhost',
+#         'PORT': '5432',
+#     }
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
