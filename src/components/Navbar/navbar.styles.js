@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 import { Typography, Button, Grid, AppBar } from '@material-ui/core'
+import { spacing, palette } from '@material-ui/system'
 
 export const SidebarWrapper = styled.div`
   position: absolute;
@@ -8,7 +9,7 @@ export const SidebarWrapper = styled.div`
   max-height: 90vh;
   overflow-y: scroll;
   overflow-x: none;
-  max-width: 20vw;
+  max-width: 25rem;
   z-index: 1500;
   background-color: white;
   border-radius: 1rem;
@@ -42,3 +43,5 @@ export const CustomAppBar = styled(AppBar)`
     background-color: #048998;
   }
 `
+
+export const CustomBox = styled.div`${spacing}${palette}`

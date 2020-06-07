@@ -52,37 +52,35 @@ function ArrayList({
     }
   }
   return (
-    <>
-      <List component="nav" aria-label="search results">
-        {searchedArrayData !== null ? (
-          searchedArrayData.map((item) =>
-            item.type === 'atm' || item.type === 'bank' ? (
-              <React.Fragment key={uuid()}>
-                <ListItem
-                  button
-                  onClick={() => handleClick(item)}
-                  key={item.place_id}
-                  onMouseEnter={() => handleMouse(item)}
-                  onMouseLeave={() => handleMouse(null)}
-                >
-                  <SmallWrapper type={item.type}>
-                    <small> {item.type.toUpperCase()}</small>
-                  </SmallWrapper>
-                  <ListItemText secondary={item.mAddress} />
-                </ListItem>
-                {searchedArrayData.length !== 1 ? <Divider /> : null}
-              </React.Fragment>
-            ) : null
-          )
-        ) : (
-          <ListItem>
-            <ListItemText style={{ color: 'black' }}>
-              No matching bank, branch or ATM found
-            </ListItemText>
-          </ListItem>
-        )}
-      </List>
-    </>
+    <List component="nav" aria-label="search results">
+      {searchedArrayData !== null ? (
+        searchedArrayData.map((item) =>
+          item.type === 'atm' || item.type === 'bank' ? (
+            <React.Fragment key={uuid()}>
+              <ListItem
+                button
+                onClick={() => handleClick(item)}
+                key={item.place_id}
+                onMouseEnter={() => handleMouse(item)}
+                onMouseLeave={() => handleMouse(null)}
+              >
+                <SmallWrapper type={item.type}>
+                  <small> {item.type.toUpperCase()}</small>
+                </SmallWrapper>
+                <ListItemText secondary={item.mAddress} />
+              </ListItem>
+              {searchedArrayData.length !== 1 ? <Divider /> : null}
+            </React.Fragment>
+          ) : null
+        )
+      ) : (
+        <ListItem>
+          <ListItemText style={{ color: 'black' }}>
+            No matching bank, branch or ATM found
+          </ListItemText>
+        </ListItem>
+      )}
+    </List>
   )
 }
 

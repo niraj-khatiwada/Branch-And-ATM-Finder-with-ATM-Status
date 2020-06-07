@@ -12,6 +12,8 @@ import { customIcon, defaultIcon } from '../../../icons/customMarkerIcon'
 import TileLayerComponent from '../utils/tileLayer.utils'
 import PopupComponent from '../utils/popup.utils'
 import Snackbar from '../Snackbar/Snackbar.component'
+import { Box } from '@material-ui/core'
+import { display } from '@material-ui/system'
 
 const pageTransition = {
   in: {
@@ -62,7 +64,9 @@ function SingleLocation({ selectedLocationData, allLocationArray, mapZIndex }) {
             delay: 0.2,
           }}
         >
-          <Snackbar />
+          <Box component="div" display={{ xs: 'none', sm: 'block' }}>
+            <Snackbar />
+          </Box>
         </motion.div>
         <>
           <Marker

@@ -2,7 +2,8 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
 import { useHistory } from 'react-router-dom'
-import { Grid } from '@material-ui/core'
+import { Grid, Box } from '@material-ui/core'
+import { display } from '@material-ui/system'
 
 import {
   SidebarWrapper,
@@ -30,29 +31,36 @@ function Navbar({ isSingleLocation, searchData, isSingleLocationState }) {
       ) : null}
       <CustomAppBar position="static">
         <CustomGrid container justify="space-between" alignItems="center">
-          <Grid item>
-            <CustomTypography variant="h6" noWrap>
-              Pitch
-            </CustomTypography>
-          </Grid>
+          <Box component="div" display={{ xs: 'none', sm: 'block' }}>
+            <Grid item>
+              <CustomTypography variant="h6">Pitch</CustomTypography>
+            </Grid>
+          </Box>
           <Grid item style={{ width: '50rem' }}>
             <Search />
           </Grid>
-          <Grid item>
-            {searchData !== null ? (
-              <CustomButton
-                onClick={() => {
-                  isSingleLocation()
-                  !isSingleLocationState
-                    ? history.push('/')
-                    : history.push('/all')
-                }}
-                variant="contained"
-              >
-                {isSingleLocationState ? `See all` : 'Go Back'}
-              </CustomButton>
-            ) : null}
-          </Grid>
+          <Box
+            width={{ xs: '100%', md: 'auto' }}
+            display={{ xs: 'flex', md: 'block' }}
+            justifyContent="center"
+            marginTop={{ xs: '1rem', md: 0 }}
+          >
+            <Grid item>
+              {searchData !== null ? (
+                <CustomButton
+                  onClick={() => {
+                    isSingleLocation()
+                    !isSingleLocationState
+                      ? history.push('/')
+                      : history.push('/all')
+                  }}
+                  variant="contained"
+                >
+                  {isSingleLocationState ? `See all` : 'Go Back'}
+                </CustomButton>
+              ) : null}
+            </Grid>
+          </Box>
         </CustomGrid>
       </CustomAppBar>
     </>
